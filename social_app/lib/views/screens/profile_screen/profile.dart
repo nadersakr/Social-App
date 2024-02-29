@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
-
+import 'package:social_app/views/screens/profile_screen/edit_profile.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -73,7 +73,10 @@ class ProfileScreen extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => EditProfileScreen()));
+          },
           child: const Icon(Icons.edit),
         ),
       ),

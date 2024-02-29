@@ -25,6 +25,7 @@ class AuthFooterSignup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var authController = Provider.of<AuthController>(context);
+
     return Form(
       key: authController.formKeySignUp,
       child: Column(
@@ -135,10 +136,11 @@ class AuthFooterSignup extends StatelessWidget {
                     'username': authController.userNameSignUpController.text,
                     'friends': [],
                     'email': authController.mailSignUpController.text,
-                    'bio':''
-                    ,'aboutme':'',
-                    'phone':'',
-                    'address':''
+                    'bio': '',
+                    'aboutMe': '',
+                    'phone': '',
+                    'address': '',
+                    'avatar':''
                   });
                 }
 

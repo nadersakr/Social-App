@@ -34,8 +34,50 @@ class MainUser {
         userName: jsonfile['username'],
         bio: jsonfile['bio'],
         phone: jsonfile['phone'],
-        aboutMe: jsonfile['aboutme'],
+        aboutMe: jsonfile['aboutMe'],
         address: jsonfile['address'],
         userUID: userInfo?.uid ?? "hiii");
   }
+
+
+void setUserName(String? name) {
+  userName = name;
+}
+
+void setAboutMe(String? about) {
+  aboutMe = about;
+}
+
+void setBio(String? biography) {
+  bio = biography;
+}
+
+void setPhone(String? phoneNumber) {
+  phone = phoneNumber;
+}
+
+void setAddress(String? userAddress) {
+  address = userAddress;
+}
+
+void setUserUID(String? uid) {
+  userUID = uid;
+}
+
+void setEmail(String? userEmail) {
+  email = userEmail;
+}
+
+void setAvatar(String? userAvatar) {
+  avatar = userAvatar;
+}
+
+void setFriends(List<MainUser>? userFriends) {
+  friends = userFriends;
+}
+
+void setPosts(List<Post>? userPosts) {
+  posts = userPosts;
+}
+  
 }

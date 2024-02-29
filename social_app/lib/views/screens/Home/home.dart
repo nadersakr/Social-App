@@ -28,11 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       AuthController authController =
           Provider.of<AuthController>(context, listen: false);
       authController.setUser();
-      authController.getdata();
+     await authController.getdata();
+      authController.setTextControler();
     });
   }
 
