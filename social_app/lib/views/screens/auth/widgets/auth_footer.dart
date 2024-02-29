@@ -97,11 +97,13 @@ class AuthFooter extends StatelessWidget {
                   },
                 );
 
-                authControoler.mainUser = await authControoler.login(
+                var usercridatinal = await authControoler.login(
                     mail: authControoler.mailLoginController.text,
                     password: authControoler.passwordLoginController.text);
-
-                if (authControoler.mainUser != null) {
+                authControoler.user = usercridatinal?.user;
+                
+                if (authControoler.user != null) {
+                  authControoler.fireStorageAddNewUser;
                   AppSharedPreferences.setbool(key: 'islogin', value: true);
                   FocusManager.instance.primaryFocus?.unfocus();
 
@@ -111,6 +113,7 @@ class AuthFooter extends StatelessWidget {
                         builder: (context) => const HomeScreen(),
                       ),
                       (route) => false);
+                  
                 } else {
                   Navigator.of(context).pop();
                   switch (authControoler.firebaseAuthErrorType) {
@@ -127,8 +130,7 @@ class AuthFooter extends StatelessWidget {
                       break;
                     default:
                       FocusManager.instance.primaryFocus?.unfocus();
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(content: Text("Error")));
+                 
                   }
                 }
               }

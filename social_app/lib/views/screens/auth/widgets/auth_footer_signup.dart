@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
@@ -46,6 +47,22 @@ class AuthFooterSignup extends StatelessWidget {
                 }
                 return null;
               }),
+          const SizedBox(
+            height: 20,
+          ),
+          CustomTextField(
+            controller: authController.userNameSignUpController,
+            hintText: 'username',
+            keyboardType: TextInputType.text,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "username is required";
+              } else if (value.length < 4) {
+                return "username must be more than 3 characters";
+              }
+              return null;
+            },
+          ),
           const SizedBox(
             height: 20,
           ),
@@ -106,10 +123,25 @@ class AuthFooterSignup extends StatelessWidget {
                 );
 
                 // Call signUp function
-                await authController.signUp(
+                var usercridatinal = await authController.signUp(
                   mail: authController.mailSignUpController.text,
                   password: authController.passwordSignUpController.text,
                 );
+                if (usercridatinal != null) {
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(usercridatinal.user?.uid)
+                      .set({
+                    'username': authController.userNameSignUpController.text,
+                    'friends': [],
+                    'email': authController.mailSignUpController.text,
+                    'bio':''
+                    ,'aboutme':'',
+                    'phone':'',
+                    'address':''
+                  });
+                }
+
                 if (authController.firebaseAuthErrorTypSignup ==
                     'email-already-in-use') {
                   Navigator.of(context).pop();

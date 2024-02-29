@@ -1,19 +1,20 @@
 // ignore_for_file: avoid_print
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:social_app/model/user_model.dart';
 
 class AuthController extends ChangeNotifier {
-  late UserCredential? mainUser;
   late User? user;
+  MainUser? mainUser;
   var mailSignUpController = TextEditingController();
+  var userNameSignUpController = TextEditingController();
   var passwordSignUpController = TextEditingController();
   var confirmPasswordSignUpController = TextEditingController();
   var mailLoginController = TextEditingController();
   var passwordLoginController = TextEditingController();
-  //! --------------------- Varibles --------------------
+  // --------------------- Varibles --------------------
   bool isobscureText = true;
   bool isobscureSignpass = true;
   bool isobscureConfirmSignpass = true;
@@ -28,10 +29,6 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
-   Future<void> initializeUser() async {
-    user = FirebaseAuth.instance.currentUser ;
-    notifyListeners(); // Notify listeners after user initialization
-  }
   void visibilitySingPass() {
     isobscureSignpass = !isobscureSignpass;
     print(isobscureSignpass);
@@ -58,28 +55,31 @@ class AuthController extends ChangeNotifier {
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {
         firebaseAuthErrorTypSignup = "email-already-in-use";
-      }else{
+      } else {
         firebaseAuthErrorTypSignup = "error";
-
-      } 
-     
+      }
     }
     return null;
   }
- void setUser() {
+
+//========================================================================================
+  void setUser() {
     user = FirebaseAuth.instance.currentUser;
+    notifyListeners();
   }
+
+//========================================================================================
   Future<void> getdata() async {
-
-    var userreference = FirebaseFirestore.instance
-        .collection('users')
-        .doc("${user?.uid}");
-    var data = await userreference.get();
-    print("=====================================${data.data()}");
-
-    // print(data.docs("ELOMMsClYdcTZcLUKrlDeBYsATJ2").data());
-  
+    var storage = FirebaseFirestore.instance;
+    var users = storage.collection('users');
+    var currentUser = users.doc("${user?.uid}");
+    var dataUser = await currentUser.get();
+    print(dataUser.data()?['username']);
+    mainUser = MainUser.fromjsontoDart(dataUser.data(), user);
+    print("=====================${mainUser?.userUID}");
+    notifyListeners();
   }
+
   //*====================================================================================
   Future<UserCredential?> login({
     required String mail,
@@ -103,7 +103,19 @@ class AuthController extends ChangeNotifier {
     }
   }
 
+  Future<void> fireStorageAddNewUser() async {
+    await FirebaseFirestore.instance.collection("users").add({
+      'full_name': 'fullName', // John Doe
+      'company': 'company', // Stokes and Sons
+      'age': 'age' // 42
+    });
+
+    print("aaaaaaaaaaaaaaaadddddddddddddddeeeeeeeeeeeeed");
+  }
+
+// =========================================================================
   Future<void> signout() async {
     await FirebaseAuth.instance.signOut();
   }
 }
+// =========================================================================

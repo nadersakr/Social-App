@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/views/screens/Friends/friends_screen.dart';
@@ -11,25 +12,49 @@ import 'package:social_app/views/screens/profile_screen/profile.dart';
 import 'package:social_app/provider/auth/auth.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
- 
+  late ScrollController _scrollController;
+  bool _isVisible = true;
 
- 
-@override
-void initState() {
-  super.initState();
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
 
-    AuthController authController = Provider.of<AuthController>(context,listen: false);
-    authController.setUser();
-    authController.getdata();
-  
-}
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      AuthController authController =
+          Provider.of<AuthController>(context, listen: false);
+      authController.setUser();
+      authController.getdata();
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      setState(() {
+        _isVisible = true;
+      });
+    } else {
+      setState(() {
+        _isVisible = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +63,7 @@ void initState() {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -95,7 +121,27 @@ void initState() {
               PostCard(
                   avatarImage: 'https://via.placeholder.com/150',
                   userName: 'aaa',
-                  postText: "${authController.user?.email}" ,
+                  postText: "${authController.mainUser?.email}",
+                  imageUrl: 'https://via.placeholder.com/300',
+                  likesNumber: 24,
+                  commentsNumber: 48,
+                  sharessNumber: 3,
+                  time: 'Posted 2 hours ago'),
+              const Divider(),
+              PostCard(
+                  avatarImage: 'https://via.placeholder.com/150',
+                  userName: 'aaa',
+                  postText: "${authController.mainUser?.email}",
+                  imageUrl: 'https://via.placeholder.com/300',
+                  likesNumber: 24,
+                  commentsNumber: 48,
+                  sharessNumber: 3,
+                  time: 'Posted 2 hours ago'),
+              const Divider(),
+              PostCard(
+                  avatarImage: 'https://via.placeholder.com/150',
+                  userName: 'aaa',
+                  postText: "${authController.mainUser?.email}",
                   imageUrl: 'https://via.placeholder.com/300',
                   likesNumber: 24,
                   commentsNumber: 48,
@@ -108,13 +154,15 @@ void initState() {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // Add your post functionality here
-        },
-        label: const Text('Create Post'),
-        icon: const Icon(Icons.edit),
-      ),
+      floatingActionButton: _isVisible
+          ? Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FloatingActionButton(
+                onPressed: () {},
+                child: Icon(Icons.add),
+              ),
+            )
+          : null,
       drawer: HomeDrawer(authController: authController),
     );
   }

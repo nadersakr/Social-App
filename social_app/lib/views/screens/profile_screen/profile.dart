@@ -1,138 +1,100 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:social_app/provider/auth/auth.dart';
 
-class ProfileScreen extends StatefulWidget {
+
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        //   backgroundColor: Colors.indigo,
-        //   body: Column(
-        //     children: [
-        //       SizedBox(
-        //         height: MediaQuery.of(context).size.height * 0.1,
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.symmetric(horizontal: 15),
-        //         child: Container(
-        //           width: double.infinity,
-        //           height: 80.0,
-        //           decoration: BoxDecoration(
-        //               color: Colors.white.withOpacity(0.3),
-        //               borderRadius: const BorderRadius.all(Radius.circular(8.0))),
-        //           child: ListTile(
-        //             title: const Text(
+    AuthController authController =
+        Provider.of<AuthController>(context, listen: false);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Profile'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: CircleAvatar(
+                radius: 80,
+                backgroundImage: NetworkImage(
+                  authController.mainUser?.avatar ??
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s",
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: Text(
+                authController.mainUser?.userName ?? "User Name",
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: Text(
+                '${authController.mainUser?.bio}',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildSectionTitle('About Me'),
+            const SizedBox(height: 10),
+            Text(
+              '${authController.mainUser?.aboutMe}',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[800],
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildSectionTitle('Contact Information'),
+            const SizedBox(height: 10),
+            _buildContactInfoTile(Icons.email, 'Email',
+                authController.mainUser?.email ?? "user@example.com"),
+            _buildContactInfoTile(
+                Icons.phone, 'Phone', '${authController.mainUser?.phone}'),
+            _buildContactInfoTile(Icons.location_on, 'Address',
+                '${authController.mainUser?.address}'),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(Icons.edit),
+        ),
+      ),
+    );
+  }
 
-        //                   'Ahmed Assem'
-        //                  ,
-        //               // widget.editDataModel.name!.isEmpty
-        //               //     ? 'Ahmed Assem'
-        //               //     : widget.editDataModel.name,
-        //               style: TextStyle(
-        //                   fontSize: 20,
-        //                   fontWeight: FontWeight.bold,
-        //                   color: Colors.white),
-        //             ),
-        //             subtitle: const Text(
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
 
-        //                   'ahmedasam300@gmial.com',
-        //               style: TextStyle(color: Colors.white),
-        //             ),
-        //             trailing: Padding(
-        //               padding: const EdgeInsets.only(
-        //                 bottom: 20,
-        //               ),
-        //               child: SizedBox(
-        //                 height: MediaQuery.of(context).size.height * 0.1,
-        //                 width: MediaQuery.of(context).size.height * 0.1,
-        //                 child: Align(
-        //                   alignment: Alignment.topRight,
-        //                   child: IconButton(
-        //                       iconSize: 22,
-        //                       color: Colors.white,
-        //                       onPressed: () {
-        //                         Navigator.of(context)
-        //                             .push(MaterialPageRoute(builder: (context) {
-        //                           return const EditProfileScreen();
-        //                         }));
-        //                       },
-        //                       icon: const Icon(FontAwesomeIcons.edit)),
-        //                 ),
-        //               ),
-        //             ),
-        //             leading: CircleAvatar(
-        //               radius: 27,
-        //               child: Image.asset(
-
-        //                       'assets/images/person.png'
-        //                      ,
-        //                   width: 45),
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 14,
-        //       ),
-        //       customNameBar(name: 'Email', context: context, onpress: () {}),
-        //       customNameBar(name: 'Instgram', context: context, onpress: () {}),
-        //       customNameBar(name: 'Twitter', context: context, onpress: () {}),
-        //       customNameBar(name: 'Website', context: context, onpress: () {}),
-        //       customNameBar(name: 'PayPal', context: context, onpress: () {}),
-        //       customNameBar(
-        //           name: 'Change Password', context: context, onpress: () {}),
-        //       customNameBar(
-        //           name: 'About i.click', context: context, onpress: () {}),
-        //       customNameBar(
-        //           name: 'Terms & Privacy', context: context, onpress: () {}),
-        //       const SizedBox(
-        //         height: 15,
-        //       ),
-        //       Row(
-        //         children: [
-        //           const SizedBox(
-        //             width: 30,
-        //           ),
-        //           GestureDetector(
-        //             onTap: () {
-        //               setState(() {});
-        //               SystemNavigator.pop();
-        //             },
-        //             child: Container(
-        //               width: MediaQuery.of(context).size.width * 0.3,
-        //               height: MediaQuery.of(context).size.height * 0.06,
-        //               decoration: const BoxDecoration(
-        //                   color: Colors.white,
-        //                   borderRadius: BorderRadius.all(Radius.circular(25))),
-        //               child: const Center(
-        //                 child: Row(
-        //                   mainAxisAlignment: MainAxisAlignment.center,
-        //                   children: [
-        //                     Icon(
-        //                       Icons.logout,
-        //                       color: Colors.black,
-        //                       size: 25.0,
-        //                     ),
-        //                     Text(
-        //                       'Log out',
-        //                       style: TextStyle(
-        //                           fontSize: 16, fontWeight: FontWeight.bold),
-        //                     ),
-        //                   ],
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //           const Spacer(),
-        //         ],
-        //       )
-        //     ],
-        //   ),
-        );
+  Widget _buildContactInfoTile(IconData icon, String title, String subtitle) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      subtitle: Text(subtitle),
+    );
   }
 }
