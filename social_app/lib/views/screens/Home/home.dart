@@ -12,7 +12,7 @@ import 'package:social_app/views/screens/profile_screen/profile.dart';
 import 'package:social_app/provider/auth/auth.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -26,13 +26,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
     _scrollController.addListener(_scrollListener);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
       AuthController authController =
           Provider.of<AuthController>(context, listen: false);
-      authController.setUser();
-     await authController.getdata();
+      await authController.setUser();
+      await authController.getdata();
       authController.setTextControler();
     });
   }
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const Divider(),
-              const SizedBox(
+               const SizedBox(
                 height: 40,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -120,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const Divider(),
               PostCard(
-                  avatarImage: 'https://via.placeholder.com/150',
+                  avatarImage:
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   userName: 'aaa',
                   postText: "${authController.mainUser?.email}",
                   imageUrl: 'https://via.placeholder.com/300',
@@ -130,7 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   time: 'Posted 2 hours ago'),
               const Divider(),
               PostCard(
-                  avatarImage: 'https://via.placeholder.com/150',
+                  avatarImage:
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   userName: 'aaa',
                   postText: "${authController.mainUser?.email}",
                   imageUrl: 'https://via.placeholder.com/300',
@@ -140,7 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   time: 'Posted 2 hours ago'),
               const Divider(),
               PostCard(
-                  avatarImage: 'https://via.placeholder.com/150',
+                  avatarImage:
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   userName: 'aaa',
                   postText: "${authController.mainUser?.email}",
                   imageUrl: 'https://via.placeholder.com/300',
@@ -160,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(16.0),
               child: FloatingActionButton(
                 onPressed: () {},
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
               ),
             )
           : null,

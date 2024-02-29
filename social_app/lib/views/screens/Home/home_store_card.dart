@@ -15,7 +15,7 @@ class StoryCard extends StatelessWidget {
           border: Border.all(color: AppColors.blue, width: 2),
           image: const DecorationImage(
             image: NetworkImage(
-              'https://via.placeholder.com/150',
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
             ),
             fit: BoxFit.cover,
           ),

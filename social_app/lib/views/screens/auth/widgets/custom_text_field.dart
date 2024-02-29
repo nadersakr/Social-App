@@ -1,16 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'package:social_app/utils/colors.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String hintText;
-  final int? maxline;
-  final Widget? suffixIcon;
-  final bool? obscureText;
-  final TextInputType? keyboardType;
-  final String? Function(String?)? validator;
-  final TextEditingController? controller;
-  const CustomTextField({
+ final String hintText;
+ final int? maxline;
+ final Widget? suffixIcon;
+ final bool? obscureText;
+ final TextInputType? keyboardType;
+ final String? Function(String?)? validator;
+ final TextEditingController? controller;
+ const CustomTextField({
     super.key,
     required this.hintText,
     this.controller,
@@ -19,10 +18,10 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.validator,
     this.maxline,
-  });
+ });
 
-  @override
-  Widget build(BuildContext context) {
+ @override
+ Widget build(BuildContext context) {
 
     return TextFormField(
 
@@ -45,5 +44,5 @@ class CustomTextField extends StatelessWidget {
       obscureText: obscureText ?? false,
       keyboardType: keyboardType,
     );
-  }
+ }
 }

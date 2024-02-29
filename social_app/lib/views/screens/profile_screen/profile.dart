@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
         child: FloatingActionButton(
           onPressed: () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => EditProfileScreen()));
+                MaterialPageRoute(builder: (context) => const EditProfileScreen()));
           },
           child: const Icon(Icons.edit),
         ),

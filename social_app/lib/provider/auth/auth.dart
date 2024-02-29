@@ -36,6 +36,24 @@ class AuthController extends ChangeNotifier {
     imageFile = File(image.path);
     notifyListeners();
   }
+  upldateProfileData( ) async {
+    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(mainUser?.userUID)
+                        .update({
+                      'username':
+                          userNameSignUpController.text,
+                      'bio': bioProfileController.text,
+                      'aboutMe': aboutMeProfileController.text,
+                      'phone': phoneProfileController.text,
+                      'address': addressProfileController.text,
+                      'avatar': mainUser?.avatar
+                    });
+  }
+  void setImageFileNull() {
+    imageFile = null;
+    
+  }
 
   void visibility() {
     isobscureText = !isobscureText;
@@ -94,7 +112,7 @@ class AuthController extends ChangeNotifier {
   }
 
 //========================================================================================
-  void setUser() {
+  Future<void> setUser() async {
     user = FirebaseAuth.instance.currentUser;
     notifyListeners();
   }

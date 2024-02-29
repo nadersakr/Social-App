@@ -1,5 +1,4 @@
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +9,7 @@ import 'package:social_app/views/screens/auth/widgets/custom_text_field.dart';
 import 'package:social_app/views/screens/profile_screen/profile.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen({super.key});
+  const EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +33,20 @@ class EditProfileScreen extends StatelessWidget {
                       radius: 60,
                       backgroundImage: authController.imageFile != null
                           ? FileImage(authController.imageFile!)
-                          : const NetworkImage("https://via.placeholder.com/60")
+                          : NetworkImage('${authController.mainUser?.avatar}')
                               as ImageProvider),
                   CircleAvatar(
                     backgroundColor: AppColors.blue,
                     child: IconButton(
                       onPressed: () async {
-                        final ImagePicker _picker = ImagePicker();
-                        final XFile? image = await _picker.pickImage(
+                        final ImagePicker picker = ImagePicker();
+                        final XFile? image = await picker.pickImage(
                             source: ImageSource.gallery);
                         if (image != null) {
                           authController.addFileImage(image);
                         }
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.edit,
                         color: Colors.white,
                       ),
@@ -140,31 +139,26 @@ class EditProfileScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (authController.formKeyEditProfile.currentState!
-                        .validate()) {
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(authController.mainUser?.userUID)
-                          .set({
-                        'username':
-                            authController.userNameSignUpController.text,
-                        'bio': authController.bioProfileController.text,
-                        'aboutMe': authController.aboutMeProfileController.text,
-                        'phone': authController.phoneProfileController.text,
-                        'address': authController.addressProfileController.text,
-                      });
-
-                      authController.fromFieldsToMainUser();
+                            .validate() &&
+                        valuesHadBeenChanged(authController)) {
+                      print("tttttttttttttttttttttttttttt");
                       if (authController.imageFile != null) {
                         var storageRef = FirebaseStorage.instance.ref().child(
                             'path/to/storage/${authController.imageFile!.path.split('/').last}');
-                        print("-------------------------");
+                        // print("-------------------------");
                         await storageRef.putFile(authController.imageFile!);
+
+                        authController.mainUser?.avatar =
+                            await storageRef.getDownloadURL();
                       }
+                      authController.setImageFileNull();
+                      authController.fromFieldsToMainUser();
+                      await authController.upldateProfileData();
 
                       // Navigator.of(context).pop();
+                    }
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => const ProfileScreen()));
-                    }
                   },
                   child: const Text('Save Changes'),
                 ),
@@ -174,5 +168,22 @@ class EditProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool valuesHadBeenChanged(AuthController authController) {
+    if (authController.mainUser?.userName !=
+            authController.userNameSignUpController.text ||
+        authController.mainUser?.bio !=
+            authController.bioProfileController.text ||
+        authController.mainUser?.aboutMe !=
+            authController.aboutMeProfileController.text ||
+        authController.mainUser?.phone !=
+            authController.phoneProfileController.text ||
+        authController.mainUser?.address !=
+            authController.addressProfileController.text) {
+      return true;
+    }
+
+    return false;
   }
 }

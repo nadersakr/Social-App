@@ -35,7 +35,7 @@ class HomeDrawer extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               radius: 30,
               backgroundImage: NetworkImage(
-                'https://via.placeholder.com/150',
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
               ),
             ),
           ),
