@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _scrollController = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-    _scrollController.addListener(_scrollListener);
+      _scrollController.addListener(_scrollListener);
 
       AuthController authController =
           Provider.of<AuthController>(context, listen: false);
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const Divider(),
-               const SizedBox(
+              const SizedBox(
                 height: 40,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,7 +124,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   userName: 'aaa',
                   postText: "${authController.mainUser?.email}",
-                  imageUrl: 'https://via.placeholder.com/300',
+                  imageUrl:
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   likesNumber: 24,
                   commentsNumber: 48,
                   sharessNumber: 3,
@@ -135,7 +136,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   userName: 'aaa',
                   postText: "${authController.mainUser?.email}",
-                  imageUrl: 'https://via.placeholder.com/300',
+                  imageUrl:
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   likesNumber: 24,
                   commentsNumber: 48,
                   sharessNumber: 3,
@@ -146,7 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   userName: 'aaa',
                   postText: "${authController.mainUser?.email}",
-                  imageUrl: 'https://via.placeholder.com/300',
+                  imageUrl:
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   likesNumber: 24,
                   commentsNumber: 48,
                   sharessNumber: 3,

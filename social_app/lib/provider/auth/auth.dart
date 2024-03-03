@@ -11,6 +11,7 @@ import 'package:social_app/model/user_model.dart';
 class AuthController extends ChangeNotifier {
   late User? user;
   MainUser? mainUser;
+  List<MainUser> friends = [];
   var mailSignUpController = TextEditingController();
   var userNameSignUpController = TextEditingController();
   var bioProfileController = TextEditingController();
@@ -36,23 +37,29 @@ class AuthController extends ChangeNotifier {
     imageFile = File(image.path);
     notifyListeners();
   }
-  upldateProfileData( ) async {
+
+  upldateProfileData() async {
     await FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(mainUser?.userUID)
-                        .update({
-                      'username':
-                          userNameSignUpController.text,
-                      'bio': bioProfileController.text,
-                      'aboutMe': aboutMeProfileController.text,
-                      'phone': phoneProfileController.text,
-                      'address': addressProfileController.text,
-                      'avatar': mainUser?.avatar
-                    });
+        .collection('users')
+        .doc(mainUser?.userUID)
+        .update({
+      'username': userNameSignUpController.text,
+      'bio': bioProfileController.text,
+      'aboutMe': aboutMeProfileController.text,
+      'phone': phoneProfileController.text,
+      'address': addressProfileController.text,
+    });
   }
+
+  upldateAvatarProfileData() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(mainUser?.userUID)
+        .update({'avatar': mainUser?.avatar});
+  }
+
   void setImageFileNull() {
     imageFile = null;
-    
   }
 
   void visibility() {
@@ -70,6 +77,16 @@ class AuthController extends ChangeNotifier {
   void visibilitySingConfirmPass() {
     isobscureConfirmSignpass = !isobscureConfirmSignpass;
     print(isobscureConfirmSignpass);
+    notifyListeners();
+  }
+
+  Future<void> getFriends() async {
+    var storage = FirebaseFirestore.instance;
+    var snapshot = await storage.collection('users').get();
+    friends = snapshot.docs
+        .map((doc) => MainUser.fromjsontoDart(doc.data(), null, doc.id))
+        .toList();
+    friends.removeWhere((element) => mainUser?.userUID==element.userUID);
     notifyListeners();
   }
 
@@ -124,7 +141,7 @@ class AuthController extends ChangeNotifier {
     var currentUser = users.doc("${user?.uid}");
     var dataUser = await currentUser.get();
     print(dataUser.data()?['username']);
-    mainUser = MainUser.fromjsontoDart(dataUser.data(), user);
+    mainUser = MainUser.fromjsontoDart(dataUser.data(), user, null);
     print("=====================${mainUser?.userUID}");
     notifyListeners();
   }

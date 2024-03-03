@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:social_app/provider/auth/auth.dart';
-import 'package:social_app/views/screens/Friends/my_friends.dart';
-import 'package:social_app/views/screens/profile_screen/edit_profile.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+import 'package:social_app/model/user_model.dart';
+
+import 'package:social_app/views/screens/Friends/my_friends.dart';
+
+class FriendProfile extends StatelessWidget {
+  final MainUser? friend;
+  const FriendProfile({super.key, required this.friend});
   @override
   Widget build(BuildContext context) {
-    AuthController authController =
-        Provider.of<AuthController>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('My Profile'), actions: [
         IconButton(
@@ -34,14 +33,14 @@ class ProfileScreen extends StatelessWidget {
               child: CircleAvatar(
                 radius: 80,
                 backgroundImage: NetworkImage(
-                  authController.mainUser!.avatar!,
+                  friend!.avatar!,
                 ),
               ),
             ),
             const SizedBox(height: 20),
             Center(
               child: Text(
-                authController.mainUser?.userName ?? "User Name",
+                friend?.userName ?? "User Name",
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -51,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Center(
               child: Text(
-                '${authController.mainUser?.bio}',
+                '${friend?.bio}',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey[600],
@@ -62,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
             _buildSectionTitle('About Me'),
             const SizedBox(height: 10),
             Text(
-              '${authController.mainUser?.aboutMe}',
+              '${friend?.aboutMe}',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[800],
@@ -72,27 +71,16 @@ class ProfileScreen extends StatelessWidget {
             _buildSectionTitle('Contact Information'),
             const SizedBox(height: 10),
             _buildContactInfoTile(Icons.email, 'Email',
-                authController.mainUser?.email ?? "user@example.com"),
+                friend?.email ?? "user@example.com"),
             _buildContactInfoTile(
-                Icons.phone, 'Phone', '${authController.mainUser?.phone}'),
+                Icons.phone, 'Phone', '${friend?.phone}'),
             _buildContactInfoTile(Icons.location_on, 'Address',
-                '${authController.mainUser?.address}'),
+                '${friend?.address}'),
             const SizedBox(height: 20),
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const EditProfileScreen()));
-          },
-          child: const Icon(Icons.edit),
-        ),
-      ),
+      
     );
   }
 

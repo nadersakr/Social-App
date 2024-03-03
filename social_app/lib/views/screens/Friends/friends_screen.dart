@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:social_app/model/user_model.dart';
+import 'package:social_app/provider/auth/auth.dart';
+import 'package:social_app/views/screens/profile_screen/friend_profile.dart';
 
-class FriendsScreen extends StatelessWidget {
+class FriendsScreen extends StatefulWidget {
   const FriendsScreen({super.key});
 
   @override
+  State<FriendsScreen> createState() => _FriendsScreenState();
+}
+
+class _FriendsScreenState extends State<FriendsScreen> {
+  @override
   Widget build(BuildContext context) {
+    AuthController authController =
+        Provider.of<AuthController>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Friends'),
@@ -17,24 +28,38 @@ class FriendsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
-        children: [
-          _buildFriendRequestsSection(), 
-          // _buildFriendSuggestionsSection(), 
-          _buildAddFriendsSection(),
-        ],
+      body: FutureBuilder<void>(
+        // Pass your Future function to the future parameter
+        future: authController.getFriends(),
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+          // Check the connection state of the Future
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            // If the Future is completed, return your screen's widget tree
+            return Center(
+              child: ListView(
+                children: [
+                  _buildFriendRequestsSection(authController),
+    
+                  _buildAddFriendsSection(authController),
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }
 
-  Widget _buildFriendRequestsSection() {
+  Widget _buildFriendRequestsSection(AuthController authController) {
+    List<MainUser> friendRequests = 
 
-    List<String> friendRequests = [
-      'Friend Request 1',
-      'Friend Request 2',
-      'Friend Request 3',
-      'Friend Request 4',
-      'Friend Request 5',
+    
+    [
+   ...?authController.mainUser!.requestesfriends
     ];
 
     return Column(
@@ -54,9 +79,10 @@ class FriendsScreen extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               leading: CircleAvatar(
-                child: Text((index + 1).toString()), // Display request index
+                backgroundImage: NetworkImage(
+                    '${friendRequests[index].avatar}'), // Display request index
               ),
-              title: Text(friendRequests[index]),
+              title: Text(friendRequests[index].userName ?? "UserName"),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -81,22 +107,8 @@ class FriendsScreen extends StatelessWidget {
     );
   }
 
-  // Widget _buildFriendSuggestionsSection() {
-  //   return ListTile(
-  //     title: Text('Friend Suggestions'),
-  //     // Implement logic to display friend suggestions
-  //     // You can use a ListView.builder or any other suitable widget
-  //   );
-  // }
-
-  Widget _buildAddFriendsSection() {
-    List<String> suggestedUsers = [
-      'User 1',
-      'User 2',
-      'User 3',
-      'User 4',
-      'User 5',
-    ];
+  Widget _buildAddFriendsSection(AuthController authController) {
+    List<MainUser?> suggestedUsers = [...authController.friends,];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -112,17 +124,26 @@ class FriendsScreen extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: suggestedUsers.length,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              leading: CircleAvatar(
-                child: Text((index + 1).toString()), 
-              ),
-              title: Text(suggestedUsers[index]),
-              trailing: IconButton(
-                icon: const Icon(Icons.person_add),
-                onPressed: () {
-                  // Add logic to add the user as a friend
-                  // This can include sending a friend request, updating database, etc.
-                },
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => FriendProfile(
+                        friend: suggestedUsers[index] ??
+                            authController.mainUser)));
+              },
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundImage:
+                      NetworkImage('${suggestedUsers[index]?.avatar}'),
+                ),
+                title: Text('${suggestedUsers[index]?.userName}'),
+                trailing: IconButton(
+                  icon: const Icon(Icons.person_add),
+                  onPressed: () {
+                    // Add logic to add the user as a friend
+                    // This can include sending a friend request, updating database, etc.
+                  },
+                ),
               ),
             );
           },

@@ -40,10 +40,11 @@ class EditProfileScreen extends StatelessWidget {
                     child: IconButton(
                       onPressed: () async {
                         final ImagePicker picker = ImagePicker();
-                        final XFile? image = await picker.pickImage(
-                            source: ImageSource.gallery);
+                        final XFile? image =
+                            await picker.pickImage(source: ImageSource.gallery);
                         if (image != null) {
                           authController.addFileImage(image);
+                          // print(authController.imageFile?.path);
                         }
                       },
                       icon: const Icon(
@@ -62,9 +63,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'username',
                 keyboardType: TextInputType.text,
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return "username is required";
-                  } else if (value.length < 4) {
+                  if (value!.length < 4&&value.isNotEmpty) {
                     return "username must be more than 3 characters";
                   }
                   return null;
@@ -78,9 +77,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'Bio',
                 keyboardType: TextInputType.text,
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Bio is required";
-                  } else if (value.length < 4) {
+                  if (value!.length < 4&&value.isNotEmpty) {
                     return "Bio must be more than 3 characters";
                   }
                   return null;
@@ -94,9 +91,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'Aboutme',
                 keyboardType: TextInputType.text,
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Aboutme is required";
-                  } else if (value.length < 4) {
+                  if (value!.length < 4&&value.isNotEmpty) {
                     return "Aboutme must be more than 3 characters";
                   }
                   return null;
@@ -110,9 +105,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'phone',
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return "phone is required";
-                  } else if (value.length < 4) {
+                  if (value!.length < 4&&value.isNotEmpty) {
                     return "phone must be more than 3 characters";
                   }
                   return null;
@@ -126,9 +119,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'address',
                 keyboardType: TextInputType.text,
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return "address is required";
-                  } else if (value.length < 5) {
+                  if (value!.length < 5&&value.isNotEmpty) {
                     return "address must be more than 4 characters";
                   }
                   return null;
@@ -139,9 +130,8 @@ class EditProfileScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (authController.formKeyEditProfile.currentState!
-                            .validate() &&
-                        valuesHadBeenChanged(authController)) {
-                      print("tttttttttttttttttttttttttttt");
+                        .validate()) {
+                      // print("tttttttttttttttttttttttttttt");
                       if (authController.imageFile != null) {
                         var storageRef = FirebaseStorage.instance.ref().child(
                             'path/to/storage/${authController.imageFile!.path.split('/').last}');
@@ -150,15 +140,19 @@ class EditProfileScreen extends StatelessWidget {
 
                         authController.mainUser?.avatar =
                             await storageRef.getDownloadURL();
+                        await authController.upldateAvatarProfileData();
+                      }
+                      if (valuesHadBeenChanged(authController)) {
+                        authController.fromFieldsToMainUser();
+
+                        await authController.upldateProfileData();
                       }
                       authController.setImageFileNull();
-                      authController.fromFieldsToMainUser();
-                      await authController.upldateProfileData();
 
                       // Navigator.of(context).pop();
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const ProfileScreen()));
                     }
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const ProfileScreen()));
                   },
                   child: const Text('Save Changes'),
                 ),
