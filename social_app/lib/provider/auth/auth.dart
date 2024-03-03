@@ -11,8 +11,8 @@ import 'package:social_app/model/user_model.dart';
 
 class AuthController extends ChangeNotifier {
   late User? user;
-  MainUser mainUser=MainUser();
-  List<MainUser> friends = [];
+  MainUser mainUser = MainUser();
+  List<MainUser> users = [];
   List<MainUser> requestesfriendsMainUser = [];
   List<dynamic> pendingfriendsController = [];
   List<dynamic> requestesfriendsController = [];
@@ -88,7 +88,7 @@ class AuthController extends ChangeNotifier {
   Future<void> getFriends() async {
     var storage = FirebaseFirestore.instance;
     var snapshot = await storage.collection('users').get();
-    friends = snapshot.docs
+    users = snapshot.docs
         .map((doc) => MainUser.fromjsontoDart(doc.data(), null, doc.id))
         .toList();
 
@@ -100,11 +100,13 @@ class AuthController extends ChangeNotifier {
       MainUser userFriendMain = MainUser.fromjsontoDart(
           userFriend.data(), null, requestesfriendsController[i]);
       requestesfriendsMainUser.add(userFriendMain);
-      friends.removeWhere(
+      users.removeWhere(
           (element) => element.userUID == requestesfriendsController[i]);
     }
-
-    friends.removeWhere((element) => element.userUID == mainUser.userUID);
+    mainUser.friends?.forEach((element) {
+      users.removeWhere((e) => e.userUID == element);
+    });
+    users.removeWhere((element) => element.userUID == mainUser.userUID);
     // var userdata = snapshot.docs.where((element) => requestesfriendsController.contains(element.id));
     //  requestesfriendsMainUser =  userdata.map((e) => MainUser.fromjsontoDart(e.data(), null, requestesfriendsController[i])).toList();
 
@@ -186,7 +188,7 @@ class AuthController extends ChangeNotifier {
         'pendingfriends': FieldValue.arrayRemove([currentUserUID])
       });
       DocumentSnapshot<Map<String, dynamic>> friend = await friendMain.get();
-      friends.add(MainUser.fromjsontoDart(friend.data(), null, friendUID));
+      users.add(MainUser.fromjsontoDart(friend.data(), null, friendUID));
       requestesfriendsController.remove(friendUID);
       pendingfriendsController.remove(friendUID);
       requestesfriendsMainUser
@@ -263,7 +265,7 @@ class AuthController extends ChangeNotifier {
     mainUser = MainUser.fromjsontoDart(dataUser.data(), user, null);
     pendingfriendsController = mainUser.pendingfriends!;
     requestesfriendsController = mainUser.requestesfriends ?? [];
-    myFriends = await fromUIDListToMainUsers(mainUser.friends??[]);
+    myFriends = await fromUIDListToMainUsers(mainUser.friends ?? []);
     print("=====================${mainUser.userUID}");
     print("=====================${mainUser.requestesfriends}");
     print("=====================${mainUser.pendingfriends}");

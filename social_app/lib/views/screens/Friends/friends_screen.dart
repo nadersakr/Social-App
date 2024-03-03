@@ -53,8 +53,6 @@ class _FriendsScreenState extends State<FriendsScreen> {
   }
 
   Widget _buildFriendRequestsSection(AuthController authController) {
-
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -65,52 +63,56 @@ class _FriendsScreenState extends State<FriendsScreen> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-
-        Consumer<AuthController>(builder: (context,authcontroller,child)=>ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: authController.requestesfriendsMainUser.length,
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        FriendProfile(friend: authController.requestesfriendsMainUser[index])));
-              },
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      '${authController.requestesfriendsMainUser[index].avatar}'), // Display request index
-                ),
-                title: Text(authController.requestesfriendsMainUser[index].userName ?? "UserName"),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.check),
-                      onPressed: () {
-                        // Add logic to accept friend request
+        Consumer<AuthController>(
+            builder: (context, authcontroller, child) => ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: authController.requestesfriendsMainUser.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FriendProfile(
+                                friend: authController
+                                    .requestesfriendsMainUser[index])));
                       },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        authcontroller.rejectRequest(authController.requestesfriendsMainUser[index].userUID!);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        )),
-        
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              '${authController.requestesfriendsMainUser[index].avatar}'), // Display request index
+                        ),
+                        title: Text(authController
+                                .requestesfriendsMainUser[index].userName ??
+                            "UserName"),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.check),
+                              onPressed: () {
+                                authcontroller.acceptedFriend(authController
+                                    .requestesfriendsMainUser[index].userUID!);
+                                // Add logic to accept friend request
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.close),
+                              onPressed: () {
+                                authcontroller.rejectRequest(authController
+                                    .requestesfriendsMainUser[index].userUID!);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                )),
       ],
     );
   }
 
   Widget _buildAddFriendsSection(AuthController authController) {
-   
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -121,46 +123,49 @@ class _FriendsScreenState extends State<FriendsScreen> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        Consumer<AuthController>(builder: (context,authcontroller,child)=>ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: authController.friends.length,
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        FriendProfile(friend: authController.friends[index])));
-              },
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage('${authController.friends[index].avatar}'),
-                ),
-                title: Text('${authController.friends[index].userName}'),
-                trailing: IconButton(
-                  icon: (authcontroller.pendingfriendsController
-                          .contains(authController.friends[index].userUID!))
-                      ? const Icon(Icons.pending_outlined)
-                      : const Icon(Icons.person_add),
-                  onPressed: () async {
-                    if (!(authcontroller.pendingfriendsController
-                        .contains(authController.friends[index].userUID!))) {
-                      await authcontroller.addMainUserToRequestedFriends(
-                          authController.friends[index].userUID!);
-                    } else {
-                      await authcontroller.deleteFriendFromLists(
-                          authController.friends[index].userUID!);
-                    }
-                    print("doooooooooooooooooooooooone");
-                    print(authcontroller.mainUser.pendingfriends);
+        Consumer<AuthController>(
+            builder: (context, authcontroller, child) => ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: authController.users.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FriendProfile(
+                                friend: authController.users[index])));
+                      },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              '${authController.users[index].avatar}'),
+                        ),
+                        title: Text('${authController.users[index].userName}'),
+                        trailing: IconButton(
+                          icon: (authcontroller.pendingfriendsController
+                                  .contains(
+                                      authController.users[index].userUID!))
+                              ? const Icon(Icons.pending_outlined)
+                              : const Icon(Icons.person_add),
+                          onPressed: () async {
+                            if (!(authcontroller.pendingfriendsController
+                                .contains(
+                                    authController.users[index].userUID!))) {
+                              await authcontroller
+                                  .addMainUserToRequestedFriends(
+                                      authController.users[index].userUID!);
+                            } else {
+                              await authcontroller.deleteFriendFromLists(
+                                  authController.users[index].userUID!);
+                            }
+                            print("doooooooooooooooooooooooone");
+                            print(authcontroller.mainUser.pendingfriends);
+                          },
+                        ),
+                      ),
+                    );
                   },
-                ),
-              ),
-            );
-          },
-        ))
-        ,
+                )),
       ],
     );
   }
