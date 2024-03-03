@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   avatarImage:
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   userName: 'aaa',
-                  postText: "${authController.mainUser?.email}",
+                  postText: "${authController.mainUser.email}",
                   imageUrl:
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   likesNumber: 24,
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   avatarImage:
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   userName: 'aaa',
-                  postText: "${authController.mainUser?.email}",
+                  postText: "${authController.mainUser.email}",
                   imageUrl:
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   likesNumber: 24,
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   avatarImage:
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   userName: 'aaa',
-                  postText: "${authController.mainUser?.email}",
+                  postText: "${authController.mainUser.email}",
                   imageUrl:
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s',
                   likesNumber: 24,

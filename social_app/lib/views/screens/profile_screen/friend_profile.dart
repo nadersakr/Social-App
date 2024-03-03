@@ -14,7 +14,7 @@ class FriendProfile extends StatelessWidget {
         IconButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const MyFriends()));
+                  MaterialPageRoute(builder: (context) =>  const MyFriends()));
             },
             icon: const Icon(
               Icons.people,

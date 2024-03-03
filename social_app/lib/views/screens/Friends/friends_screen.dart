@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_app/model/user_model.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/views/screens/profile_screen/friend_profile.dart';
 
@@ -136,25 +135,25 @@ class _FriendsScreenState extends State<FriendsScreen> {
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundImage:
-                      NetworkImage('${authController.friends[index]?.avatar}'),
+                      NetworkImage('${authController.friends[index].avatar}'),
                 ),
-                title: Text('${authController.friends[index]?.userName}'),
+                title: Text('${authController.friends[index].userName}'),
                 trailing: IconButton(
                   icon: (authcontroller.pendingfriendsController
-                          .contains(authController.friends[index]!.userUID!))
-                      ? Icon(Icons.pending_outlined)
-                      : Icon(Icons.person_add),
+                          .contains(authController.friends[index].userUID!))
+                      ? const Icon(Icons.pending_outlined)
+                      : const Icon(Icons.person_add),
                   onPressed: () async {
                     if (!(authcontroller.pendingfriendsController
-                        .contains(authController.friends[index]!.userUID!))) {
+                        .contains(authController.friends[index].userUID!))) {
                       await authcontroller.addMainUserToRequestedFriends(
-                          authController.friends[index]!.userUID!);
+                          authController.friends[index].userUID!);
                     } else {
                       await authcontroller.deleteFriendFromLists(
-                          authController.friends[index]!.userUID!);
+                          authController.friends[index].userUID!);
                     }
                     print("doooooooooooooooooooooooone");
-                    print(authcontroller.mainUser?.pendingfriends);
+                    print(authcontroller.mainUser.pendingfriends);
                   },
                 ),
               ),

@@ -4,19 +4,19 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/model/user_model.dart';
 
 class AuthController extends ChangeNotifier {
   late User? user;
-  MainUser? mainUser;
+  MainUser mainUser=MainUser();
   List<MainUser> friends = [];
   List<MainUser> requestesfriendsMainUser = [];
   List<dynamic> pendingfriendsController = [];
   List<dynamic> requestesfriendsController = [];
-  // List<MainUser> friends = [];
+  List<MainUser> myFriends = [];
   var mailSignUpController = TextEditingController();
   var userNameSignUpController = TextEditingController();
   var bioProfileController = TextEditingController();
@@ -46,7 +46,7 @@ class AuthController extends ChangeNotifier {
   upldateProfileData() async {
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(mainUser?.userUID)
+        .doc(mainUser.userUID)
         .update({
       'username': userNameSignUpController.text,
       'bio': bioProfileController.text,
@@ -59,8 +59,8 @@ class AuthController extends ChangeNotifier {
   upldateAvatarProfileData() async {
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(mainUser?.userUID)
-        .update({'avatar': mainUser?.avatar});
+        .doc(mainUser.userUID)
+        .update({'avatar': mainUser.avatar});
   }
 
   void setImageFileNull() {
@@ -104,7 +104,7 @@ class AuthController extends ChangeNotifier {
           (element) => element.userUID == requestesfriendsController[i]);
     }
 
-    friends.removeWhere((element) => element.userUID == mainUser?.userUID);
+    friends.removeWhere((element) => element.userUID == mainUser.userUID);
     // var userdata = snapshot.docs.where((element) => requestesfriendsController.contains(element.id));
     //  requestesfriendsMainUser =  userdata.map((e) => MainUser.fromjsontoDart(e.data(), null, requestesfriendsController[i])).toList();
 
@@ -112,21 +112,34 @@ class AuthController extends ChangeNotifier {
   }
 
   // ================================set  text controller ======================================
+  Future<List<MainUser>> fromUIDListToMainUsers(List<dynamic> myList) async {
+    List<MainUser> listOfMainUser = [];
+    var storage = FirebaseFirestore.instance;
+    for (var i = 0; i < myList.length; i++) {
+      var userFriend = await storage.collection('users').doc(myList[i]).get();
+      MainUser userFriendMain =
+          MainUser.fromjsontoDart(userFriend.data(), null, myList[i]);
+      listOfMainUser.add(userFriendMain);
+    }
+    return listOfMainUser;
+  }
+
+  // ================================set  text controller ======================================
   void setTextControler() {
-    addressProfileController.text = mainUser!.address!;
-    userNameSignUpController.text = mainUser!.userName!;
-    bioProfileController.text = mainUser!.bio!;
-    aboutMeProfileController.text = mainUser!.aboutMe!;
-    phoneProfileController.text = mainUser!.phone!;
+    addressProfileController.text = mainUser.address!;
+    userNameSignUpController.text = mainUser.userName!;
+    bioProfileController.text = mainUser.bio!;
+    aboutMeProfileController.text = mainUser.aboutMe!;
+    phoneProfileController.text = mainUser.phone!;
   }
   //*====================================================================================
 
   void fromFieldsToMainUser() {
-    mainUser?.userName = userNameSignUpController.text;
-    mainUser?.bio = bioProfileController.text;
-    mainUser?.aboutMe = aboutMeProfileController.text;
-    mainUser?.phone = phoneProfileController.text;
-    mainUser?.address = addressProfileController.text;
+    mainUser.userName = userNameSignUpController.text;
+    mainUser.bio = bioProfileController.text;
+    mainUser.aboutMe = aboutMeProfileController.text;
+    mainUser.phone = phoneProfileController.text;
+    mainUser.address = addressProfileController.text;
   }
 
   Future<void> addMainUserToRequestedFriends(String friendUID) async {
@@ -162,13 +175,13 @@ class AuthController extends ChangeNotifier {
 
   // ==========================================================
   Future<void> rejectRequest(String friendUID) async {
-    var currentUserUID = mainUser!.userUID;
+    var currentUserUID = mainUser.userUID;
     var usersCollection = FirebaseFirestore.instance.collection('users');
     if (currentUserUID != null) {
       await usersCollection.doc(currentUserUID).update({
         'requestesfriends': FieldValue.arrayRemove([friendUID])
       });
-      var friendMain = await usersCollection.doc(friendUID);
+      var friendMain = usersCollection.doc(friendUID);
       friendMain.update({
         'pendingfriends': FieldValue.arrayRemove([currentUserUID])
       });
@@ -178,8 +191,38 @@ class AuthController extends ChangeNotifier {
       pendingfriendsController.remove(friendUID);
       requestesfriendsMainUser
           .removeWhere((element) => element.userUID == friendUID);
-      mainUser?.requestesfriends = requestesfriendsController;
-      mainUser?.pendingfriends = pendingfriendsController;
+      mainUser.requestesfriends = requestesfriendsController;
+      mainUser.pendingfriends = pendingfriendsController;
+    }
+    notifyListeners();
+  }
+
+  //*====================================================================================
+  Future<void> acceptedFriend(String friendUID) async {
+    var currentUserUID = mainUser.userUID;
+    var usersCollection = FirebaseFirestore.instance.collection('users');
+    if (currentUserUID != null) {
+      await usersCollection.doc(currentUserUID).update({
+        'friends': FieldValue.arrayUnion([friendUID]),
+        'requestesfriends': FieldValue.arrayRemove([friendUID])
+      });
+      await usersCollection.doc(friendUID).update({
+        'friends': FieldValue.arrayUnion([currentUserUID]),
+        'pendingfriends': FieldValue.arrayRemove([currentUserUID])
+      });
+      DocumentSnapshot<Map<String, dynamic>> friend =
+          await usersCollection.doc(friendUID).get();
+      MainUser friendUser =
+          MainUser.fromjsontoDart(friend.data(), null, friendUID);
+
+      myFriends.add(friendUser);
+      requestesfriendsController.remove(friendUID);
+      pendingfriendsController.remove(friendUID);
+      requestesfriendsMainUser
+          .removeWhere((element) => element.userUID == friendUID);
+      mainUser.friends?.add(friendUID);
+      mainUser.requestesfriends = requestesfriendsController;
+      mainUser.pendingfriends = pendingfriendsController;
     }
     notifyListeners();
   }
@@ -218,10 +261,15 @@ class AuthController extends ChangeNotifier {
     var dataUser = await currentUser.get();
     print(dataUser.data()?['username']);
     mainUser = MainUser.fromjsontoDart(dataUser.data(), user, null);
-    pendingfriendsController = mainUser!.pendingfriends!;
-    requestesfriendsController = mainUser!.requestesfriends ?? [];
-    print("=====================${mainUser?.userUID}");
-    print("=====================${mainUser?.userUID}");
+    pendingfriendsController = mainUser.pendingfriends!;
+    requestesfriendsController = mainUser.requestesfriends ?? [];
+    myFriends = await fromUIDListToMainUsers(mainUser.friends??[]);
+    print("=====================${mainUser.userUID}");
+    print("=====================${mainUser.requestesfriends}");
+    print("=====================${mainUser.pendingfriends}");
+    print("=====================${mainUser.friends}");
+    print("=====================${mainUser.friends}");
+
     notifyListeners();
   }
 

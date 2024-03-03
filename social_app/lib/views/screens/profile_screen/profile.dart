@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
         IconButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const MyFriends()));
+                  MaterialPageRoute(builder: (context) =>  const MyFriends()));
             },
             icon: const Icon(
               Icons.people,
@@ -34,14 +34,14 @@ class ProfileScreen extends StatelessWidget {
               child: CircleAvatar(
                 radius: 80,
                 backgroundImage: NetworkImage(
-                  authController.mainUser!.avatar!,
+                  authController.mainUser.avatar!,
                 ),
               ),
             ),
             const SizedBox(height: 20),
             Center(
               child: Text(
-                authController.mainUser?.userName ?? "User Name",
+                authController.mainUser.userName ?? "User Name",
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -51,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Center(
               child: Text(
-                '${authController.mainUser?.bio}',
+                '${authController.mainUser.bio}',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey[600],
@@ -62,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
             _buildSectionTitle('About Me'),
             const SizedBox(height: 10),
             Text(
-              '${authController.mainUser?.aboutMe}',
+              '${authController.mainUser.aboutMe}',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[800],
@@ -72,11 +72,11 @@ class ProfileScreen extends StatelessWidget {
             _buildSectionTitle('Contact Information'),
             const SizedBox(height: 10),
             _buildContactInfoTile(Icons.email, 'Email',
-                authController.mainUser?.email ?? "user@example.com"),
+                authController.mainUser.email ?? "user@example.com"),
             _buildContactInfoTile(
-                Icons.phone, 'Phone', '${authController.mainUser?.phone}'),
+                Icons.phone, 'Phone', '${authController.mainUser.phone}'),
             _buildContactInfoTile(Icons.location_on, 'Address',
-                '${authController.mainUser?.address}'),
+                '${authController.mainUser.address}'),
             const SizedBox(height: 20),
           ],
         ),

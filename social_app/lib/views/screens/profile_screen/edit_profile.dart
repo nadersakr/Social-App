@@ -33,7 +33,7 @@ class EditProfileScreen extends StatelessWidget {
                       radius: 60,
                       backgroundImage: authController.imageFile != null
                           ? FileImage(authController.imageFile!)
-                          : NetworkImage('${authController.mainUser?.avatar}')
+                          : NetworkImage('${authController.mainUser.avatar}')
                               as ImageProvider),
                   CircleAvatar(
                     backgroundColor: AppColors.blue,
@@ -138,7 +138,7 @@ class EditProfileScreen extends StatelessWidget {
                         // print("-------------------------");
                         await storageRef.putFile(authController.imageFile!);
 
-                        authController.mainUser?.avatar =
+                        authController.mainUser.avatar =
                             await storageRef.getDownloadURL();
                         await authController.upldateAvatarProfileData();
                       }
@@ -165,15 +165,15 @@ class EditProfileScreen extends StatelessWidget {
   }
 
   bool valuesHadBeenChanged(AuthController authController) {
-    if (authController.mainUser?.userName !=
+    if (authController.mainUser.userName !=
             authController.userNameSignUpController.text ||
-        authController.mainUser?.bio !=
+        authController.mainUser.bio !=
             authController.bioProfileController.text ||
-        authController.mainUser?.aboutMe !=
+        authController.mainUser.aboutMe !=
             authController.aboutMeProfileController.text ||
-        authController.mainUser?.phone !=
+        authController.mainUser.phone !=
             authController.phoneProfileController.text ||
-        authController.mainUser?.address !=
+        authController.mainUser.address !=
             authController.addressProfileController.text) {
       return true;
     }
