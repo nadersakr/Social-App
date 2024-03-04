@@ -29,6 +29,7 @@ class AuthController extends ChangeNotifier {
   var passwordLoginController = TextEditingController();
   // --------------------- Varibles --------------------
   bool isobscureText = true;
+  bool isFirstTimeGetFriends = true;
   bool isobscureSignpass = true;
   bool isobscureConfirmSignpass = true;
   File? imageFile;
@@ -86,31 +87,38 @@ class AuthController extends ChangeNotifier {
   }
 
   Future<void> getFriends() async {
-    var storage = FirebaseFirestore.instance;
-    var snapshot = await storage.collection('users').get();
-    users = snapshot.docs
-        .map((doc) => MainUser.fromjsontoDart(doc.data(), null, doc.id))
-        .toList();
+    if (isFirstTimeGetFriends) {
+      var storage = FirebaseFirestore.instance;
+      var snapshot = await storage.collection('users').get();
+      users = snapshot.docs
+          .map((doc) => MainUser.fromjsontoDart(doc.data(), null, doc.id))
+          .toList();
 
-    for (var i = 0; i < requestesfriendsController.length; i++) {
-      var userFriend = await storage
-          .collection('users')
-          .doc(requestesfriendsController[i])
-          .get();
-      MainUser userFriendMain = MainUser.fromjsontoDart(
-          userFriend.data(), null, requestesfriendsController[i]);
-      requestesfriendsMainUser.add(userFriendMain);
-      users.removeWhere(
-          (element) => element.userUID == requestesfriendsController[i]);
+      for (var i = 0; i < requestesfriendsController.length; i++) {
+        if (requestesfriendsMainUser
+            .where(
+                (element) => element.userUID == requestesfriendsController[i])
+            .isEmpty) {
+          var userFriend = await storage
+              .collection('users')
+              .doc(requestesfriendsController[i])
+              .get();
+          MainUser userFriendMain = MainUser.fromjsontoDart(
+              userFriend.data(), null, requestesfriendsController[i]);
+          requestesfriendsMainUser.add(userFriendMain);
+        }
+        users.removeWhere(
+            (element) => element.userUID == requestesfriendsController[i]);
+      }
+      mainUser.friends?.forEach((element) {
+        users.removeWhere((e) => e.userUID == element);
+      });
+      users.removeWhere((element) => element.userUID == mainUser.userUID);
+      isFirstTimeGetFriends = false;
     }
-    mainUser.friends?.forEach((element) {
-      users.removeWhere((e) => e.userUID == element);
-    });
-    users.removeWhere((element) => element.userUID == mainUser.userUID);
     // var userdata = snapshot.docs.where((element) => requestesfriendsController.contains(element.id));
     //  requestesfriendsMainUser =  userdata.map((e) => MainUser.fromjsontoDart(e.data(), null, requestesfriendsController[i])).toList();
-
-    notifyListeners();
+    print(users);
   }
 
   // ================================set  text controller ======================================
@@ -200,6 +208,24 @@ class AuthController extends ChangeNotifier {
   }
 
   //*====================================================================================
+  Future<void> removeFriend(MainUser friend) async {
+    var currentUserUID = mainUser.userUID;
+    var usersCollection = FirebaseFirestore.instance.collection('users');
+    if (currentUserUID != null) {
+      await usersCollection.doc(currentUserUID).update({
+        'friends': FieldValue.arrayRemove([friend.userUID])
+      });
+      await usersCollection.doc(friend.userUID).update({
+        'friends': FieldValue.arrayRemove([currentUserUID])
+      });
+      myFriends.removeWhere((element) => element.userUID == friend.userUID);
+      users.add(friend);
+      print(users);
+      notifyListeners();
+    }
+  }
+
+  //*====================================================================================
   Future<void> acceptedFriend(String friendUID) async {
     var currentUserUID = mainUser.userUID;
     var usersCollection = FirebaseFirestore.instance.collection('users');
@@ -212,6 +238,7 @@ class AuthController extends ChangeNotifier {
         'friends': FieldValue.arrayUnion([currentUserUID]),
         'pendingfriends': FieldValue.arrayRemove([currentUserUID])
       });
+      // ----------
       DocumentSnapshot<Map<String, dynamic>> friend =
           await usersCollection.doc(friendUID).get();
       MainUser friendUser =
@@ -252,6 +279,8 @@ class AuthController extends ChangeNotifier {
 //========================================================================================
   Future<void> setUser() async {
     user = FirebaseAuth.instance.currentUser;
+    await getdata();
+    setTextControler();
     notifyListeners();
   }
 
@@ -311,6 +340,7 @@ class AuthController extends ChangeNotifier {
 // =========================================================================
   Future<void> signout() async {
     await FirebaseAuth.instance.signOut();
+    isFirstTimeGetFriends = true;
   }
 }
 // =========================================================================
