@@ -13,6 +13,7 @@ class AuthController extends ChangeNotifier {
   late User? user;
   MainUser mainUser = MainUser();
   List<MainUser> users = [];
+  Map<String, MainUser> usersMap = {};
   List<MainUser> requestesfriendsMainUser = [];
   List<dynamic> pendingfriendsController = [];
   List<dynamic> requestesfriendsController = [];
@@ -29,6 +30,7 @@ class AuthController extends ChangeNotifier {
   var passwordLoginController = TextEditingController();
   // --------------------- Varibles --------------------
   bool isobscureText = true;
+  bool isDataLoaded = false;
   bool isFirstTimeGetFriends = true;
   bool isobscureSignpass = true;
   bool isobscureConfirmSignpass = true;
@@ -90,9 +92,11 @@ class AuthController extends ChangeNotifier {
     if (isFirstTimeGetFriends) {
       var storage = FirebaseFirestore.instance;
       var snapshot = await storage.collection('users').get();
-      users = snapshot.docs
-          .map((doc) => MainUser.fromjsontoDart(doc.data(), null, doc.id))
-          .toList();
+      users = snapshot.docs.map((doc) {
+        MainUser userMain = MainUser.fromjsontoDart(doc.data(), null, doc.id);
+        usersMap[doc.id] = userMain;
+        return userMain;
+      }).toList();
 
       for (var i = 0; i < requestesfriendsController.length; i++) {
         if (requestesfriendsMainUser
@@ -105,6 +109,7 @@ class AuthController extends ChangeNotifier {
               .get();
           MainUser userFriendMain = MainUser.fromjsontoDart(
               userFriend.data(), null, requestesfriendsController[i]);
+
           requestesfriendsMainUser.add(userFriendMain);
         }
         users.removeWhere(
@@ -118,7 +123,7 @@ class AuthController extends ChangeNotifier {
     }
     // var userdata = snapshot.docs.where((element) => requestesfriendsController.contains(element.id));
     //  requestesfriendsMainUser =  userdata.map((e) => MainUser.fromjsontoDart(e.data(), null, requestesfriendsController[i])).toList();
-    print(users);
+    // print(users);
   }
 
   // ================================set  text controller ======================================
@@ -277,11 +282,15 @@ class AuthController extends ChangeNotifier {
   }
 
 //========================================================================================
-  Future<void> setUser() async {
+  Future<void> getAppData() async {
+    if (!isDataLoaded) {
+
     user = FirebaseAuth.instance.currentUser;
     await getdata();
+    await getFriends();
     setTextControler();
-    notifyListeners();
+      isDataLoaded = true;
+    }
   }
 
 //========================================================================================
@@ -300,8 +309,6 @@ class AuthController extends ChangeNotifier {
     print("=====================${mainUser.pendingfriends}");
     print("=====================${mainUser.friends}");
     print("=====================${mainUser.friends}");
-
-    notifyListeners();
   }
 
   //*====================================================================================
@@ -341,6 +348,7 @@ class AuthController extends ChangeNotifier {
   Future<void> signout() async {
     await FirebaseAuth.instance.signOut();
     isFirstTimeGetFriends = true;
+    mainUser = MainUser();
   }
 }
 // =========================================================================

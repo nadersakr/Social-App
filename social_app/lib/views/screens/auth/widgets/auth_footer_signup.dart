@@ -21,7 +21,7 @@ class AuthFooterSignup extends StatelessWidget {
       return null;
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     var authController = Provider.of<AuthController>(context);

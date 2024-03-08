@@ -59,17 +59,17 @@ class MyFriends extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Remove Friend'),
-          content: Text('Are you sure you want to remove this friend?'),
+          title: const Text('Remove Friend'),
+          content: const Text('Are you sure you want to remove this friend?'),
           actions: <Widget>[
             TextButton(
-              child: Text('No'),
+              child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: const Text('Yes'),
               onPressed: () {
                 // Call the function to remove the friend
                 authController.removeFriend(friend);

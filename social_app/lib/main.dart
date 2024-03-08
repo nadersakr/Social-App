@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/firebase_options.dart';
 import 'package:social_app/provider/auth/auth.dart';
+import 'package:social_app/provider/post_provider.dart';
 import 'package:social_app/utils/shared-preferences/shared_preferences.dart';
 import 'package:social_app/views/screens/Home/home.dart';
 import 'package:social_app/views/screens/auth/login/login_screen.dart';
@@ -22,6 +23,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => AuthController()),
+      ChangeNotifierProvider(create: (_) => PostController()),
     ],
     child: MyApp(isShowBording: isShowBoarding, islogin: islogin),
   ));

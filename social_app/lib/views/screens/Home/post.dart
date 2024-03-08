@@ -1,79 +1,94 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 class PostCard extends StatelessWidget {
-  final String avatarImage;
-  final String userName;
-  final String postText;
-  final String imageUrl;
-  final String time;
-  final int likesNumber;
-  final int commentsNumber;
-  final int sharessNumber;
-  const PostCard(
+  String? avatarImage;
+  String? userName;
+  String? postText;
+  String? imageUrl;
+  String? time;
+  VoidCallback? press;
+  int? likesNumber;
+  int? commentsNumber;
+  int? sharessNumber;
+  PostCard(
       {super.key,
-      required this.avatarImage,
-      required this.userName,
+      this.avatarImage =
+          'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
+      this.userName = "User Name",
       required this.postText,
-      required this.imageUrl,
-      required this.likesNumber,
-      required this.commentsNumber,
-      required this.sharessNumber,
+      this.imageUrl,
+      this.press,
+      this.likesNumber = 0,
+      this.commentsNumber = 0,
+      this.sharessNumber = 0,
       required this.time});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: const Color.fromARGB(255, 150, 120, 210).withOpacity(0.2),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       child: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(
-                    avatarImage,
+            GestureDetector(
+              onTap: press,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(
+                      avatarImage ??
+                          'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
+                    ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      userName,
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userName ?? 'User Name',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        time ?? '00',
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            postText == null
+                ? const SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      postText!,
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                    Text(
-                      time,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(
-              postText,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: 200,
-            ),
+                  ),
+            imageUrl == null
+                ? const SizedBox()
+                : Image.network(
+                    imageUrl!,
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                    height: 200,
+                  ),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
