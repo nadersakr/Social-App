@@ -20,7 +20,8 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-س
+
+class _HomeScreenState extends State<HomeScreen> {
   late ScrollController _scrollController;
   bool _isVisible = true;
 
@@ -131,72 +132,13 @@ class HomeScreen extends StatefulWidget {
                         ),
                         const Divider(),
 
-                        FutureBuilder(
-                          future: postController
-                              .getPosts(authControllerListenFalse.mainUser),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Center(
-                                child: Text('Error: ${snapshot.error}'),
-                              );
-                            } else {
-                              return Column(
-                                children: [
-                                  SizedBox(
-                                    height: 500,
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          ...List.generate(
-                                              postController.posts.length,
-                                              (i) => PostCard(
-                                                    postText: postController
-                                                        .posts[i]['text'],
-                                                    press: () => Navigator.of(
-                                                            context)
-                                                        .push(MaterialPageRoute(
-                                                            builder: (context) => FriendProfile(
-                                                                friend: authControllerListenFalse
-                                                                    .usersMap[postController
-                                                                        .posts[i]
-                                                                    [
-                                                                    'owner']]))),
-                                                    time: postController
-                                                        .posts[i]['time'],
-                                                    imageUrl: postController
-                                                        .posts[i]['imageUrl'],
-                                                    avatarImage:
-                                                        authControllerListenFalse
-                                                            .usersMap[
-                                                                postController
-                                                                        .posts[
-                                                                    i]['owner']]
-                                                            ?.avatar,
-                                                    userName:
-                                                        authControllerListenFalse
-                                                            .usersMap[
-                                                                postController
-                                                                        .posts[
-                                                                    i]['owner']]
-                                                            ?.userName,
-                                                  )),
-                                          const SizedBox(
-                                            height: 20,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }
-                          },
+                        // ...
+                        const Divider(),
+                        PostsFutureBuilder(
+                          postController: postController,
+                          authController: authControllerListenFalse,
                         ),
+                        // ...,
                         // Add more post cards here as needed
                       ],
                     ),
@@ -222,6 +164,66 @@ class HomeScreen extends StatefulWidget {
             )
           : null,
       drawer: HomeDrawer(authController: authControllerListenFalse),
+    );
+  }
+}
+
+class PostsFutureBuilder extends StatelessWidget {
+  final PostController postController;
+  final AuthController authController;
+
+const PostsFutureBuilder({super.key, required this.postController, required this.authController});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: postController.getPosts(authController.mainUser),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else {
+          // handle the case when data is successfully fetched
+          return Column(
+            children: [
+              SizedBox(
+                height: 500,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ...List.generate(
+                          postController.posts.length,
+                          (i) => PostCard(
+                            postText: postController.posts[i]['text'],
+                            press: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => FriendProfile(
+                                  friend: authController.usersMap[postController.posts[i]['owner']],
+                                ),
+                              ),
+                            ),
+                            time: postController.posts[i]['time'], // Add the 'time' argument here
+                            imageUrl: postController.posts[i]['imageUrl'],
+                            avatarImage: authController.usersMap[postController.posts[i]['owner']]?.avatar,
+                            userName: authController.usersMap[postController.posts[i]['owner']]?.userName,
+                          
+                          )),
+                      const SizedBox(
+                        height: 20,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+      },
     );
   }
 }

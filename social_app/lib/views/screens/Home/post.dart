@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
-
 class PostCard extends StatelessWidget {
   String? avatarImage;
   String? userName;
@@ -9,6 +6,8 @@ class PostCard extends StatelessWidget {
   String? imageUrl;
   String? time;
   VoidCallback? press;
+  VoidCallback? likeFunction;
+  VoidCallback? commentFunction;
   int? likesNumber;
   int? commentsNumber;
   int? sharessNumber;
@@ -18,7 +17,8 @@ class PostCard extends StatelessWidget {
           'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
       this.userName = "User Name",
       required this.postText,
-      this.imageUrl,
+      this.imageUrl,this.likeFunction,this.commentFunction,
+      
       this.press,
       this.likesNumber = 0,
       this.commentsNumber = 0,
@@ -96,23 +96,18 @@ class PostCard extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.thumb_up)),
+                        onPressed: likeFunction, icon: const Icon(Icons.thumb_up)),
                     InkWell(onTap: () {}, child: Text("$likesNumber"))
                   ],
                 ),
                 Row(
                   children: [
                     IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.comment)),
+                        onPressed: commentFunction, icon: const Icon(Icons.comment)),
                     InkWell(onTap: () {}, child: Text("$commentsNumber"))
                   ],
                 ),
-                Row(
-                  children: [
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
-                    InkWell(onTap: () {}, child: Text("$sharessNumber"))
-                  ],
-                ),
+                
               ],
             ),
           ],
