@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:social_app/provider/post_provider.dart';
 import 'package:social_app/views/screens/Home/reusable_widgets.dart';
 import 'package:social_app/views/screens/auth/widgets/home_drawer.dart';
 import 'package:social_app/provider/auth/auth.dart';
@@ -51,8 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
     print("homeeeeeeeee rebuild");
     AuthController authControllerListenFalse =
         Provider.of<AuthController>(context, listen: false);
-    PostController postController =
-        Provider.of<PostController>(context, listen: false);
+    // PostController postController =
+    //     Provider.of<PostController>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(

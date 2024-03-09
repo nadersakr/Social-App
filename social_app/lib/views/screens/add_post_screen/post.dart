@@ -3,10 +3,6 @@
 //add post provider
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:social_app/model/post_model.dart';
-import 'package:social_app/provider/post_provider.dart';
-import 'package:social_app/utils/colors.dart';
 
 class PostCard extends StatelessWidget {
   String? avatarImage;
