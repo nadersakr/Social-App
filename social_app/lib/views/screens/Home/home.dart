@@ -48,29 +48,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("homeeeeeeeee rebuild");
     AuthController authControllerListenFalse =
-        Provider.of<AuthController>(context, listen: true);
+        Provider.of<AuthController>(context, listen: false);
     PostController postController =
-        Provider.of<PostController>(context, listen: true);
+        Provider.of<PostController>(context, listen: false);
     return Scaffold(
       body: SafeArea(
-        child: Consumer<AuthController>(
-          builder: (BuildContext context, value, Widget? child) {
-            return FutureBuilder(
-              future: authControllerListenFalse.getAppData(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (snapshot.hasError) {
-                  return const Center(child: Text("Error Occured"));
-                } else {
-                  return homeMainContent(
-                      context, postController, authControllerListenFalse);
-                }
-              },
-            );
+        child: FutureBuilder(
+          future: authControllerListenFalse.getAppData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(child: Text("Error Occured"));
+            } else {
+              return homeMainContent(
+                  context);
+            }
           },
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/provider/post_provider.dart';
 import 'package:social_app/utils/colors.dart';
@@ -12,14 +13,20 @@ import 'package:social_app/views/screens/profile_screen/friend_profile.dart';
 import 'package:social_app/views/screens/profile_screen/profile.dart';
 
 // This widget is responsible for fetching and displaying posts from the server.
-class PostsFutureBuilder extends StatelessWidget {
-  final PostController postController;
-  final AuthController authController;
+class PostsFutureBuilder extends StatefulWidget {
+ 
 
-  const PostsFutureBuilder({super.key, required this.postController, required this.authController});
+  PostsFutureBuilder({super.key});
 
   @override
+  State<PostsFutureBuilder> createState() => _PostsFutureBuilderState();
+}
+
+class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
+  @override
   Widget build(BuildContext context) {
+  final AuthController authController = Provider.of<AuthController>(context,listen: false);
+  final PostController postController = Provider.of<PostController>(context,listen: false);
     return FutureBuilder(
       future: postController.getPosts(authController.mainUser),
       builder: (context, snapshot) {
@@ -38,42 +45,48 @@ class PostsFutureBuilder extends StatelessWidget {
               SizedBox(
                 height: 500,
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ...List.generate(
-                          postController.posts.length,
-                          (i) => PostCard(
-                              postText: postController.posts[i]['text'],
-                              press: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => FriendProfile(
-                                        friend: authController.usersMap[
-                                            postController.posts[i]['owner']],
+                  child: Consumer<PostController>(
+                    builder: (context, postController, child) => 
+                       Column(
+                      children: [
+                        ...List.generate(
+                            postController.posts.length,
+                            (i) => PostCard(
+                                postText: postController.posts[i]['text'],
+                                press: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => FriendProfile(
+                                          friend: authController.usersMap[
+                                              postController.posts[i]['owner']],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                              time: postController.posts[i]
-                                  ['time'], // Add the 'time' argument here
-                              imageUrl: postController.posts[i]['imageUrl'],
-                              isliked: (postController.posts[i]['likers'] ?? [])
-                                  .contains(authController.mainUser.userUID),
-                              avatarImage: authController
-                                  .usersMap[postController.posts[i]['owner']]
-                                  ?.avatar,
-                              userName: authController
-                                  .usersMap[postController.posts[i]['owner']]
-                                  ?.userName,
-                                  likesNumber: (postController.posts[i]['likers']??[]).length,
-                              likeFunction: () async {
-                                await postController.likePost(
-                                    liker: authController.mainUser.userUID!,
-                                    post: postController.posts[i]);
-                              })),
-
-                      const SizedBox(
-                        height: 20,
-                      )
-                    ],
+                                time: postController.posts[i]
+                                    ['time'], // Add the 'time' argument here
+                                imageUrl: postController.posts[i]['imageUrl'],
+                                isliked: (postController.posts[i]['likers'] ?? [])
+                                    .contains(authController.mainUser.userUID),
+                                avatarImage: authController
+                                    .usersMap[postController.posts[i]['owner']]
+                                    ?.avatar,
+                                userName: authController
+                                    .usersMap[postController.posts[i]['owner']]
+                                    ?.userName,
+                                    likesNumber: (postController.posts[i]['likers']??[]).length,
+                                likeFunction: () async {
+                                  setState(() async{
+                                    
+                                  await postController.likePost(
+                                      liker: authController.mainUser.userUID!,
+                                      post: postController.posts[i]);
+                                  });
+                                })),
+                    
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -164,7 +177,7 @@ Widget homeHeader() {
 }
 
 // This widget is the main content of the home screen, including the header, story cards, navigation buttons, and posts.
-Widget homeMainContent(BuildContext context, PostController postController, AuthController authControllerListenFalse) {
+Widget homeMainContent(BuildContext context) {
   return SingleChildScrollView(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -175,8 +188,7 @@ Widget homeMainContent(BuildContext context, PostController postController, Auth
         homeTapButtons(),
         const Divider(),
         PostsFutureBuilder(
-          postController: postController,
-          authController: authControllerListenFalse,
+          
         ),
         // Add more post cards here as needed
       ],
