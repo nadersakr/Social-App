@@ -20,8 +20,7 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
-class _HomeScreenState extends State<HomeScreen> {
+س
   late ScrollController _scrollController;
   bool _isVisible = true;
 
@@ -58,145 +57,153 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     // AuthController authController = Provider.of<AuthController>(context);
     AuthController authControllerListenFalse =
-        Provider.of<AuthController>(context, listen: false);
+        Provider.of<AuthController>(context, listen: true);
     PostController postController =
-        Provider.of<PostController>(context, listen: false);
+        Provider.of<PostController>(context, listen: true);
     return Scaffold(
       body: SafeArea(
-        child: FutureBuilder(
-          future: authControllerListenFalse.getAppData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return const Center(child: Text("Error Occered"));
-            } else {
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(
-                      height: 50,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Social App',
-                              style: TextStyle(
-                                  color: AppColors.blue,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+        child: Consumer<AuthController>(
+          builder: (BuildContext context, value, Widget? child) {
+            return FutureBuilder(
+              future: authControllerListenFalse.getAppData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text("Error Occered"));
+                } else {
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Social App',
+                                  style: TextStyle(
+                                      color: AppColors.blue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.search))
+                              ],
                             ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.search))
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: const [
-                          StoryCard(),
-                        ],
-                      ),
-                    ),
-                    const Divider(),
-                    const SizedBox(
-                      height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          TapButton(
-                            widget: FriendsScreen(),
-                            icon: Icon(Icons.people_outline_rounded),
+                        SizedBox(
+                          height: 100,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: const [
+                              StoryCard(),
+                            ],
                           ),
-                          TapButton(
-                            widget: ChatScreen(),
-                            icon: Icon(Icons.chat_bubble_outline_rounded),
-                          ),
-                          TapButton(
-                            widget: ProfileScreen(),
-                            icon: Icon(Icons.person),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Divider(),
-
-                    FutureBuilder(
-                      future: postController.getPosts(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: Text('Error: ${snapshot.error}'),
-                          );
-                        } else {
-                          return Column(
+                        ),
+                        const Divider(),
+                        const SizedBox(
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              SizedBox(
-                                height: 500,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      ...List.generate(
-                                          postController.posts.length,
-                                          (i) => PostCard(
-                                                postText: postController
-                                                    .posts[i]['text'],
-                                                press: () => Navigator.of(
-                                                        context)
-                                                    .push(MaterialPageRoute(
-                                                        builder: (context) => FriendProfile(
-                                                            friend: authControllerListenFalse
-                                                                    .usersMap[
-                                                                postController
+                              TapButton(
+                                widget: FriendsScreen(),
+                                icon: Icon(Icons.people_outline_rounded),
+                              ),
+                              TapButton(
+                                widget: ChatScreen(),
+                                icon: Icon(Icons.chat_bubble_outline_rounded),
+                              ),
+                              TapButton(
+                                widget: ProfileScreen(),
+                                icon: Icon(Icons.person),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(),
+
+                        FutureBuilder(
+                          future: postController
+                              .getPosts(authControllerListenFalse.mainUser),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Error: ${snapshot.error}'),
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  SizedBox(
+                                    height: 500,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          ...List.generate(
+                                              postController.posts.length,
+                                              (i) => PostCard(
+                                                    postText: postController
+                                                        .posts[i]['text'],
+                                                    press: () => Navigator.of(
+                                                            context)
+                                                        .push(MaterialPageRoute(
+                                                            builder: (context) => FriendProfile(
+                                                                friend: authControllerListenFalse
+                                                                    .usersMap[postController
                                                                         .posts[i]
                                                                     [
                                                                     'owner']]))),
-                                                time: postController.posts[i]
-                                                    ['time'],
-                                                imageUrl: postController
-                                                    .posts[i]['imageUrl'],
-                                                avatarImage:
-                                                    authControllerListenFalse
-                                                        .usersMap[postController
-                                                            .posts[i]['owner']]
-                                                        ?.avatar,
-                                                userName:
-                                                    authControllerListenFalse
-                                                        .usersMap[postController
-                                                            .posts[i]['owner']]
-                                                        ?.userName,
-                                              )),
-                                      const SizedBox(
-                                        height: 20,
-                                      )
-                                    ],
+                                                    time: postController
+                                                        .posts[i]['time'],
+                                                    imageUrl: postController
+                                                        .posts[i]['imageUrl'],
+                                                    avatarImage:
+                                                        authControllerListenFalse
+                                                            .usersMap[
+                                                                postController
+                                                                        .posts[
+                                                                    i]['owner']]
+                                                            ?.avatar,
+                                                    userName:
+                                                        authControllerListenFalse
+                                                            .usersMap[
+                                                                postController
+                                                                        .posts[
+                                                                    i]['owner']]
+                                                            ?.userName,
+                                                  )),
+                                          const SizedBox(
+                                            height: 20,
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
-                      },
+                                ],
+                              );
+                            }
+                          },
+                        ),
+                        // Add more post cards here as needed
+                      ],
                     ),
-                    // Add more post cards here as needed
-                  ],
-                ),
-              );
-            }
+                  );
+                }
+              },
+            );
           },
         ),
       ),

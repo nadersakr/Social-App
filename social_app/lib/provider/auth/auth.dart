@@ -284,11 +284,14 @@ class AuthController extends ChangeNotifier {
 //========================================================================================
   Future<void> getAppData() async {
     if (!isDataLoaded) {
-
-    user = FirebaseAuth.instance.currentUser;
-    await getdata();
-    await getFriends();
-    setTextControler();
+      user = FirebaseAuth.instance.currentUser;
+      await getdata();
+      await getFriends();
+      setTextControler();
+      print("00000000000000000000000000");
+      print(mainUser.friends);
+      print("00000000000000000000000000");
+      // print(mainUser.friends);
       isDataLoaded = true;
     }
   }
@@ -348,6 +351,7 @@ class AuthController extends ChangeNotifier {
   Future<void> signout() async {
     await FirebaseAuth.instance.signOut();
     isFirstTimeGetFriends = true;
+    isDataLoaded = false;
     mainUser = MainUser();
   }
 }

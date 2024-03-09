@@ -15,6 +15,7 @@ class MyFriends extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('myFriends List'),
+        
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
