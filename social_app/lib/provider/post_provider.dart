@@ -18,8 +18,25 @@ class PostController extends ChangeNotifier {
       // This prints the document's data as a Map<String, dynamic>
       
     }
-
+    // print('-------  posts  -------');
+    // print('posts: $posts');
+    // print('-------  posts  -------');
+    isPostsLoaded = true;
   }
-      isPostsLoaded = true;
+
+  //i need to detecte if user liked the post before or not then unlike when tap else like it
+  Future<void> likePost({required String liker, required dynamic post}) async {
+    if (post['likers'] == null) {
+      post['likers'] = [liker];
+    } else if (post['likers'].contains(liker)) {
+      post['likers'].remove(liker);
+    } else {
+      post['likers'].add(liker);
     }
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(post['id'])
+        .update({'likers': post['likers']});
+    notifyListeners();
+  }
 }

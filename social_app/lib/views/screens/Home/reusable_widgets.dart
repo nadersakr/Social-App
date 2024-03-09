@@ -43,20 +43,33 @@ class PostsFutureBuilder extends StatelessWidget {
                       ...List.generate(
                           postController.posts.length,
                           (i) => PostCard(
-                            postText: postController.posts[i]['text'],
-                            press: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => FriendProfile(
-                                  friend: authController.usersMap[postController.posts[i]['owner']],
-                                ),
-                              ),
-                            ),
-                            time: postController.posts[i]['time'], // Add the 'time' argument here
-                            imageUrl: postController.posts[i]['imageUrl'],
-                            avatarImage: authController.usersMap[postController.posts[i]['owner']]?.avatar,
-                            userName: authController.usersMap[postController.posts[i]['owner']]?.userName,
-                          
-                          )),
+                              postText: postController.posts[i]['text'],
+                              press: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => FriendProfile(
+                                        friend: authController.usersMap[
+                                            postController.posts[i]['owner']],
+                                      ),
+                                    ),
+                                  ),
+                              time: postController.posts[i]
+                                  ['time'], // Add the 'time' argument here
+                              imageUrl: postController.posts[i]['imageUrl'],
+                              isliked: (postController.posts[i]['likers'] ?? [])
+                                  .contains(authController.mainUser.userUID),
+                              avatarImage: authController
+                                  .usersMap[postController.posts[i]['owner']]
+                                  ?.avatar,
+                              userName: authController
+                                  .usersMap[postController.posts[i]['owner']]
+                                  ?.userName,
+                                  likesNumber: (postController.posts[i]['likers']??[]).length,
+                              likeFunction: () async {
+                                await postController.likePost(
+                                    liker: authController.mainUser.userUID!,
+                                    post: postController.posts[i]);
+                              })),
+
                       const SizedBox(
                         height: 20,
                       )

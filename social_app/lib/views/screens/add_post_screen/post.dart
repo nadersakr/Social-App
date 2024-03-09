@@ -1,4 +1,14 @@
+// ignore_for_file: must_be_immutable
+
+//add post provider
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:social_app/model/post_model.dart';
+import 'package:social_app/provider/post_provider.dart';
+import 'package:social_app/utils/colors.dart';
+
+
 class PostCard extends StatelessWidget {
   String? avatarImage;
   String? userName;
@@ -27,6 +37,8 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
+
     return Container(
       color: const Color.fromARGB(255, 150, 120, 210).withOpacity(0.2),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
