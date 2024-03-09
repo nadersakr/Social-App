@@ -8,12 +8,12 @@ import 'package:social_app/model/post_model.dart';
 import 'package:social_app/provider/post_provider.dart';
 import 'package:social_app/utils/colors.dart';
 
-
 class PostCard extends StatelessWidget {
   String? avatarImage;
   String? userName;
   String? postText;
   String? imageUrl;
+  bool? isliked;
   String? time;
   VoidCallback? press;
   VoidCallback? likeFunction;
@@ -27,18 +27,18 @@ class PostCard extends StatelessWidget {
           'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
       this.userName = "User Name",
       required this.postText,
-      this.imageUrl,this.likeFunction,this.commentFunction,
-      
+      this.imageUrl,
+      this.likeFunction,
+      this.commentFunction,
       this.press,
       this.likesNumber = 0,
       this.commentsNumber = 0,
       this.sharessNumber = 0,
+      this.isliked,
       required this.time});
 
   @override
   Widget build(BuildContext context) {
-   
-
     return Container(
       color: const Color.fromARGB(255, 150, 120, 210).withOpacity(0.2),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -108,18 +108,21 @@ class PostCard extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                        onPressed: likeFunction, icon: const Icon(Icons.thumb_up)),
+                      onPressed: likeFunction,
+                      icon: const Icon(Icons.thumb_up),
+                      color: (isliked ?? false) ? Colors.green : Colors.white,
+                    ),
                     InkWell(onTap: () {}, child: Text("$likesNumber"))
                   ],
                 ),
                 Row(
                   children: [
                     IconButton(
-                        onPressed: commentFunction, icon: const Icon(Icons.comment)),
+                        onPressed: commentFunction,
+                        icon: const Icon(Icons.comment)),
                     InkWell(onTap: () {}, child: Text("$commentsNumber"))
                   ],
                 ),
-                
               ],
             ),
           ],
