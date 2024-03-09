@@ -16,6 +16,7 @@ class PostController extends ChangeNotifier {
     for (var doc in postData) {
       posts.add(doc.data());
       // This prints the document's data as a Map<String, dynamic>
+      
     }
 
   }
