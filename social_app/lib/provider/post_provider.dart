@@ -16,15 +16,17 @@ class PostController extends ChangeNotifier {
       var postData = postsGet.docs;
 
       for (var doc in postData) {
-        posts.add(doc.data());
-        // This prints the document's data as a Map<String, dynamic>
+        Map<String, dynamic> post = {...doc.data(), 'id': doc.id};
+        posts.add(post);
       }
-
-      //i need to detecte if user liked the post before or not then unlike when tap else like it
     }
+    // print('-------  posts  -------');
+    // print('posts: $posts');
+    // print('-------  posts  -------');
+    isPostsLoaded = true;
   }
 
-  Future<void> likePost({required String liker, required dynamic post}) async {
+Future<void> likePost({required String liker, required dynamic post}) async {
     if (post['likers'] == null) {
       post['likers'] = [liker];
     } else if (post['likers'].contains(liker)) {
@@ -38,4 +40,6 @@ class PostController extends ChangeNotifier {
         .update({'likers': post['likers']});
     notifyListeners();
   }
+  //i need to detecte if user liked the post before or not then unlike when tap else like it
+  
 }
