@@ -8,15 +8,13 @@ import 'package:social_app/views/screens/Home/add_post.dart';
 import 'package:social_app/views/screens/Home/home_store_card.dart';
 import 'package:social_app/views/screens/Home/home_tap_icon.dart';
 import 'package:social_app/views/screens/add_post_screen/post.dart';
-import 'package:social_app/views/screens/chat/chat.dart';
+import 'package:social_app/views/screens/chat/chats.dart';
 import 'package:social_app/views/screens/profile_screen/friend_profile.dart';
 import 'package:social_app/views/screens/profile_screen/profile.dart';
 
 // This widget is responsible for fetching and displaying posts from the server.
 class PostsFutureBuilder extends StatefulWidget {
- 
-
-  PostsFutureBuilder({super.key});
+  const PostsFutureBuilder({super.key});
 
   @override
   State<PostsFutureBuilder> createState() => _PostsFutureBuilderState();
@@ -25,8 +23,10 @@ class PostsFutureBuilder extends StatefulWidget {
 class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
   @override
   Widget build(BuildContext context) {
-  final AuthController authController = Provider.of<AuthController>(context,listen: false);
-  final PostController postController = Provider.of<PostController>(context,listen: false);
+    final AuthController authController =
+        Provider.of<AuthController>(context, listen: false);
+    final PostController postController =
+        Provider.of<PostController>(context, listen: false);
     return FutureBuilder(
       future: postController.getPosts(authController.mainUser),
       builder: (context, snapshot) {
@@ -46,8 +46,7 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
                 height: 500,
                 child: SingleChildScrollView(
                   child: Consumer<PostController>(
-                    builder: (context, postController, child) => 
-                       Column(
+                    builder: (context, postController, child) => Column(
                       children: [
                         ...List.generate(
                             postController.posts.length,
@@ -57,14 +56,16 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
                                       MaterialPageRoute(
                                         builder: (context) => FriendProfile(
                                           friend: authController.usersMap[
-                                              postController.posts[i]['owner']],
+                                              postController.posts[i]
+                                                  ['owner']]!,
                                         ),
                                       ),
                                     ),
                                 time: postController.posts[i]
                                     ['time'], // Add the 'time' argument here
                                 imageUrl: postController.posts[i]['imageUrl'],
-                                isliked: (postController.posts[i]['likers'] ?? [])
+                                isliked: (postController.posts[i]['likers'] ??
+                                        [])
                                     .contains(authController.mainUser.userUID),
                                 avatarImage: authController
                                     .usersMap[postController.posts[i]['owner']]
@@ -72,16 +73,16 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
                                 userName: authController
                                     .usersMap[postController.posts[i]['owner']]
                                     ?.userName,
-                                    likesNumber: (postController.posts[i]['likers']??[]).length,
+                                likesNumber:
+                                    (postController.posts[i]['likers'] ?? [])
+                                        .length,
                                 likeFunction: () async {
-                                  setState(() async{
-                                    
-                                  await postController.likePost(
-                                      liker: authController.mainUser.userUID!,
-                                      post: postController.posts[i]);
+                                  setState(() async {
+                                    await postController.likePost(
+                                        liker: authController.mainUser.userUID!,
+                                        post: postController.posts[i]);
                                   });
                                 })),
-                    
                         const SizedBox(
                           height: 20,
                         )
@@ -104,10 +105,8 @@ Widget homeFloatingActionButton(BuildContext context) {
     padding: const EdgeInsets.all(16.0),
     child: FloatingActionButton(
       onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const AddPostScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const AddPostScreen()));
       },
       child: const Icon(Icons.add),
     ),
@@ -126,7 +125,7 @@ Widget homeTapButtons() {
           icon: Icon(Icons.people_outline_rounded),
         ),
         TapButton(
-          widget: ChatScreen(),
+          widget: ChatsScreen(),
           icon: Icon(Icons.chat_bubble_outline_rounded),
         ),
         TapButton(
@@ -167,9 +166,7 @@ Widget homeHeader() {
                 fontWeight: FontWeight.bold,
                 fontSize: 20),
           ),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.search))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.search))
         ],
       ),
     ),
@@ -187,9 +184,7 @@ Widget homeMainContent(BuildContext context) {
         const Divider(),
         homeTapButtons(),
         const Divider(),
-        PostsFutureBuilder(
-          
-        ),
+        const PostsFutureBuilder(),
         // Add more post cards here as needed
       ],
     ),

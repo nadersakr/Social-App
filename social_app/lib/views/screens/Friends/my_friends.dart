@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
+import 'package:social_app/views/screens/chat/chat_screen.dart';
 import 'package:social_app/views/screens/profile_screen/friend_profile.dart';
 
 class MyFriends extends StatelessWidget {
@@ -15,7 +16,6 @@ class MyFriends extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('myFriends List'),
-        
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -50,39 +50,45 @@ class MyFriends extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.chat),
                           onPressed: () {
-                            // Handle chat button press
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChatScreen(resevier: friend)));
                           },
                         ),
                         IconButton(
- icon: const Icon(Icons.remove_circle_outline),
- onPressed: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Remove Friend'),
-          content: const Text('Are you sure you want to remove this friend?'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('No'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-            ),
-            TextButton(
-              child: const Text('Yes'),
-              onPressed: () {
-                // Call the function to remove the friend
-                authController.removeFriend(friend);
-                Navigator.of(context).pop(); // Close the dialog
-              },
-            ),
-          ],
-        );
-      },
-    );
- },
-),
+                          icon: const Icon(Icons.remove_circle_outline),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Remove Friend'),
+                                  content: const Text(
+                                      'Are you sure you want to remove this friend?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('No'),
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text('Yes'),
+                                      onPressed: () {
+                                        // Call the function to remove the friend
+                                        authController.removeFriend(friend);
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),

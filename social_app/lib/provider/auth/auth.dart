@@ -129,16 +129,23 @@ class AuthController extends ChangeNotifier {
   // ================================set  text controller ======================================
   Future<List<MainUser>> fromUIDListToMainUsers(List<dynamic> myList) async {
     List<MainUser> listOfMainUser = [];
-    var storage = FirebaseFirestore.instance;
     for (var i = 0; i < myList.length; i++) {
-      var userFriend = await storage.collection('users').doc(myList[i]).get();
-      MainUser userFriendMain =
-          MainUser.fromjsontoDart(userFriend.data(), null, myList[i]);
+      MainUser userFriendMain = await fromUIDToMainUser(myList[i]);
       listOfMainUser.add(userFriendMain);
     }
     return listOfMainUser;
   }
 
+  //=======================================================
+  Future<MainUser> fromUIDToMainUser(String uid) async {
+    var storage = FirebaseFirestore.instance;
+    var userFriend = await storage.collection('users').doc(uid).get();
+    MainUser userFriendMain =
+        MainUser.fromjsontoDart(userFriend.data(), null, uid);
+    return userFriendMain;
+  }
+
+  //=======================================================
   // ================================set  text controller ======================================
   void setTextControler() {
     addressProfileController.text = mainUser.address!;

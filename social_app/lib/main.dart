@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/firebase_options.dart';
 import 'package:social_app/provider/auth/auth.dart';
+import 'package:social_app/provider/chat_provider.dart';
 import 'package:social_app/provider/post_provider.dart';
 import 'package:social_app/utils/shared-preferences/shared_preferences.dart';
 import 'package:social_app/views/screens/Home/home.dart';
@@ -16,7 +17,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   bool isShowBoarding =
       AppSharedPreferences.getValue(value: 'isShowenOnboarding') ?? false;
   bool islogin = AppSharedPreferences.getValue(value: 'islogin') ?? false;
@@ -24,6 +25,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => AuthController()),
       ChangeNotifierProvider(create: (_) => PostController()),
+      ChangeNotifierProvider(create: (_) => ChatServises()),
     ],
     child: MyApp(isShowBording: isShowBoarding, islogin: islogin),
   ));

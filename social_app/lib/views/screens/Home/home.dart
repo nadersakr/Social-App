@@ -52,27 +52,28 @@ class _HomeScreenState extends State<HomeScreen> {
         Provider.of<AuthController>(context, listen: false);
     // PostController postController =
     //     Provider.of<PostController>(context, listen: false);
-    return Scaffold(
-      body: SafeArea(
-        child: FutureBuilder(
-          future: authControllerListenFalse.getAppData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return const Center(child: Text("Error Occured"));
-            } else {
-              return homeMainContent(
-                  context);
-            }
-          },
+    return SafeArea(
+      child: Scaffold(
+        body: SafeArea(
+          child: FutureBuilder(
+            future: authControllerListenFalse.getAppData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return const Center(child: Text("Error Occured"));
+              } else {
+                return homeMainContent(context);
+              }
+            },
+          ),
         ),
+        floatingActionButton:
+            _isVisible ? homeFloatingActionButton(context) : null,
+        drawer: HomeDrawer(authController: authControllerListenFalse),
       ),
-      floatingActionButton:
-          _isVisible ? homeFloatingActionButton(context) : null,
-      drawer: HomeDrawer(authController: authControllerListenFalse),
     );
   }
 }

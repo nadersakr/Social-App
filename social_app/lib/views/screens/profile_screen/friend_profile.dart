@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-
 import 'package:social_app/model/user_model.dart';
-
-import 'package:social_app/views/screens/Friends/my_friends.dart';
+import 'package:social_app/views/screens/chat/chat_screen.dart';
 
 class FriendProfile extends StatelessWidget {
-  final MainUser? friend;
+  final MainUser friend;
   const FriendProfile({super.key, required this.friend});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Profile'), actions: [
+      appBar: AppBar(title: const Text('Profile'), actions: [
         IconButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) =>  const MyFriends()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChatScreen(
+                            resevier: friend,
+                          )));
             },
             icon: const Icon(
-              Icons.people,
+              Icons.chat,
               size: 28,
             )),
         const SizedBox(
@@ -33,14 +35,14 @@ class FriendProfile extends StatelessWidget {
               child: CircleAvatar(
                 radius: 80,
                 backgroundImage: NetworkImage(
-                  friend!.avatar!,
+                  friend.avatar!,
                 ),
               ),
             ),
             const SizedBox(height: 20),
             Center(
               child: Text(
-                friend?.userName ?? "User Name",
+                friend.userName ?? "User Name",
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -50,7 +52,7 @@ class FriendProfile extends StatelessWidget {
             const SizedBox(height: 10),
             Center(
               child: Text(
-                '${friend?.bio}',
+                '${friend.bio}',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey[600],
@@ -61,7 +63,7 @@ class FriendProfile extends StatelessWidget {
             _buildSectionTitle('About Me'),
             const SizedBox(height: 10),
             Text(
-              '${friend?.aboutMe}',
+              '${friend.aboutMe}',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[800],
@@ -70,17 +72,15 @@ class FriendProfile extends StatelessWidget {
             const SizedBox(height: 20),
             _buildSectionTitle('Contact Information'),
             const SizedBox(height: 10),
-            _buildContactInfoTile(Icons.email, 'Email',
-                friend?.email ?? "user@example.com"),
             _buildContactInfoTile(
-                Icons.phone, 'Phone', '${friend?.phone}'),
-            _buildContactInfoTile(Icons.location_on, 'Address',
-                '${friend?.address}'),
+                Icons.email, 'Email', friend.email ?? "user@example.com"),
+            _buildContactInfoTile(Icons.phone, 'Phone', '${friend.phone}'),
+            _buildContactInfoTile(
+                Icons.location_on, 'Address', '${friend.address}'),
             const SizedBox(height: 20),
           ],
         ),
       ),
-      
     );
   }
 

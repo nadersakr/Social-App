@@ -11,10 +11,10 @@ class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
 
   @override
-  _AddPostScreenState createState() => _AddPostScreenState();
+  AddPostScreenState createState() => AddPostScreenState();
 }
 
-class _AddPostScreenState extends State<AddPostScreen> {
+class AddPostScreenState extends State<AddPostScreen> {
   final TextEditingController _postController = TextEditingController();
   File? _image;
 
