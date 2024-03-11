@@ -7,7 +7,8 @@ class PostController extends ChangeNotifier {
   List<dynamic> posts = [];
   int pointer = 7;
   Future<void> getPosts(MainUser mainUser) async {
-    if (!isPostsLoaded) {
+    posts.clear();
+    if (true) {
       var stroge = FirebaseFirestore.instance;
       QuerySnapshot<Map<String, dynamic>> postsGet = await stroge
           .collection('posts')
@@ -26,7 +27,7 @@ class PostController extends ChangeNotifier {
     isPostsLoaded = true;
   }
 
-Future<void> likePost({required String liker, required dynamic post}) async {
+  Future<void> likePost({required String liker, required dynamic post}) async {
     if (post['likers'] == null) {
       post['likers'] = [liker];
     } else if (post['likers'].contains(liker)) {
@@ -41,5 +42,4 @@ Future<void> likePost({required String liker, required dynamic post}) async {
     notifyListeners();
   }
   //i need to detecte if user liked the post before or not then unlike when tap else like it
-  
 }
