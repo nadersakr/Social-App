@@ -6,9 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:social_app/model/user_model.dart';
-import 'package:social_app/provider/post_provider.dart';
 
 class AuthController extends ChangeNotifier {
   late User? user;
@@ -221,21 +219,6 @@ class AuthController extends ChangeNotifier {
   }
 
   //*====================================================================================
-  // Future<void> removeFriend(MainUser friend, BuildContext context) async {
-  //   var currentUserUID = mainUser.userUID;
-  //   var usersCollection = FirebaseFirestore.instance.collection('users');
-  //   if (currentUserUID != null) {
-  //     await usersCollection.doc(currentUserUID).update({
-  //       'friends': FieldValue.arrayRemove([friend.userUID])
-  //     });
-  //     await usersCollection.doc(friend.userUID).update({
-  //       'friends': FieldValue.arrayRemove([currentUserUID])
-  //     });
-  //     myFriends.removeWhere((element) => element.userUID == friend.userUID);
-  //     users.add(friend);
-  //   }
-  //     notifyListeners();
-  // }
 
   //*====================================================================================
 
@@ -282,6 +265,8 @@ class AuthController extends ChangeNotifier {
       // ----------
       myFriends.removeWhere((element) => element.userUID == friendUID);
       mainUser.friends?.remove(friendUID);
+      MainUser newUser = await fromUIDToMainUser(friendUID);
+      users.add(newUser);
     }
     notifyListeners();
   }

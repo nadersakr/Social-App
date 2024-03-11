@@ -8,7 +8,7 @@ class PostController extends ChangeNotifier {
   int pointer = 7;
   Future<void> getPosts(MainUser mainUser) async {
     posts.clear();
-    if (true) {
+   
       var stroge = FirebaseFirestore.instance;
       QuerySnapshot<Map<String, dynamic>> postsGet = await stroge
           .collection('posts')
@@ -20,11 +20,11 @@ class PostController extends ChangeNotifier {
         Map<String, dynamic> post = {...doc.data(), 'id': doc.id};
         posts.add(post);
       }
-    }
+    
     // print('-------  posts  -------');
     // print('posts: $posts');
     // print('-------  posts  -------');
-    isPostsLoaded = true;
+  
   }
 
   Future<void> likePost({required String liker, required dynamic post}) async {

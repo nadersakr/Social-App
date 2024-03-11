@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:social_app/views/screens/Home/reusable_widgets.dart';
+import 'package:social_app/views/screens/Home/home_floating_button.dart';
+import 'package:social_app/views/screens/Home/home_main_contents.dart';
 import 'package:social_app/views/screens/auth/widgets/home_drawer.dart';
 import 'package:social_app/provider/auth/auth.dart';
 
