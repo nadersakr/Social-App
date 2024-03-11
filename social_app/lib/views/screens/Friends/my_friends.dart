@@ -78,7 +78,7 @@ class MyFriends extends StatelessWidget {
                                       child: const Text('Yes'),
                                       onPressed: () {
                                         // Call the function to remove the friend
-                                        authController.removeFriend(friend);
+                                        authController.unFriend(friend.userUID!);
                                         Navigator.of(context)
                                             .pop(); // Close the dialog
                                       },
