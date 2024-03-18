@@ -313,7 +313,7 @@ class AuthController extends ChangeNotifier {
     var currentUser = users.doc("${user?.uid}");
     var dataUser = await currentUser.get();
     print(dataUser.data()?['username']);
-    mainUser = MainUser.fromjsontoDart(dataUser.data(), user, null);
+    mainUser = MainUser.fromjsontoDart(dataUser.data(), user, user?.uid);
     pendingfriendsController = mainUser.pendingfriends!;
     requestesfriendsController = mainUser.requestesfriends ?? [];
     myFriends = await fromUIDListToMainUsers(mainUser.friends ?? []);
@@ -321,7 +321,7 @@ class AuthController extends ChangeNotifier {
     print("=====================${mainUser.requestesfriends}");
     print("=====================${mainUser.pendingfriends}");
     print("=====================${mainUser.friends}");
-    print("=====================${mainUser.friends}");
+ 
   }
 
   //*====================================================================================

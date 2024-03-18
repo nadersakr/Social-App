@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:social_app/model/post_model.dart';
+
 
 class MainUser extends ChangeNotifier{
   String? userName = "username";
@@ -15,7 +15,7 @@ class MainUser extends ChangeNotifier{
   List<dynamic>? friends = [];
   List<dynamic>? pendingfriends = [];
   List<dynamic>? requestesfriends = [];
-  List<Post>? posts = [];
+  // List<Post>? posts = [];
 
   MainUser(
       {this.userName,
@@ -27,7 +27,7 @@ class MainUser extends ChangeNotifier{
       this.bio,
       this.address,
       this.pendingfriends,
-      this.posts,
+      // this.posts,
       this.requestesfriends,
       this.userUID});
   static MainUser fromjsontoDart(
@@ -38,7 +38,7 @@ class MainUser extends ChangeNotifier{
         friends: jsonfile['friends'],
         requestesfriends:jsonfile['requestesfriends'],
         pendingfriends:jsonfile['pendingfriends'],
-        posts: [],
+        // posts: [],
         userName: jsonfile['username'],
         bio: jsonfile['bio'],
         phone: jsonfile['phone'],
@@ -100,7 +100,7 @@ Map<String, dynamic> toJson() {
     requestesfriends = userFriends;
   }
 
-  void setPosts(List<Post>? userPosts) {
-    posts = userPosts;
-  }
+  // void setPosts(List<Post>? userPosts) {
+  //   posts = userPosts;
+  // }
 }

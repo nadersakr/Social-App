@@ -63,7 +63,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'username',
                 keyboardType: TextInputType.text,
                 validator: (value) {
-                  if (value!.length < 4&&value.isNotEmpty) {
+                  if (value!.length < 4 && value.isNotEmpty) {
                     return "username must be more than 3 characters";
                   }
                   return null;
@@ -77,7 +77,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'Bio',
                 keyboardType: TextInputType.text,
                 validator: (value) {
-                  if (value!.length < 4&&value.isNotEmpty) {
+                  if (value!.length < 4 && value.isNotEmpty) {
                     return "Bio must be more than 3 characters";
                   }
                   return null;
@@ -91,7 +91,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'Aboutme',
                 keyboardType: TextInputType.text,
                 validator: (value) {
-                  if (value!.length < 4&&value.isNotEmpty) {
+                  if (value!.length < 4 && value.isNotEmpty) {
                     return "Aboutme must be more than 3 characters";
                   }
                   return null;
@@ -105,7 +105,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'phone',
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                  if (value!.length < 4&&value.isNotEmpty) {
+                  if (value!.length < 4 && value.isNotEmpty) {
                     return "phone must be more than 3 characters";
                   }
                   return null;
@@ -119,7 +119,7 @@ class EditProfileScreen extends StatelessWidget {
                 hintText: 'address',
                 keyboardType: TextInputType.text,
                 validator: (value) {
-                  if (value!.length < 5&&value.isNotEmpty) {
+                  if (value!.length < 5 && value.isNotEmpty) {
                     return "address must be more than 4 characters";
                   }
                   return null;
@@ -131,6 +131,11 @@ class EditProfileScreen extends StatelessWidget {
                   onPressed: () async {
                     if (authController.formKeyEditProfile.currentState!
                         .validate()) {
+                      showDialog(
+                          context: context,
+                          builder: (context) => const Center(
+                                child: CircularProgressIndicator(),
+                              ));
                       // print("tttttttttttttttttttttttttttt");
                       if (authController.imageFile != null) {
                         var storageRef = FirebaseStorage.instance.ref().child(
@@ -149,9 +154,9 @@ class EditProfileScreen extends StatelessWidget {
                       }
                       authController.setImageFileNull();
 
-                      // Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const ProfileScreen()));
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const ProfileScreen()));
                     }
                   },
                   child: const Text('Save Changes'),

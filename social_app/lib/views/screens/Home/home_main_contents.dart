@@ -10,7 +10,7 @@ Widget homeMainContent(BuildContext context) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        homeHeader(),
+        homeHeader(context),
         homeStoryCards(),
         const Divider(),
         homeTapButtons(),

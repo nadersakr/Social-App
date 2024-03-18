@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:social_app/model/post_model.dart';
 
 class MainUser {
   String? userName = "username";
@@ -14,7 +13,7 @@ class MainUser {
   List<dynamic>? friends = [];
   List<dynamic>? pendingfriends = [];
   List<dynamic>? requestesfriends = [];
-  List<Post>? posts = [];
+  // List<Post>? posts = [];
 
   MainUser(
       {this.userName,
@@ -26,7 +25,7 @@ class MainUser {
       this.bio,
       this.address,
       this.pendingfriends,
-      this.posts,
+      // this.posts,
       this.requestesfriends,
       this.userUID});
   static MainUser fromjsontoDart(
@@ -36,8 +35,8 @@ class MainUser {
         email: jsonfile['email'],
         friends: jsonfile['friends'],
         requestesfriends:jsonfile['requestesfriends'],
-        pendingfriends:jsonfile['pendingfriends'],
-        posts: [],
+        pendingfriends:jsonfile['pendingfriends']??[],
+        // posts: [],
         userName: jsonfile['username'],
         bio: jsonfile['bio'],
         phone: jsonfile['phone'],
@@ -98,7 +97,7 @@ Map<String, dynamic> toJson() {
     requestesfriends = userFriends;
   }
 
-  void setPosts(List<Post>? userPosts) {
-    posts = userPosts;
-  }
+  // void setPosts(List<Post>? userPosts) {
+  //   posts = userPosts;
+  // }
 }

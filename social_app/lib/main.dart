@@ -7,7 +7,9 @@ import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/provider/chat_provider.dart';
 import 'package:social_app/provider/post_provider.dart';
 import 'package:social_app/utils/shared-preferences/shared_preferences.dart';
+import 'package:social_app/views/screens/Home/add_post.dart';
 import 'package:social_app/views/screens/Home/home.dart';
+import 'package:social_app/views/screens/add_post_screen/test_screen.dart';
 import 'package:social_app/views/screens/auth/login/login_screen.dart';
 import 'package:social_app/views/screens/on_boarding_screen/onboarding.dart';
 
@@ -44,7 +46,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: isShowBording
             ? islogin
-                ? const HomeScreen()
+                ? HomeScreen()
                 : const LoginScreen()
             : const OnBoardignScreen(),
       ),

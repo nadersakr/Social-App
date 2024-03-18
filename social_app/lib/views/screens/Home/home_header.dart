@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:social_app/utils/colors.dart';
+import 'package:social_app/views/screens/Home/add_post.dart';
 
-Widget homeHeader() {
+Widget homeHeader(BuildContext context) {
   return SizedBox(
     height: 50,
     child: Padding(
@@ -16,7 +17,17 @@ Widget homeHeader() {
                 fontWeight: FontWeight.bold,
                 fontSize: 20),
           ),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddPostScreen()));
+              },
+              icon: const Icon(
+                Icons.search,
+                size: 40,
+              ))
         ],
       ),
     ),
