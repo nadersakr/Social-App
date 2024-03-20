@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
@@ -21,7 +22,7 @@ class AuthFooterSignup extends StatelessWidget {
       return null;
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     var authController = Provider.of<AuthController>(context);
@@ -73,8 +74,8 @@ class AuthFooterSignup extends StatelessWidget {
             suffixIcon: InkWell(
                 onTap: authController.visibilitySingPass,
                 child: Icon(authController.isobscureSignpass
-                    ? Icons.visibility
-                    : Icons.visibility_off)),
+                    ? EneftyIcons.lock_2_bold
+                    : EneftyIcons.lock_2_outline)),
             keyboardType: TextInputType.text,
             obscureText: authController.isobscureSignpass,
             validator: validatorPassword,
@@ -85,11 +86,11 @@ class AuthFooterSignup extends StatelessWidget {
           CustomTextField(
             controller: authController.confirmPasswordSignUpController,
             hintText: 'Confirm Password',
-            suffixIcon: InkWell(
+            suffixIcon: GestureDetector(
                 onTap: authController.visibilitySingConfirmPass,
                 child: Icon(authController.isobscureConfirmSignpass
-                    ? Icons.visibility
-                    : Icons.visibility_off)),
+                    ? EneftyIcons.lock_2_bold
+                    : EneftyIcons.lock_2_outline)),
             keyboardType: TextInputType.text,
             obscureText: authController.isobscureConfirmSignpass,
             validator: (value) {
@@ -141,7 +142,8 @@ class AuthFooterSignup extends StatelessWidget {
                     'aboutMe': '',
                     'phone': '',
                     'address': '',
-                    'avatar':'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg'
+                    'avatar':
+                        'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg'
                   });
                 }
 
@@ -177,8 +179,25 @@ class AuthFooterSignup extends StatelessWidget {
             text: 'Already have account?',
             textButton: "Login",
             onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+              Navigator.of(context).pushReplacement(PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const LoginScreen(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  var begin = const Offset(0.0, -1.0);
+                  var end = Offset.zero;
+                  var curve = Curves.ease;
+
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 500),
+              ));
             },
           )
         ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_app/utils/colors.dart';
 
 class TextRow extends StatelessWidget {
   final String text;
@@ -24,7 +26,10 @@ class TextRow extends StatelessWidget {
             onPressed: onPressed,
             child: Text(
               textButton,
-              style: const TextStyle(fontSize: 18),
+              style: TextStyle(
+                  fontSize: 18.sp,
+                  color: AppColors.darkBlack,
+                  fontWeight: FontWeight.bold),
             ))
       ],
     );

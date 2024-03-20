@@ -1,9 +1,11 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/provider/post_provider.dart';
+import 'package:social_app/utils/colors.dart';
 import 'package:social_app/views/screens/add_post_screen/post.dart';
 import 'package:social_app/views/screens/add_post_screen/test_screen.dart';
 import 'package:social_app/views/screens/profile_screen/friend_profile.dart';
@@ -106,4 +108,28 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
       },
     );
   }
+}
+
+customSubText(String text, {double? size, Color? color}) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: size ?? 18.sp,
+      // fontWeight: FontWeight.bold,
+      color: color ?? AppColors.black,
+    ),
+  );
+}
+
+customText(String text, {double? size, Color? color}) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: size ?? 32.sp,
+      fontWeight: FontWeight.bold,
+      color: color ?? AppColors.darkBlack,
+    ),
+  );
 }

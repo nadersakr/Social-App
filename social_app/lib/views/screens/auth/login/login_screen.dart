@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/utils/widgets/animation_navigat_screen.dart';
 import 'package:social_app/utils/widgets/custom_button.dart';
-import 'package:social_app/utils/widgets/custom_snack_bar.dart';
 import 'package:social_app/views/reusable_components_widgets/validators.dart';
+import 'package:social_app/views/screens/Home/reusable_widgets.dart';
 import 'package:social_app/views/screens/auth/signup/signup_screen.dart';
-import 'package:social_app/views/screens/auth/widgets/auth_image_and_text.dart';
 import 'package:social_app/views/screens/auth/widgets/custom_text_field.dart';
 import 'package:social_app/views/screens/auth/widgets/login_logic_operations.dart';
 import 'package:social_app/views/screens/auth/widgets/text_row.dart';
+import 'package:enefty_icons/enefty_icons.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -21,30 +22,10 @@ class LoginScreen extends StatelessWidget {
     var authController = Provider.of<AuthController>(context);
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image:
-                      AssetImage('assets/images/Authentication Background.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Image.asset(
-                  'assets/images/your_logo.png', // Provide your logo image path
-                  height: 100,
-                  width: 100,
-                ),
-              ),
-            ),
+            SvgPicture.asset('assets/svg/1.svg'),
             SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
@@ -53,15 +34,13 @@ class LoginScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(height: 150.h), // Adjust the height as needed
-                    Text(
-                      'Welcome',
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                        fontFamily: 'YourCustomFont', // Use your custom font
+                    Positioned(
+                      top: 60.h,
+                      left: (1.sw / 2) - 65.w,
+                      child: Center(
+                        child: customSubText('Login to your account',
+                            color: Colors.black),
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 30.h),
                     Form(
@@ -69,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextField(
-                            suffixIcon: const Icon(Icons.person),
+                            suffixIcon: const Icon(EneftyIcons.user_outline),
                             controller: authController.mailLoginController,
                             hintText: 'Email',
                             keyboardType: TextInputType.emailAddress,
@@ -83,8 +62,8 @@ class LoginScreen extends StatelessWidget {
                             suffixIcon: InkWell(
                               onTap: authController.visibility,
                               child: Icon(authController.isobscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
+                                  ? EneftyIcons.password_check_outline
+                                  : EneftyIcons.password_check_bold),
                             ),
                             keyboardType: TextInputType.text,
                             validator: Tvalidator.passwordValidator,
@@ -95,16 +74,16 @@ class LoginScreen extends StatelessWidget {
                               // Your forgot password logic here
                             },
                             child: Text(
-                              'FORGOT PASSWORD',
+                              'Forget Password?',
                               style: TextStyle(
-                                fontSize: 18.sp,
-                                color: AppColors.blue,
+                                fontSize: 14.sp,
+                                color: AppColors.darkBlack,
                               ),
                             ),
                           ),
                           SizedBox(height: 30.h),
                           CustomButton(
-                            buttonText: "LogIN",
+                            buttonText: "Login",
                             onPressed: () async {
                               await LoginFunctions.LoginFunction(
                                   authController, context);
@@ -115,9 +94,29 @@ class LoginScreen extends StatelessWidget {
                             text: 'Don\'t have an account?',
                             textButton: "SignUp",
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
-                                AnimationNavigatScreen(const SignupScreen()),
-                              );
+                              Navigator.of(context)
+                                  .pushReplacement(PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const SignupScreen(),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  var begin = const Offset(0.0, 1.0);
+                                  var end = Offset.zero;
+                                  var curve = Curves.ease;
+
+                                  var tween = Tween(begin: begin, end: end)
+                                      .chain(CurveTween(curve: curve));
+
+                                  return SlideTransition(
+                                    position: animation.drive(tween),
+                                    child: child,
+                                  );
+                                },
+                                transitionDuration: const Duration(
+                                    milliseconds:
+                                        500), // Add your desired duration here
+                              ));
                             },
                           ),
                         ],
