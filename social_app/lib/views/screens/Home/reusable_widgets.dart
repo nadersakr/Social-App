@@ -1,13 +1,13 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/provider/post_provider.dart';
-import 'package:social_app/views/screens/add_post_screen/add_comment.dart';
 import 'package:social_app/views/screens/add_post_screen/post.dart';
 import 'package:social_app/views/screens/add_post_screen/test_screen.dart';
 import 'package:social_app/views/screens/profile_screen/friend_profile.dart';
 
-// This widget is responsible for fetching and displaying posts from the server.
 class PostsFutureBuilder extends StatefulWidget {
   const PostsFutureBuilder({super.key});
 
@@ -38,7 +38,7 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
           return Column(
             children: [
               SizedBox(
-                height: 500,
+                height: MediaQuery.of(context).size.height * 0.75,
                 child: SingleChildScrollView(
                   child: Selector<AuthController, int>(
                     selector: (context, authController) =>
@@ -71,10 +71,9 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
                                   time: postController.posts[i]
                                       ['time'], // Add the 'time' argument here
                                   imageUrl: postController.posts[i]['imageUrl'],
-                                  isliked:
-                                      (postController.posts[i]['likers'] ?? [])
-                                          .contains(
-                                              authController.mainUser.userUID),
+                                  isliked: (postController.posts[i]['likers'] ?? [])
+                                      .contains(
+                                          authController.mainUser.userUID),
                                   avatarImage: authController
                                       .usersMap[postController.posts[i]
                                           ['owner']]
@@ -84,8 +83,9 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
                                           ['owner']]
                                       ?.userName,
                                   likesNumber:
-                                      (postController.posts[i]['likers'] ?? []).length,
-                                      commentsNumber: (postController.posts[i]['comments']??[]).length,
+                                      (postController.posts[i]['likers'] ?? [])
+                                          .length,
+                                  commentsNumber: (postController.posts[i]['comments'] ?? []).length,
                                   likeFunction: () async {
                                     await postController.likePost(
                                         liker: authController.mainUser.userUID!,

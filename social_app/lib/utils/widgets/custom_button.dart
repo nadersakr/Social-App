@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:social_app/utils/colors.dart';
 
 class CustomButton extends StatelessWidget {
-  final String? buttontext;
+  final String? buttonText;
   final void Function()? onPressed;
  final double? height;
  final double? width;
  final Color? backgroundColors;
   const CustomButton({
     super.key,
-    this.buttontext,
+    this.buttonText,
     this.onPressed,
     this.height,
     this.width,
@@ -32,7 +32,7 @@ class CustomButton extends StatelessWidget {
         onPressed:  onPressed,
         child: Text(
           textAlign: TextAlign.center,
-          buttontext ?? "Button",
+          buttonText ?? "Button",
           style: const TextStyle(color: Colors.white, fontSize: 24),
         ),
       ),

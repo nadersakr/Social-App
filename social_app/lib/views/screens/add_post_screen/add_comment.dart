@@ -1,9 +1,4 @@
-// i need to create screen take post as a arrgument and show the post with the image and the text and the comments
-// and the user can add a comment and like the post
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/provider/post_provider.dart';

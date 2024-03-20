@@ -52,7 +52,7 @@ class ResetPasswordFooter extends StatelessWidget {
           height: 30,
         ),
         CustomButton(
-          buttontext: "LogIN",
+          buttonText: "LogIN",
           onPressed: () {},
         ),
         const SizedBox(

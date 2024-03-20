@@ -53,6 +53,7 @@ dependencies:
   path: ^1.9.0
   intl: ^0.18.1
   lottie: ^3.0.0
+  enefty_icons: ^1.0.7
   # ui packages
   
   

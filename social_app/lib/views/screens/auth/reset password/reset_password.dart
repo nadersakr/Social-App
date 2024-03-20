@@ -13,7 +13,7 @@ class ResetPasswordScreen extends StatelessWidget {
         body: Stack(
           alignment: Alignment.topCenter,
           children: [
-            const AuthImageAndText(),
+            // const AuthImageAndText(),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(

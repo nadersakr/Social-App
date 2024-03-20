@@ -41,8 +41,8 @@ class OnBoardignScreen extends StatelessWidget {
             height: 50.h,
             backgroundColors: AppColors.gray.withOpacity(0.5),
             onPressed: () {
-             AppSharedPreferences.setbool(
-                    key: 'isShowenOnboarding', value: true)
+              AppSharedPreferences.setbool(
+                      key: 'isShowenOnboarding', value: true)
                   .then(
                 (value) => Navigator.pushReplacement(
                   context,
@@ -52,7 +52,7 @@ class OnBoardignScreen extends StatelessWidget {
                 ),
               );
             },
-            buttontext: 'GET STARTED',
+            buttonText: 'GET STARTED',
           )
         ],
       ),

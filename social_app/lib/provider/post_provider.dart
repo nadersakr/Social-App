@@ -26,13 +26,12 @@ class PostController extends ChangeNotifier {
 
   Future<void> likePost({required String liker, required dynamic post}) async {
     if (post['likers'] == null) {
-     
       post['likers'] = [liker];
       post['isLiked'] = true;
     } else if (post['likers'].contains(liker)) {
       post['isLiked'] = false;
       post['likers'].remove(liker);
-      
+
       print("liked removed");
     } else {
       post['likers'].add(liker);
@@ -49,7 +48,6 @@ class PostController extends ChangeNotifier {
     notifyListeners();
   }
   //i need to detecte if user liked the post before or not then unlike when tap else like it
-
 
   Future<void> addComment(
       {required String comment,

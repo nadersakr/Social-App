@@ -108,7 +108,7 @@ class AuthFooterSignup extends StatelessWidget {
             height: 30,
           ),
           CustomButton(
-            buttontext: "Sign Up",
+            buttonText: "Sign Up",
             onPressed: () async {
               // Show circular progress indicator
 
