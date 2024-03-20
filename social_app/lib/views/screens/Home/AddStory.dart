@@ -1,7 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social_app/helper/animation.dart';
 
 class AddStoryScreen extends StatefulWidget {
   const AddStoryScreen({super.key});
@@ -34,18 +35,32 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
           ),
         ],
       ),
-      body: Center(
-          child: _image == null
-              ? const Text('No image selected.')
-              : Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      image: DecorationImage(
-                        image: FileImage(File(_image!.path)),
-                        fit: BoxFit.fitWidth,
-                      )),
-                  width: MediaQuery.of(context).size.width,
-                )),
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _image == null
+                ? AnimationLoder(
+                    animated: 'assets/animation/wired-gradient-61-camera.json',
+                    width: MediaQuery.of(context).size.width * 0.6,
+                  )
+                : Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        image: DecorationImage(
+                          image: FileImage(File(_image!.path)),
+                          fit: BoxFit.fitWidth,
+                        )),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height *
+                        0.5, // Add this line
+                  )
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // TODO: Implement save story functionality

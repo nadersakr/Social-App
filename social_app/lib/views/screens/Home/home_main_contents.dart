@@ -11,7 +11,7 @@ Widget homeMainContent(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         homeHeader(context),
-        homeStoryCards(),
+        homeStoryCards(context),
         const Divider(),
         homeTapButtons(),
         const Divider(),

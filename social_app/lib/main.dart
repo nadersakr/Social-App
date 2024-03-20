@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: isShowBording
             ? islogin
-                ? HomeScreen()
+                ? const HomeScreen()
                 : const LoginScreen()
             : const OnBoardignScreen(),
       ),
