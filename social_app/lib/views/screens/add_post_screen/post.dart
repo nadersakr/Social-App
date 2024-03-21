@@ -2,9 +2,14 @@
 
 //add post provider
 
+import 'package:enefty_icons/enefty_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/post_provider.dart';
+import 'package:social_app/utils/colors.dart';
 import 'package:social_app/views/screens/Home/diffrence_time.dart';
 
 class PostCard extends StatelessWidget {
@@ -45,123 +50,155 @@ class PostCard extends StatelessWidget {
     final postController = Provider.of<PostController>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: const Color.fromARGB(255, 211, 195, 244).withOpacity(0.2),
-      ),
+          borderRadius: BorderRadius.circular(15),
+          border:
+              Border.all(width: 1, color: AppColors.darkBlack.withOpacity(0.3)),
+          color: AppColors.blue.withOpacity(0.3)),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: press,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(
-                      avatarImage ??
-                          'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
+      child: Stack(
+        children: [
+          imageUrl == null
+              ? const SizedBox()
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.network(
+                    imageUrl!,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+          Positioned(
+            bottom: 10,
+            left: 20,
+            child: Selector<PostController, bool>(
+              selector: (context, postController) {
+                if (postController.posts[i!]['isLiked'] != null) {
+                  return postController.posts[i!]['isLiked'];
+                } else {
+                  return false;
+                }
+              },
+              builder: (context, liked, child) {
+                return Row(
+                  children: [
+                    GestureDetector(
+                      onTap: likeFunction,
+                      child: customContainer(
+                          active: liked,
+                          activeIcon: EneftyIcons.heart_bold,
+                          EneftyIcons.heart_outline,
+                          "${postController.posts[i!]['likers']?.length ?? 0}"),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userName ?? 'User Name',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        getDifferenceFromNow(time!) ?? '00',
-                        style: const TextStyle(
-                          color: Color.fromARGB(255, 193, 191, 191),
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    SizedBox(
+                      width: 1.sw / 6.w,
+                    ),
+                    GestureDetector(
+                      onTap: likeFunction,
+                      child: customContainer(
+                          EneftyIcons.message_text_outline, "$commentsNumber"),
+                    ),
+                  ],
+                );
+              },
             ),
-            GestureDetector(
-              onTap: navigateToAddcomment,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  postText == null
-                      ? const SizedBox(
-                          height: 20,
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            postText!,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: press,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(
+                          avatarImage ??
+                              'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            userName ?? 'User Name',
                             style: const TextStyle(
+                              fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),
-                        ),
-                  imageUrl == null
-                      ? const SizedBox()
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            imageUrl!,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
+                          Text(
+                            getDifferenceFromNow(time!) ?? '00',
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 193, 191, 191),
+                              fontSize: 12,
+                            ),
                           ),
-                        ),
-                  const SizedBox(height: 10),
-                  Selector<PostController, bool>(
-                      selector: (context, postController) {
-                    if (postController.posts[i!]['isLiked'] != null) {
-                      return postController.posts[i!]['isLiked'];
-                    } else {
-                      return false;
-                    }
-                  }, builder: (context, liked, child) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: likeFunction,
-                              icon: const Icon(Icons.thumb_up),
-                              color: (liked)
-                                  ? const Color.fromARGB(255, 208, 157, 255)
-                                  : const Color.fromARGB(255, 192, 191, 191),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: navigateToAddcomment,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      postText == null
+                          ? const SizedBox(
+                              height: 20,
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(32.0),
+                              child: Text(
+                                postText!,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
                             ),
-                            InkWell(
-                                onTap: () {},
-                                child: Text(
-                                    "${postController.posts[i!]['likers']?.length ?? 0}"))
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(Icons.comment),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text("$commentsNumber")
-                          ],
-                        ),
-                      ],
-                    );
-                  }),
-                ],
-              ),
-            )
-          ],
-        ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
+}
+
+Widget customContainer(IconData unActiveIcon, String text,
+    {Color? color, bool? active, IconData? activeIcon}) {
+  return Container(
+    height: 21.h,
+    width: 70.w,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20.w),
+      color: Colors.grey.shade500.withOpacity(0.4),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          (active ?? false) ? (activeIcon ?? Icons.add) : unActiveIcon,
+          size: 16.w,
+          color: (active ?? false) ? (AppColors.red) : AppColors.white,
+        ),
+        const SizedBox(width: 16),
+        Text(
+          text,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12.sp,
+          ),
+        ),
+      ],
+    ),
+  );
 }

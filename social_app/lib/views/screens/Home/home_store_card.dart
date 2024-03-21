@@ -8,10 +8,10 @@ class StoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(horizontal: 22.0.w),
       child: Container(
-        width: 50.h,
-        height: 50.h, // Added height to make it a perfect circle
+        width: 40.h,
+        height: 40.h, // Added height to make it a perfect circle
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(color: AppColors.blue, width: 2),
@@ -19,9 +19,9 @@ class StoryCard extends StatelessWidget {
             // Added boxShadow for better UI
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 2), // changes position of shadow
             ),
           ],
           image: const DecorationImage(

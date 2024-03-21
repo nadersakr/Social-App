@@ -1,7 +1,9 @@
+import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/views/screens/Home/AddStory.dart';
+import 'package:social_app/views/screens/Home/home_store_card.dart';
 
 Widget homeStoryCards(BuildContext context) {
   return SizedBox(
@@ -18,7 +20,10 @@ Widget homeStoryCards(BuildContext context) {
                 MaterialPageRoute(
                     builder: (context) => const AddStoryScreen())),
             child: const addStoryCard()),
-        // StoryCard(),
+        const StoryCard(),
+        const StoryCard(),
+        const StoryCard(),
+        const StoryCard(),
         // StoryCard(),
       ],
     ),
@@ -34,28 +39,31 @@ class addStoryCard extends StatelessWidget {
       child: Tooltip(
         message: 'Add a new story',
         child: Container(
-          height: 50.h,
-          width: 50.h,
+          height: 40.h,
+          width: 40.h,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [AppColors.blue.withOpacity(0.4), AppColors.blue],
+              colors: [
+                AppColors.buttonGradientOne,
+                AppColors.buttonGradientTwo
+              ],
             ),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.4),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3), // changes position of shadow
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(0, 2), // changes position of shadow
               ),
             ],
             shape: BoxShape.circle,
           ),
-          child: const Icon(
+          child: Icon(
             Icons.add,
-            size: 30,
-            color: Colors.white,
+            size: 30.w,
+            color: AppColors.darkBlack,
           ),
         ),
       ),

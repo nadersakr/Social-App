@@ -1,33 +1,48 @@
+import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/views/screens/Home/add_post.dart';
+import 'package:social_app/views/screens/Home/reusable_widgets.dart';
 
 Widget homeHeader(BuildContext context) {
   return SizedBox(
-    height: 50,
+    height: 110.h,
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Social App',
-            style: TextStyle(
-                color: AppColors.blue,
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
+          Padding(
+            padding: EdgeInsets.only(top: 24.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Socially',
+                  style: TextStyle(
+                      color: AppColors.darkBlack,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.sp),
+                ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AddPostScreen()));
+                    },
+                    icon: const Icon(
+                      EneftyIcons.notification_bold,
+                      color: AppColors.darkBlack,
+                    ))
+              ],
+            ),
           ),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddPostScreen()));
-              },
-              icon: const Icon(
-                Icons.search,
-                size: 40,
-              ))
+          Padding(
+            padding: EdgeInsets.only(top: 20.h),
+            child: customText("Feed", size: 18.sp),
+          )
         ],
       ),
     ),
