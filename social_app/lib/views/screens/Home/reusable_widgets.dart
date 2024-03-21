@@ -40,7 +40,7 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
           return Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.75,
+                height: MediaQuery.of(context).size.height * 0.6,
                 child: SingleChildScrollView(
                   child: Selector<AuthController, int>(
                     selector: (context, authController) =>

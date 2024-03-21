@@ -51,25 +51,21 @@ class PostCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          border:
-              Border.all(width: 1, color: AppColors.darkBlack.withOpacity(0.3)),
           color: AppColors.blue.withOpacity(0.3)),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       child: Stack(
         children: [
-          imageUrl == null
-              ? const SizedBox()
-              : ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.network(
-                    imageUrl!,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.network(
+              imageUrl!,
+              fit: BoxFit.cover,
+              width: double.infinity,
+            ),
+          ),
           Positioned(
-            bottom: 10,
-            left: 20,
+            bottom: 10.h,
+            left: 26.w,
             child: Selector<PostController, bool>(
               selector: (context, postController) {
                 if (postController.posts[i!]['isLiked'] != null) {
@@ -89,13 +85,17 @@ class PostCard extends StatelessWidget {
                           EneftyIcons.heart_outline,
                           "${postController.posts[i!]['likers']?.length ?? 0}"),
                     ),
-                    SizedBox(
-                      width: 1.sw / 6.w,
-                    ),
+                    SizedBox(width: 32.w),
                     GestureDetector(
-                      onTap: likeFunction,
+                      onTap: navigateToAddcomment,
                       child: customContainer(
                           EneftyIcons.message_text_outline, "$commentsNumber"),
+                    ),
+                    SizedBox(width: 32.w),
+                    GestureDetector(
+                      onTap: navigateToAddcomment,
+                      child: customContainer(
+                          EneftyIcons.archive_tick_outline, "$commentsNumber"),
                     ),
                   ],
                 );
@@ -126,14 +126,14 @@ class PostCard extends StatelessWidget {
                           Text(
                             userName ?? 'User Name',
                             style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: AppColors.white),
                           ),
                           Text(
                             getDifferenceFromNow(time!) ?? '00',
                             style: const TextStyle(
-                              color: Color.fromARGB(255, 193, 191, 191),
+                              color: AppColors.white,
                               fontSize: 12,
                             ),
                           ),
@@ -144,23 +144,10 @@ class PostCard extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: navigateToAddcomment,
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      postText == null
-                          ? const SizedBox(
-                              height: 20,
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.all(32.0),
-                              child: Text(
-                                postText!,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),
