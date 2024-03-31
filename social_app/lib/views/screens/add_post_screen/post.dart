@@ -3,9 +3,7 @@
 //add post provider
 
 import 'package:enefty_icons/enefty_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/post_provider.dart';
@@ -131,7 +129,7 @@ class PostCard extends StatelessWidget {
                                 color: AppColors.white),
                           ),
                           Text(
-                            getDifferenceFromNow(time!) ?? '00',
+                            getDifferenceFromNow(time!),
                             style: const TextStyle(
                               color: AppColors.white,
                               fontSize: 12,
