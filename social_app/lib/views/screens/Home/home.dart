@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     AuthController authControllerListenFalse =
         Provider.of<AuthController>(context, listen: false);
-    List<Widget> Screens = [
+    List<Widget> screens = [
       const HomePageWidjet(),
       const ChatsScreen(),
       const FavoriteScreen(),
@@ -36,8 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Selector<MenuCotroller, int>(
                 builder: (context, value, child) {
-                  print("screen rebuild");
-                  return Screens[value];
+                  return screens[value];
                 },
                 selector: (context, value) => value.currentIndex),
             const HomePageMenu(),
@@ -66,7 +65,6 @@ class HomePageWidjet extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            print(snapshot.error.toString());
             return Center(child: Text("${snapshot.error}"));
           } else {
             return homeMainContent(context);
@@ -103,7 +101,6 @@ class HomePageMenu extends StatelessWidget {
                 child: Selector<MenuCotroller, int>(
                   selector: (context, value) => value.currentIndex,
                   builder: (context, value, child) {
-                    print("menu rebuild");
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

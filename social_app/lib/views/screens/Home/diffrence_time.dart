@@ -8,7 +8,6 @@ String getDifferenceFromNow(String time) {
     try {
       dateTime = format.parse(time);
     } catch (e) {
-      print('Error parsing time: $e');
       return 'Invalid time format';
     }
 

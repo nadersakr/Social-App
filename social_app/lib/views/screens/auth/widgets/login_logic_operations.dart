@@ -4,7 +4,7 @@ import 'package:social_app/utils/shared-preferences/shared_preferences.dart';
 import 'package:social_app/views/screens/Home/home.dart';
 
 class LoginFunctions {
-  static Future<void> LoginFunction(
+  static Future<void> loginFunction(
       AuthController authControoler, BuildContext context) async {
     {
       if (authControoler.formKeyLogin.currentState!.validate()) {

@@ -10,10 +10,10 @@ class PreviewPostPage extends StatefulWidget {
   const PreviewPostPage({super.key, required this.post});
 
   @override
-  _PreviewPostPageState createState() => _PreviewPostPageState();
+  PreviewPostPageState createState() => PreviewPostPageState();
 }
 
-class _PreviewPostPageState extends State<PreviewPostPage> {
+class PreviewPostPageState extends State<PreviewPostPage> {
   bool _isExpanded = false;
   final TextEditingController _commentController = TextEditingController();
 
@@ -21,7 +21,6 @@ class _PreviewPostPageState extends State<PreviewPostPage> {
   Widget build(BuildContext context) {
     PostController postController = Provider.of<PostController>(context);
     AuthController authController = Provider.of<AuthController>(context);
-    print("widget.post['time'] ${widget.post['time']}");
     return Scaffold(
       appBar: AppBar(
         title: const Text('Preview Post'),

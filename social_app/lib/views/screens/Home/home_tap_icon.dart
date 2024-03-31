@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TapButton extends StatelessWidget {
   final Icon icon;
-  final isHomePage;
+  final bool isHomePage;
   final Widget widget;
   const TapButton({
     super.key,

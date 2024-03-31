@@ -71,9 +71,7 @@ class ChatScreen extends StatelessWidget {
                     chatServises.messages.sort((b, a) => DateTime.parse(a.time!)
                         .compareTo(DateTime.parse(b.time!)));
 
-                    print(
-                        "${chatServises.messages.length}=====================");
-                    print("snapshot.data=====================");
+                    
 
                     // display messages
                     return Selector<ChatServises, List<Message>>(

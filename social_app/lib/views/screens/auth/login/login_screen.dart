@@ -84,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                           CustomButton(
                             buttonText: "Login",
                             onPressed: () async {
-                              await LoginFunctions.LoginFunction(
+                              await LoginFunctions.loginFunction(
                                   authController, context);
                             },
                           ),

@@ -7,10 +7,10 @@ class AddStoryScreen extends StatefulWidget {
   const AddStoryScreen({super.key});
 
   @override
-  _AddStoryScreenState createState() => _AddStoryScreenState();
+  AddStoryScreenState createState() => AddStoryScreenState();
 }
 
-class _AddStoryScreenState extends State<AddStoryScreen> {
+class AddStoryScreenState extends State<AddStoryScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
 

@@ -7,10 +7,10 @@ class AddComment extends StatefulWidget {
   final Map<String, dynamic> post;
   const AddComment({super.key, required this.post});
   @override
-  _AddCommentState createState() => _AddCommentState();
+  AddCommentState createState() => AddCommentState();
 }
 
-class _AddCommentState extends State<AddComment> {
+class AddCommentState extends State<AddComment> {
   final TextEditingController _commentController = TextEditingController();
   @override
   Widget build(BuildContext context) {

@@ -52,9 +52,9 @@ class _OnBoardignScreenState extends State<OnBoardignScreen> {
           ),
           PageView.builder(
               itemCount: 3,
-              onPageChanged: (int) {
+              onPageChanged: (vale) {
                 setState(() {
-                  currentIndex = int;
+                  currentIndex = vale;
                 });
               },
               itemBuilder: (context, index) => Column(

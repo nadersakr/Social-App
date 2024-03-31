@@ -32,12 +32,10 @@ class PostController extends ChangeNotifier {
       post['isLiked'] = false;
       post['likers'].remove(liker);
 
-      print("liked removed");
     } else {
       post['likers'].add(liker);
       post['isLiked'] = true;
       isLiked = true;
-      print("liked post");
     }
     await FirebaseFirestore.instance
         .collection('posts')

@@ -1,8 +1,7 @@
-import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_app/utils/colors.dart';
-import 'package:social_app/views/screens/Home/AddStory.dart';
+import 'package:social_app/views/screens/Home/add_story.dart';
 import 'package:social_app/views/screens/Home/home_store_card.dart';
 
 Widget homeStoryCards(BuildContext context) {
@@ -19,7 +18,7 @@ Widget homeStoryCards(BuildContext context) {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const AddStoryScreen())),
-            child: const addStoryCard()),
+            child: const AddStoryCard()),
         const StoryCard(),
         const StoryCard(),
         const StoryCard(),
@@ -30,8 +29,8 @@ Widget homeStoryCards(BuildContext context) {
   );
 }
 
-class addStoryCard extends StatelessWidget {
-  const addStoryCard({super.key});
+class AddStoryCard extends StatelessWidget {
+  const AddStoryCard({super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
