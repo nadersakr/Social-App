@@ -13,6 +13,7 @@ Widget homeTapButtons() {
       children: [
         TapButton(
           widget: HomeScreen(),
+          isHomePage: true,
           icon: Icon(Icons.menu),
         ),
         TapButton(
@@ -29,6 +30,7 @@ Widget homeTapButtons() {
         ),
         TapButton(
           widget: HomeScreen(),
+          isHomePage: true,
           icon: Icon(Icons.home_outlined),
         ),
       ],
