@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/utils/colors.dart';
-import 'package:social_app/utils/widgets/animation_navigat_screen.dart';
 import 'package:social_app/utils/widgets/custom_button.dart';
 import 'package:social_app/views/reusable_components_widgets/validators.dart';
 import 'package:social_app/views/screens/Home/reusable_widgets.dart';
