@@ -26,6 +26,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => AuthController()),
       ChangeNotifierProvider(create: (_) => PostController()),
       ChangeNotifierProvider(create: (_) => ChatServises()),
+      ChangeNotifierProvider(create: (_) => MenuCotroller()),
     ],
     child: MyApp(isShowBording: isShowBoarding, islogin: islogin),
   ));
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
             ? islogin
                 ? const HomeScreen()
                 : const LoginScreen()
-            : OnBoardignScreen(),
+            : const OnBoardignScreen(),
       ),
     );
   }
