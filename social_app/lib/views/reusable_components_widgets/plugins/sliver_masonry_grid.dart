@@ -17,6 +17,7 @@ class SliverMasonryGrid extends SliverMultiBoxAdaptorWidget {
   ///
   /// The [mainAxisSpacing] and [crossAxisSpacing] arguments must be greater
   /// than zero.
+  // ignore: use_super_parameters
   const SliverMasonryGrid({
     Key? key,
     required SliverChildDelegate delegate,

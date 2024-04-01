@@ -1,3 +1,5 @@
+// ignore_for_file: use_super_parameters
+
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
@@ -92,8 +94,9 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
 
   @override
   void setupParentData(RenderObject child) {
-    if (child.parentData is! SliverMasonryGridParentData)
+    if (child.parentData is! SliverMasonryGridParentData) {
       child.parentData = SliverMasonryGridParentData();
+    }
   }
 
   SliverMasonryGridParentData _getParentData(RenderObject child) {
@@ -648,8 +651,9 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
 
     // We may have started the layout while scrolled to the end, which would not
     // expose a new child.
-    if (estimatedMaxScrollOffset == endScrollOffset)
+    if (estimatedMaxScrollOffset == endScrollOffset) {
       childManager.setDidUnderflow(true);
+    }
     childManager.didFinishLayout();
   }
 }
