@@ -110,26 +110,60 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
   }
 }
 
-customSubText(String text, {double? size, Color? color}) {
-  return Text(
-    text,
-    style: TextStyle(
-      fontFamily: 'Poppins',
-      fontSize: size ?? 18.sp,
-      // fontWeight: FontWeight.bold,
-      color: color ?? AppColors.black,
-    ),
-  );
+class CustomTextClasss {
+  static customSubText(String text, {double? size, Color? color}) {
+    return;
+  }
 }
 
-customText(String text, {double? size, Color? color}) {
-  return Text(
-    text,
-    style: TextStyle(
-      fontFamily: 'Poppins',
-      fontSize: size ?? 32.sp,
-      fontWeight: FontWeight.bold,
+class TextClass extends StatelessWidget {
+  final String text;
+  final double? size;
+  final Color? color;
+  final bool? isBold;
+  const TextClass(
+      {super.key, this.isBold, required this.text, this.size, this.color});
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: size ?? 18.sp,
+        fontWeight: isBold == true ? FontWeight.bold : FontWeight.normal,
+        color: color ?? AppColors.black,
+      ),
+    );
+  }
+
+  factory TextClass.titleText(String text, {double? size, Color? color}) {
+    return TextClass(
+      text: text,
+      size: size ?? 32,
       color: color ?? AppColors.darkBlack,
-    ),
-  );
+      isBold: true,
+    );
+  }
+  factory TextClass.subTitleText(String text, {double? size, Color? color}) {
+    return TextClass(
+      text: text,
+      isBold: true,
+      size: size ?? 24,
+      color: color ?? AppColors.darkBlack,
+    );
+  }
+  factory TextClass.bodyText(String text, {double? size, Color? color}) {
+    return TextClass(
+      text: text,
+      size: size ?? 18,
+      color: color,
+    );
+  }
+  factory TextClass.subBodyText(String text, {double? size, Color? color}) {
+    return TextClass(
+      text: text,
+      size: size ?? 16,
+      color: color,
+    );
+  }
 }

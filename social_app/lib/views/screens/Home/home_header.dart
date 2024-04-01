@@ -41,7 +41,11 @@ Widget homeHeader(BuildContext context) {
           ),
           Padding(
             padding: EdgeInsets.only(top: 20.h),
-            child: customText("Feed", size: 18.sp),
+            child: TextClass.titleText(
+              "Feed",
+              size: 18.sp,
+              color: AppColors.darkBlack,
+            ),
           )
         ],
       ),
