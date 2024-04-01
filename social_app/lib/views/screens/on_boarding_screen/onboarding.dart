@@ -39,8 +39,8 @@ class _OnBoardignScreenState extends State<OnBoardignScreen> {
           Positioned(
             top: 60.h,
             left: (1.sw / 2) - 65,
-            child: Center(
-              child: TextClass(text:'Welcome to'),
+            child: const Center(
+              child: TextClass(text: 'Welcome to'),
             ),
           ),
           Positioned(
@@ -69,7 +69,7 @@ class _OnBoardignScreenState extends State<OnBoardignScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.all(20.h),
-                        child: TextClass(text:descriptions[index]),
+                        child: TextClass(text: descriptions[index]),
                       ),
                       SizedBox(
                         height: 200.h,
