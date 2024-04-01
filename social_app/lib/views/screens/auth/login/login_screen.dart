@@ -32,14 +32,11 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: 150.h), // Adjust the height as needed
-                    Positioned(
-                      top: 60.h,
-                      left: (1.sw / 2) - 65.w,
-                      child: Center(
-                        child: customSubText('Login to your account',
-                            color: Colors.black),
-                      ),
+                    SizedBox(height: 150.h),
+                    Align(
+                      alignment: Alignment.center,
+                      child: TextClass(text:'Login to your account',
+                          color: Colors.black),
                     ),
                     SizedBox(height: 30.h),
                     Form(
