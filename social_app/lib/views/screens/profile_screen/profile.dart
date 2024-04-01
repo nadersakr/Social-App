@@ -1,20 +1,15 @@
-import 'dart:math';
 import 'package:enefty_icons/enefty_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/views/reusable_components_widgets/plugins/masonry_grid_view.dart';
-import 'package:social_app/views/screens/Friends/my_friends.dart';
+// import 'package:social_app/views/screens/Friends/my_friends.dart';
 import 'package:social_app/views/screens/Home/reusable_widgets.dart';
 import 'package:social_app/views/screens/profile_screen/custom_clip_path.dart';
-import 'package:social_app/views/screens/profile_screen/edit_profile.dart';
+// import 'package:social_app/views/screens/profile_screen/edit_profile.dart';
 
 // class ProfileScreen extends StatelessWidget {
 //   const ProfileScreen({super.key});
@@ -132,31 +127,6 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    List<Widget> containers = [
-      ClipRRect(
-        borderRadius: BorderRadius.circular(20.sp),
-        child: Container(
-          color: Colors.red,
-          height: 200,
-          width: 200,
-        ),
-      ),
-      Container(
-        color: Colors.blue,
-        height: 300,
-        width: 300,
-      ),
-      Container(
-        color: Colors.green,
-        height: 100,
-        width: 200,
-      ),
-      Container(
-        color: Colors.green,
-        height: 100,
-        width: 200,
-      ),
-    ];
     AuthController authController =
         Provider.of<AuthController>(context, listen: false);
     return Scaffold(
@@ -268,20 +238,23 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(12.w),
                   child: SizedBox(
                     height: 0.4.sh,
                     child: MasonryGridView.count(
                       physics: const BouncingScrollPhysics(),
                       crossAxisCount: 2,
-                      mainAxisSpacing: 4,
-                      crossAxisSpacing: 4,
+                      mainAxisSpacing: 12.w,
+                      crossAxisSpacing: 12.w,
                       itemBuilder: (context, index) {
                         return ClipRRect(
                             borderRadius: BorderRadius.circular(20.sp),
-                            child: containers[index]);
+                            child: Image.network(
+                              authController.mainUser.posts![index]['imageUrl'],
+                              fit: BoxFit.cover,
+                            ));
                       },
-                      itemCount: 4,
+                      itemCount: authController.mainUser.posts!.length,
                     ),
                   ),
                 ),
