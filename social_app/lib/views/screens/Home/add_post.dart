@@ -69,7 +69,8 @@ class AddPostScreenState extends State<AddPostScreen> {
               children: [
                 SizedBox(
                     width: 1.sw,
-                    child: customText("Upload Your Image", size: 20.sp)),
+                    child:
+                        TextClass.titleText("Upload Your Image", size: 20.sp)),
                 SizedBox(
                   height: 30.h,
                 ),
