@@ -40,14 +40,14 @@ class _OnBoardignScreenState extends State<OnBoardignScreen> {
             top: 60.h,
             left: (1.sw / 2) - 65,
             child: Center(
-              child: customSubText('Welcome to'),
+              child: TextClass(text:'Welcome to'),
             ),
           ),
           Positioned(
             top: 80.h,
             left: (1.sw / 2) - 75,
             child: Center(
-              child: customText('Socially'),
+              child: TextClass.titleText('Socially'),
             ),
           ),
           PageView.builder(
@@ -69,7 +69,7 @@ class _OnBoardignScreenState extends State<OnBoardignScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.all(20.h),
-                        child: customSubText(descriptions[index]),
+                        child: TextClass(text:descriptions[index]),
                       ),
                       SizedBox(
                         height: 200.h,
