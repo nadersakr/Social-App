@@ -14,8 +14,8 @@ class AuthImageAndTextSignUp extends StatelessWidget {
       height: 0.1.sh,
       width: double.infinity,
       color: AppColors.blue,
-      child: Center(
-        child: customSubText("Sign Up", color: Colors.black),
+      child: const Center(
+        child: TextClass(text: "Sign Up", color: Colors.black),
       ),
     );
   }
