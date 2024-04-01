@@ -33,10 +33,10 @@ class LoginScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(height: 150.h),
-                    Align(
+                    const Align(
                       alignment: Alignment.center,
-                      child: TextClass(text:'Login to your account',
-                          color: Colors.black),
+                      child: TextClass(
+                          text: 'Login to your account', color: Colors.black),
                     ),
                     SizedBox(height: 30.h),
                     Form(
