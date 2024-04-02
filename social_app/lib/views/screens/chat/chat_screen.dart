@@ -24,7 +24,7 @@ class ChatScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 20,
-              backgroundImage: NetworkImage(resevier.avatar!),
+              backgroundImage: NetworkImage(resevier.avatar),
             ),
             const SizedBox(
               width: 15,

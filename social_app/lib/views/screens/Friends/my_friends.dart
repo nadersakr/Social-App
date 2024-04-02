@@ -38,7 +38,7 @@ class MyFriends extends StatelessWidget {
                     '========================================================');
                 return ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(friend.avatar!),
+                    backgroundImage: NetworkImage(friend.avatar),
                   ),
                   title: Text(
                     friend.userName!,

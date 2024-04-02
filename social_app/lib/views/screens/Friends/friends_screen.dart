@@ -81,7 +81,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              '${authcontroller.requestesfriendsMainUser[index].avatar}'), // Display request index
+                              authcontroller.requestesfriendsMainUser[index].avatar), // Display request index
                         ),
                         title: Text(authcontroller
                                 .requestesfriendsMainUser[index].userName ??
@@ -140,7 +140,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              '${authcontroller.users[index].avatar}'),
+                              authcontroller.users[index].avatar),
                         ),
                         title: Text('${authcontroller.users[index].userName}'),
                         trailing: IconButton(
