@@ -8,8 +8,7 @@ class MainUser {
   String? address = "";
   String? userUID = "nnnnnnn";
   String? email = "user@example.com";
-  String? avatar =
-      "https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg";
+  String avatar;
   List<dynamic>? friends = [];
   List<dynamic>? posts = [];
   List<dynamic>? pendingfriends = [];
@@ -18,7 +17,8 @@ class MainUser {
 
   MainUser(
       {this.userName,
-      this.avatar,
+      this.avatar =
+          "https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg",
       this.email,
       this.friends,
       this.aboutMe,
@@ -32,7 +32,8 @@ class MainUser {
   static MainUser fromjsontoDart(
       Map<String, dynamic>? jsonfile, User? userInfo, String? directUid) {
     return MainUser(
-        avatar: jsonfile!['avatar'],
+        avatar: jsonfile!['avatar'] ??
+            "https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg",
         email: jsonfile['email'],
         friends: jsonfile['friends'],
         requestesfriends: jsonfile['requestesfriends'],
@@ -75,7 +76,8 @@ class MainUser {
   }
 
   void setAvatar(String? userAvatar) {
-    avatar = userAvatar;
+    avatar = userAvatar ??
+        "https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg";
   }
 
   void setFriends(List<String>? userFriends) {
