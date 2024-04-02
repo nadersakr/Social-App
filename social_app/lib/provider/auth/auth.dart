@@ -28,6 +28,7 @@ class AuthController extends ChangeNotifier {
   var formKeySignUp = GlobalKey<FormState>();
   var formKeyLogin = GlobalKey<FormState>();
   var formKeyEditProfile = GlobalKey<FormState>();
+  var storage = FirebaseFirestore.instance;
 
   // --------------------- Text Controllers ------------------------------------------------------------
   var mailSignUpController = TextEditingController();
@@ -167,7 +168,6 @@ Future<void> signout() async {
   // Method to get friends of the current user
   Future<void> getFriends() async {
     if (isFirstTimeGetFriends) {
-      var storage = FirebaseFirestore.instance;
       var snapshot = await storage.collection('users').get();
       users = snapshot.docs.map((doc) {
         MainUser userMain = MainUser.fromjsontoDart(doc.data(), null, doc.id);
