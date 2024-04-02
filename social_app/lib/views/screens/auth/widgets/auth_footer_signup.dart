@@ -138,12 +138,12 @@ class AuthFooterSignup extends StatelessWidget {
                     'friends': [],
                     'requestesfriends': [],
                     'email': authController.mailSignUpController.text,
-                    'bio': '',
-                    'aboutMe': '',
-                    'phone': '',
-                    'address': '',
-                    'avatar':
-                        'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg'
+                  });
+                  await FirebaseFirestore.instance
+                      .collection('posts')
+                      .doc(usercridatinal.user?.uid)
+                      .set({
+                    'posts': [],
                   });
                 }
 
