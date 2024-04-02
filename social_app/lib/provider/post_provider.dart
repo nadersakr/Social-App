@@ -9,14 +9,12 @@ class PostController extends ChangeNotifier {
   int pointer = 7;
   Future<void> getPosts(MainUser mainUser) async {
     posts.clear();
-
     var stroge = FirebaseFirestore.instance;
     QuerySnapshot<Map<String, dynamic>> postsGet = await stroge
         .collection('posts')
         .where('owner',
             whereIn: [...?mainUser.friends, mainUser.userUID]).get();
     var postData = postsGet.docs;
-
     for (var doc in postData) {
       Map<String, dynamic> post = {...doc.data(), 'id': doc.id};
       post['isLiked'] = post['likers']?.contains(mainUser.userUID) ?? false;
@@ -31,7 +29,6 @@ class PostController extends ChangeNotifier {
     } else if (post['likers'].contains(liker)) {
       post['isLiked'] = false;
       post['likers'].remove(liker);
-
     } else {
       post['likers'].add(liker);
       post['isLiked'] = true;
