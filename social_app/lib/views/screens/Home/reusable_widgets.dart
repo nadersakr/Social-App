@@ -79,7 +79,7 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
                                   avatarImage: authController
                                       .usersMap[postController.posts[i]
                                           ['owner']]
-                                      ?.avatar,
+                                      ?.avatar??"https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg",
                                   userName: authController
                                       .usersMap[postController.posts[i]
                                           ['owner']]

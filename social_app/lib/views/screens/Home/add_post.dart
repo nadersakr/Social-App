@@ -148,6 +148,9 @@ class AddPostScreenState extends State<AddPostScreen> {
                         var user = storage
                             .collection("users")
                             .doc(authController.mainUser.userUID);
+                        var posts = storage
+                            .collection("posts")
+                            .doc(authController.mainUser.userUID);
 
                         // Upload image to Firebase Storage
                         String? imageUrl;
@@ -183,6 +186,7 @@ class AddPostScreenState extends State<AddPostScreen> {
                         await user.update({
                           'posts': FieldValue.arrayUnion([post]),
                         });
+                        await posts.update({'posts':FieldValue.arrayUnion([post])});
                         FocusManager.instance.primaryFocus?.unfocus();
                         Navigator.of(context).pop();
                       }
