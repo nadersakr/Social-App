@@ -33,7 +33,7 @@ class EditProfileScreen extends StatelessWidget {
                       radius: 60,
                       backgroundImage: authController.imageFile != null
                           ? FileImage(authController.imageFile!)
-                          : NetworkImage('${authController.mainUser.avatar}')
+                          : NetworkImage(authController.mainUser.avatar)
                               as ImageProvider),
                   CircleAvatar(
                     backgroundColor: AppColors.blue,

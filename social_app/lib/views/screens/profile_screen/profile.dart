@@ -158,7 +158,7 @@ class ProfileScreen extends StatelessWidget {
                         width: 90.w,
                         height: 90.w,
                         child: Image.network(
-                          authController.mainUser.avatar!,
+                          authController.mainUser.avatar,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -249,12 +249,13 @@ class ProfileScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return ClipRRect(
                             borderRadius: BorderRadius.circular(20.sp),
-                            child: Image.network(
-                              authController.mainUser.posts![index]['imageUrl'],
+                            child: Image.network(authController.mainUser.posts![index]
+                                      ['imageUrl']??
+                              "https://img.freepik.com/free-vector/flat-arabic-pattern-background_79603-1826.jpg?size=626&ext=jpg&ga=GA1.1.1039938112.1708868328&semt=sph",
                               fit: BoxFit.cover,
                             ));
                       },
-                      itemCount: authController.mainUser.posts!.length,
+                      itemCount: (authController.mainUser.posts ?? []).length,
                     ),
                   ),
                 ),

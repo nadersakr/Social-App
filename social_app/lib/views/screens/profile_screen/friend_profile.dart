@@ -35,7 +35,7 @@ class FriendProfile extends StatelessWidget {
               child: CircleAvatar(
                 radius: 80,
                 backgroundImage: NetworkImage(
-                  friend.avatar!,
+                  friend.avatar,
                 ),
               ),
             ),
