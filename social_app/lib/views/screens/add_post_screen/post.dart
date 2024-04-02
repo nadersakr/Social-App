@@ -11,7 +11,7 @@ import 'package:social_app/utils/colors.dart';
 import 'package:social_app/views/screens/Home/diffrence_time.dart';
 
 class PostCard extends StatelessWidget {
-  String? avatarImage;
+  String avatarImage;
   int? i;
   String? userName;
   String? postText;
@@ -113,8 +113,7 @@ class PostCard extends StatelessWidget {
                       CircleAvatar(
                         radius: 20,
                         backgroundImage: NetworkImage(
-                          avatarImage ??
-                              'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
+                          avatarImage,
                         ),
                       ),
                       const SizedBox(width: 10),

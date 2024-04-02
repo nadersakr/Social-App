@@ -40,7 +40,7 @@ class PreviewPostPageState extends State<PreviewPostPage> {
                     children: [
                       CircleAvatar(
                         backgroundImage: NetworkImage(authController
-                            .usersMap[widget.post['owner']]!.avatar!),
+                            .usersMap[widget.post['owner']]!.avatar),
                       ),
                       const SizedBox(width: 8.0),
                       Column(
