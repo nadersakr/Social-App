@@ -18,6 +18,7 @@ class AuthController extends ChangeNotifier {
   List<dynamic> requestesfriendsController = [];
   List<MainUser> myFriends = [];
   bool isobscureText = true;
+  bool isUserNameExists = false;
   bool isDataLoaded = false;
   bool isFirstTimeGetFriends = true;
   bool isobscureSignpass = true;
@@ -31,6 +32,8 @@ class AuthController extends ChangeNotifier {
   var storage = FirebaseFirestore.instance;
 
   // --------------------- Text Controllers ------------------------------------------------------------
+  var firstNameSignUpController = TextEditingController();
+  var secondNameSignUpController = TextEditingController();
   var mailSignUpController = TextEditingController();
   var userNameSignUpController = TextEditingController();
   var bioProfileController = TextEditingController();
@@ -43,7 +46,7 @@ class AuthController extends ChangeNotifier {
   var passwordLoginController = TextEditingController();
 
   // --------------------- Firebase Auth Methods --------------------------------------------------------
-  
+
   // Method to sign up a user with email and password
   Future<UserCredential?> signUp({
     required String mail,
@@ -88,7 +91,7 @@ class AuthController extends ChangeNotifier {
   }
 
   // Method to sign out the current user
-Future<void> signout() async {
+  Future<void> signout() async {
     await FirebaseAuth.instance.signOut();
     isFirstTimeGetFriends = true;
     isDataLoaded = false;
@@ -96,7 +99,7 @@ Future<void> signout() async {
   }
 
   // --------------------- Firestore Data Methods ----------------------------------------------------------
-  
+
   // Method to get app data
   Future<void> getAppData() async {
     if (!isDataLoaded) {
@@ -124,10 +127,9 @@ Future<void> signout() async {
     requestesfriendsController = mainUser.requestesfriends ?? [];
     myFriends = await fromUIDListToMainUsers(mainUser.friends ?? []);
     print("=====================${mainUser.userUID}");
-    print("=====================${mainUser.requestesfriends}");
-    print("=====================${mainUser.pendingfriends}");
-    print("=====================${mainUser.friends}");
- 
+    // print("=====================${mainUser.requestesfriends}");
+    // print("=====================${mainUser.pendingfriends}");
+    // print("=====================${mainUser.friends}");
   }
 
   // Method to add a new user to Firestore
@@ -164,7 +166,7 @@ Future<void> signout() async {
   }
 
   // --------------------- Friends Management Methods ---------------------
-  
+
   // Method to get friends of the current user
   Future<void> getFriends() async {
     if (isFirstTimeGetFriends) {
@@ -198,11 +200,10 @@ Future<void> signout() async {
       users.removeWhere((element) => element.userUID == mainUser.userUID);
       isFirstTimeGetFriends = false;
     }
-
   }
 
   // Method to add a user to the requested friends list
-Future<void> addMainUserToRequestedFriends(String friendUID) async {
+  Future<void> addMainUserToRequestedFriends(String friendUID) async {
     var currentUserUID = FirebaseAuth.instance.currentUser?.uid;
     var usersCollection = FirebaseFirestore.instance.collection('users');
     pendingfriendsController.add(friendUID);
@@ -310,7 +311,7 @@ Future<void> addMainUserToRequestedFriends(String friendUID) async {
   }
 
   // --------------------- User Profile Methods ---------------------
-  
+
   // Method to add an image file
   void addFileImage(XFile image) {
     imageFile = File(image.path);
@@ -351,7 +352,7 @@ Future<void> addMainUserToRequestedFriends(String friendUID) async {
   }
 
   // Method to convert a UID to a main user
-Future<MainUser> fromUIDToMainUser(String uid) async {
+  Future<MainUser> fromUIDToMainUser(String uid) async {
     var storage = FirebaseFirestore.instance;
     var userFriend = await storage.collection('users').doc(uid).get();
     MainUser userFriendMain =
@@ -360,7 +361,7 @@ Future<MainUser> fromUIDToMainUser(String uid) async {
   }
 
   // --------------------- Visibility Methods ---------------------
-  
+
   // Method to toggle the visibility of the password
   void visibility() {
     isobscureText = !isobscureText;
