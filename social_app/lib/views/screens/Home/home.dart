@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             Selector<MenuCotroller, int>(

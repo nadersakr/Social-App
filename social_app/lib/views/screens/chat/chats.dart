@@ -29,140 +29,143 @@ class _ChatsScreenState extends State<ChatsScreen> {
     ChatServises chatServises =
         Provider.of<ChatServises>(context, listen: true);
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
-      children: [
-        SizedBox(
-          height: 1.sh,
-          width: 1.sw,
-          child: SvgPicture.asset(
-            "assets/svg/backgroundChats.svg",
-            fit: BoxFit.fitWidth,
-            alignment: Alignment.bottomCenter,
-          ),
-        ),
-        SingleChildScrollView(
-          
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 24.h, left: 24.w, bottom: 24.w),
-                child: TextClass.titleText(
-                  "Messages",
-                  size: 24.sp,
-                  color: AppColors.darkBlack,
-                ),
+          children: [
+            SizedBox(
+              height: 1.sh,
+              width: 1.sw,
+              child: SvgPicture.asset(
+                "assets/svg/backgroundChats.svg",
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.bottomCenter,
               ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: SizedBox(
-                    height: 42.h,
-                    width: 290.w,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(14.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 2,
-                            blurRadius: 8,
-                            offset:
-                                const Offset(0, 2), // changes position of shadow
+            ),
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.only(top: 24.h, left: 24.w, bottom: 24.w),
+                    child: TextClass.titleText(
+                      "Messages",
+                      size: 24.sp,
+                      color: AppColors.darkBlack,
+                    ),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: SizedBox(
+                        height: 42.h,
+                        width: 290.w,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(14.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 2,
+                                blurRadius: 8,
+                                offset: const Offset(
+                                    0, 2), // changes position of shadow
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          fillColor: AppColors.white,
-                          labelText: 'Search for content',
-                          labelStyle: TextStyle(
-                            color: AppColors.midLightGrey,
-                            fontSize: 14.sp,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.all(Radius.circular(14.r)),
-                          ),
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 18.w),
-                            child: const Icon(
-                              EneftyIcons.search_normal_2_outline,
-                              color: AppColors.darkBlack,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              fillColor: AppColors.white,
+                              hintText: 'Search for content',
+                              labelStyle: TextStyle(
+                                color: AppColors.grey,
+                                fontSize: 14.sp,
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(14.r)),
+                              ),
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 18.w),
+                                child: const Icon(
+                                  EneftyIcons.search_normal_2_outline,
+                                  color: AppColors.darkBlack,
+                                ),
+                              ),
                             ),
+                            onChanged: (value) {
+                              // Implement your search logic here
+                            },
                           ),
                         ),
-                        onChanged: (value) {
-                          // Implement your search logic here
-                        },
                       ),
                     ),
                   ),
-                ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  SizedBox(
+                    height: 1.sh - 160.h,
+                    child: StreamBuilder(
+                      stream: chatServises.getChatsStream(authController),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: TextClass.subTitleText('An Error Occurred'),
+                          );
+                        }
+                        if (snapshot.hasData) {
+                          return FutureBuilder(
+                              future: setmainUsers(
+                                  chatServises, authController, snapshot),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: TextClass.subBodyText(
+                                        'An Error Occurred.'),
+                                  );
+                                }
+                                if (snapshot.hasData) {
+                                  return ListView.builder(
+                                    itemBuilder: (context, i) => ChatKit(
+                                      friend: snapshot.data![i].friend!,
+                                      lastMessage:
+                                          snapshot.data![i].lastMessage ?? "",
+                                      time: snapshot.data![i].time,
+                                    ),
+                                    itemCount: snapshot.data!.length,
+                                  );
+                                }
+                                return const Center(
+                                  child: Text('No Chats'),
+                                );
+                              });
+                        }
+                        return const Center(
+                          child: Text('No Chats'),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 20.h,
-              ),
-              SizedBox(
-                height: 1.sh - 160.h,
-                child: StreamBuilder(
-                  stream: chatServises.getChatsStream(authController),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: TextClass.subTitleText('An Error Occurred'),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      return FutureBuilder(
-                          future: setmainUsers(
-                              chatServises, authController, snapshot),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            if (snapshot.hasError) {
-                              return Center(
-                                child:
-                                    TextClass.subBodyText('An Error Occurred.'),
-                              );
-                            }
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                itemBuilder: (context, i) => ChatKit(
-                                  friend: snapshot.data![i].friend!,
-                                  lastMessage:
-                                      snapshot.data![i].lastMessage ?? "",
-                                  time: snapshot.data![i].time,
-                                ),
-                                itemCount: snapshot.data!.length,
-                              );
-                            }
-                            return const Center(
-                              child: Text('No Chats'),
-                            );
-                          });
-                    }
-                    return const Center(
-                      child: Text('No Chats'),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ));
+            ),
+          ],
+        ));
   }
 }
 
