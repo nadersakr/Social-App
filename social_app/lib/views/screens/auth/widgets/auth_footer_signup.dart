@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/utils/widgets/custom_button.dart';
@@ -17,7 +18,7 @@ class AuthFooterSignup extends StatelessWidget {
     if (value!.isEmpty) {
       return 'Fill Password';
     } else if (value.length < 8) {
-      return 'Password must be more than 8 characters';
+      return 'Password must be more than 7 characters';
     } else {
       return null;
     }
@@ -32,16 +33,53 @@ class AuthFooterSignup extends StatelessWidget {
       child: Column(
         // mainAxisAlignment: MainAxisAlignment,
         children: [
-          const SizedBox(
-            height: 30,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomTextField(
+                  width: 0.45.sw,
+                  suffixIcon: const Icon(EneftyIcons.user_outline),
+                  controller: authController.firstNameSignUpController,
+                  hintText: 'First Name',
+                  maxlenght: 9,
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'First name Required';
+                    } else if (value.length > 9) {
+                      return 'must be less than 10 characters';
+                    } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                      return 'Please enter a valid name';
+                    }
+                    return null;
+                  }),
+              CustomTextField(
+                  maxlenght: 9,
+                  width: 0.45.sw,
+                  suffixIcon: const Icon(EneftyIcons.user_outline),
+                  controller: authController.secondNameSignUpController,
+                  hintText: 'Second Name',
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Second name Required';
+                    } else if (value.length > 9) {
+                      return 'must be less than 10 characters';
+                    } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                      return 'Please enter a valid name';
+                    }
+                    return null;
+                  })
+            ],
           ),
           CustomTextField(
+              suffixIcon: const Icon(EneftyIcons.sms_outline),
               controller: authController.mailSignUpController,
               hintText: 'Email',
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'field email address';
+                  return 'Email address is Required';
                 } else if (!RegExp(
                         r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
                     .hasMatch(value)) {
@@ -49,24 +87,19 @@ class AuthFooterSignup extends StatelessWidget {
                 }
                 return null;
               }),
-          const SizedBox(
-            height: 20,
-          ),
           CustomTextField(
+            suffixIcon: const Icon(EneftyIcons.user_search_outline),
             controller: authController.userNameSignUpController,
             hintText: 'username',
             keyboardType: TextInputType.text,
             validator: (value) {
               if (value!.isEmpty) {
                 return "username is required";
-              } else if (value.length < 4) {
-                return "username must be more than 3 characters";
+              } else if (value.length <= 4) {
+                return "username must be more than 4 characters";
               }
               return null;
             },
-          ),
-          const SizedBox(
-            height: 20,
           ),
           CustomTextField(
             controller: authController.passwordSignUpController,
@@ -79,9 +112,6 @@ class AuthFooterSignup extends StatelessWidget {
             keyboardType: TextInputType.text,
             obscureText: authController.isobscureSignpass,
             validator: validatorPassword,
-          ),
-          const SizedBox(
-            height: 20,
           ),
           CustomTextField(
             controller: authController.confirmPasswordSignUpController,
@@ -97,7 +127,7 @@ class AuthFooterSignup extends StatelessWidget {
               if (value!.isEmpty) {
                 return 'Fill Password';
               } else if (value.length < 8) {
-                return 'Password must be more than 8 characters';
+                return 'Password must be more than 7 characters';
               } else if (value !=
                   authController.passwordSignUpController.text) {
                 return 'Confirm Password must match Password';
@@ -105,15 +135,28 @@ class AuthFooterSignup extends StatelessWidget {
               return null;
             },
           ),
-          const SizedBox(
-            height: 30,
+          SizedBox(
+            height: 20.h,
           ),
           CustomButton(
             buttonText: "Sign Up",
             onPressed: () async {
-              // Show circular progress indicator
-
-              if (authController.formKeySignUp.currentState!.validate()) {
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .where('username',
+                      isEqualTo: authController.userNameSignUpController.text)
+                  .get()
+                  .then((value) {
+                if (value.docs.isNotEmpty) {
+                  authController.isUserNameExists = true;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("username already in use")));
+                } else {
+                  authController.isUserNameExists = false;
+                }
+              });
+              if (authController.formKeySignUp.currentState!.validate() &&
+                  !authController.isUserNameExists) {
                 showDialog(
                   context: context,
                   barrierDismissible: false,
@@ -166,14 +209,11 @@ class AuthFooterSignup extends StatelessWidget {
                       builder: (context) => const LoginScreen()));
                 }
                 authController.firebaseAuthErrorTypSignup = null;
-                // Dismiss circular progress indicator
-
-                // Navigate to LoginScreen
               }
             },
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: 20.h,
           ),
           TextRow(
             text: 'Already have account?',
