@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/utils/widgets/custom_button.dart';
+import 'package:social_app/view_model/login_viewmodel.dart';
 import 'package:social_app/views/reusable_components_widgets/validators.dart';
 import 'package:social_app/views/screens/Home/reusable_widgets.dart';
 import 'package:social_app/views/screens/auth/signup/signup_screen.dart';
@@ -18,27 +18,32 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoginViewModel loginViewModel =
+        Provider.of<LoginViewModel>(context, listen: false);
     var authController = Provider.of<AuthController>(context);
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            SvgPicture.asset('assets/svg/1.svg'),
+            SvgPicture.asset(
+              loginViewModel.svg,
+            ),
             SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(loginViewModel.heightScreen_20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: 150.h),
-                    const Align(
+                    SizedBox(height: loginViewModel.heightSpace_150),
+                    Align(
                       alignment: Alignment.center,
                       child: TextClass(
-                          text: 'Login to your account', color: Colors.black),
+                          text: loginViewModel.doYouHaveAccountString,
+                          color: Colors.black),
                     ),
-                    SizedBox(height: 30.h),
+                    SizedBox(height: loginViewModel.heightSpace_30),
                     Form(
                       key: authController.formKeyLogin,
                       child: Column(
@@ -46,14 +51,14 @@ class LoginScreen extends StatelessWidget {
                           CustomTextField(
                             suffixIcon: const Icon(EneftyIcons.user_outline),
                             controller: authController.mailLoginController,
-                            hintText: 'Email',
+                            hintText: loginViewModel.emailString,
                             keyboardType: TextInputType.emailAddress,
                             validator: Tvalidator.emailvalidator,
                           ),
-                          SizedBox(height: 20.h),
+                          SizedBox(height: loginViewModel.heightScreen_20),
                           CustomTextField(
                             controller: authController.passwordLoginController,
-                            hintText: 'Password',
+                            hintText: loginViewModel.passwordString,
                             obscureText: authController.isobscureText,
                             suffixIcon: InkWell(
                               onTap: authController.visibility,
@@ -64,31 +69,31 @@ class LoginScreen extends StatelessWidget {
                             keyboardType: TextInputType.text,
                             validator: Tvalidator.passwordValidator,
                           ),
-                          SizedBox(height: 25.h),
+                          SizedBox(height: loginViewModel.heightScreen_20),
                           InkWell(
                             onTap: () async {
                               // Your forgot password logic here
                             },
                             child: Text(
-                              'Forget Password?',
+                              loginViewModel.forgetPasswordString,
                               style: TextStyle(
-                                fontSize: 14.sp,
+                                fontSize: loginViewModel.smallFont,
                                 color: AppColors.darkBlack,
                               ),
                             ),
                           ),
-                          SizedBox(height: 30.h),
+                          SizedBox(height: loginViewModel.heightSpace_30),
                           CustomButton(
-                            buttonText: "Login",
+                            buttonText: loginViewModel.loginString,
                             onPressed: () async {
                               await LoginFunctions.loginFunction(
                                   authController, context);
                             },
                           ),
-                          SizedBox(height: 30.h),
+                          SizedBox(height: loginViewModel.heightSpace_30),
                           TextRow(
-                            text: 'Don\'t have an account?',
-                            textButton: "SignUp",
+                            text: loginViewModel.doYouHaveAccountString,
+                            textButton: loginViewModel.signUpString,
                             onPressed: () {
                               Navigator.of(context)
                                   .pushReplacement(PageRouteBuilder(
