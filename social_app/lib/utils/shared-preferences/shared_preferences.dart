@@ -13,6 +13,7 @@ class AppSharedPreferences {
   }
 
   static bool? getValue({required String value}) {
+  
     return sharedPreference?.getBool(value);
   }
 
