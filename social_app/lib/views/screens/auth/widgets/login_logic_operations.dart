@@ -24,7 +24,7 @@ class LoginFunctions {
         authControoler.user = usercridatinal?.user;
 
         if (authControoler.user != null) {
-          authControoler.fireStorageAddNewUser;
+         
           AppSharedPreferences.setbool(key: 'islogin', value: true);
           FocusManager.instance.primaryFocus?.unfocus();
 
