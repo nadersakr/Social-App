@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/utils/widgets/custom_button.dart';
 import 'package:social_app/view_model/login_viewmodel.dart';
@@ -9,7 +8,6 @@ import 'package:social_app/views/reusable_components_widgets/validators.dart';
 import 'package:social_app/views/screens/Home/reusable_widgets.dart';
 import 'package:social_app/views/screens/auth/signup/signup_screen.dart';
 import 'package:social_app/views/screens/auth/widgets/custom_text_field.dart';
-import 'package:social_app/views/screens/auth/widgets/login_logic_operations.dart';
 import 'package:social_app/views/screens/auth/widgets/text_row.dart';
 import 'package:enefty_icons/enefty_icons.dart';
 
@@ -20,7 +18,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     LoginViewModel loginViewModel =
         Provider.of<LoginViewModel>(context, listen: false);
-    var authController = Provider.of<AuthController>(context);
+    // var authController = Provider.of<AuthController>(context);
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -45,24 +43,24 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: loginViewModel.heightSpace_30),
                     Form(
-                      key: authController.formKeyLogin,
+                      key: loginViewModel.formKeyLogin,
                       child: Column(
                         children: [
                           CustomTextField(
                             suffixIcon: const Icon(EneftyIcons.user_outline),
-                            controller: authController.mailLoginController,
+                            controller: loginViewModel.mailLoginController,
                             hintText: loginViewModel.emailString,
                             keyboardType: TextInputType.emailAddress,
                             validator: Tvalidator.emailvalidator,
                           ),
                           SizedBox(height: loginViewModel.heightScreen_20),
                           CustomTextField(
-                            controller: authController.passwordLoginController,
+                            controller: loginViewModel.passwordLoginController,
                             hintText: loginViewModel.passwordString,
-                            obscureText: authController.isobscureText,
+                            obscureText: loginViewModel.isobscureText,
                             suffixIcon: InkWell(
-                              onTap: authController.visibility,
-                              child: Icon(authController.isobscureText
+                              onTap: loginViewModel.visibility,
+                              child: Icon(loginViewModel.isobscureText
                                   ? EneftyIcons.password_check_outline
                                   : EneftyIcons.password_check_bold),
                             ),
@@ -86,8 +84,7 @@ class LoginScreen extends StatelessWidget {
                           CustomButton(
                             buttonText: loginViewModel.loginString,
                             onPressed: () async {
-                              await LoginFunctions.loginFunction(
-                                  authController, context);
+                              loginViewModel.loginButton(context);
                             },
                           ),
                           SizedBox(height: loginViewModel.heightSpace_30),

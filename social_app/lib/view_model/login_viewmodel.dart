@@ -13,6 +13,7 @@ class LoginViewModel extends ChangeNotifier
   var mailLoginController = TextEditingController();
   var passwordLoginController = TextEditingController();
   var formKeyLogin = GlobalKey<FormState>();
+    bool isobscureText = true;
 
   Future<UserCredential?> login() async {
     return await FirebaseServisesLogin().loginWithEmailAndPassword(
@@ -73,6 +74,13 @@ class LoginViewModel extends ChangeNotifier
   User? get loginUser => _loginUser;
   set loginUser(User? value) {
     _loginUser = value;
+    notifyListeners();
+  }
+
+
+  // Password visibility
+    void visibility() {
+    isobscureText = !isobscureText;
     notifyListeners();
   }
 }
