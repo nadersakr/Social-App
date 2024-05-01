@@ -7,6 +7,7 @@ import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/provider/chat_provider.dart';
 import 'package:social_app/provider/post_provider.dart';
 import 'package:social_app/utils/shared-preferences/shared_preferences.dart';
+import 'package:social_app/view_model/login_viewmodel.dart';
 import 'package:social_app/views/screens/Home/home.dart';
 import 'package:social_app/views/screens/auth/login/login_screen.dart';
 import 'package:social_app/views/screens/on_boarding_screen/onboarding.dart';
@@ -27,6 +28,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => PostController()),
       ChangeNotifierProvider(create: (_) => ChatServises()),
       ChangeNotifierProvider(create: (_) => MenuCotroller()),
+      ChangeNotifierProvider(create: (_) => LoginViewModel()),
     ],
     child: MyApp(isShowBording: isShowBoarding, islogin: islogin),
   ));
