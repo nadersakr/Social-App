@@ -11,13 +11,16 @@ class Dimention{
 
 
   // heigts
+  static double wholeHeight = 1.sh;
  static double heightScreen_20 = 20.0.h;
   static double heightSpace_150 = 150.h; 
   static double smallHeightSpace_30 = 30.h; 
+  static double heightSpace_50 = 50.h; 
   
   
   
   // width
+  static double wholeWidth = 1.sw;
   static double widthScreen_20 = 20.0.w;
   static double widthSpace_150 = 150.w;
   static double smallWidthSpace_30 = 30.w;
