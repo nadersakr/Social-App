@@ -17,6 +17,10 @@ class Dimention{
   
   
   
+  // width
+  static double widthScreen_20 = 20.0.w;
+  static double widthSpace_150 = 150.w;
+  static double smallWidthSpace_30 = 30.w;
   
   
   // font sizes 
