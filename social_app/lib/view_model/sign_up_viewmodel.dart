@@ -4,6 +4,7 @@ import 'package:social_app/services/Firebase/Firebase%20FireStore/sign_up_fireSt
 import 'package:social_app/services/Firebase/FirebaseAuth/Sign_up.dart';
 import 'package:social_app/utils/dinmentions.dart';
 import 'package:social_app/utils/widgets/show_processing_indecator.dart';
+import 'package:social_app/view_model/user_viewmodel.dart';
 import 'package:social_app/views/screens/auth/login/login_screen.dart';
 
 class SignUpViewModel with strings, signUpDimentions, icons {
@@ -47,11 +48,11 @@ class SignUpViewModel with strings, signUpDimentions, icons {
             - hide the keyboard
                       */
             ShowIndecator().showCircularProgress(context);
-            var usercridatinal = await FireBaseAuthSignUp().signUp(
+            UserViewModel.userCredintial = await FireBaseAuthSignUp().signUp(
               mail: mailSignUpController.text,
               password: PasswordHideShow.passwordSignUpController.text,
             );
-            if (usercridatinal != null) {
+            if ( UserViewModel.userCredintial != null) {
               /* 
               1 - save the user data in the firestore
               2 - clear the controllers
@@ -63,7 +64,7 @@ class SignUpViewModel with strings, signUpDimentions, icons {
                 secondNameSignUpController.text,
                 mailSignUpController.text,
                 userNameSignUpController.text,
-                usercridatinal.user!.uid,
+                 UserViewModel.userCredintial!.user!.uid,
               );
               // clear the controllers
               clearControllers();

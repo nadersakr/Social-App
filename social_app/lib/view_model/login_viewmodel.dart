@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:social_app/services/Firebase/FirebaseAuth/login.dart';
 import 'package:social_app/utils/dinmentions.dart';
 import 'package:social_app/utils/widgets/show_processing_indecator.dart';
+import 'package:social_app/view_model/user_viewmodel.dart';
 import 'package:social_app/views/home_demo.dart';
 import '../utils/shared-preferences/shared_preferences.dart';
 
 class LoginViewModel
     with loginStrings, loginAssets, loginDimentions, loginIcons {
-  User? _loginUser;
+  
   var mailLoginController = TextEditingController();
 
   final GlobalKey<FormState> formKeyLogin = GlobalKey<FormState>();
@@ -26,13 +27,13 @@ class LoginViewModel
         // to show the indecator
         ShowIndecator().showCircularProgress(context);
         // login the user
-        var usercridatinal = await FirebaseServisesLogin()
+        UserViewModel.userCredintial = await FirebaseServisesLogin()
             .loginWithEmailAndPassword(mailLoginController.text,
                 LoginPasswordHide._passwordLoginController.text);
 
-        _loginUser = usercridatinal?.user;
+        
 
-        if (loginUser != null) {
+        if (UserViewModel.userCredintial != null) {
           // save the user login state
           AppSharedPreferences.setbool(key: 'islogin', value: true);
           FocusManager.instance.primaryFocus?.unfocus();
@@ -69,11 +70,6 @@ class LoginViewModel
       // to return loginErrorType to null after the user close the snackbar
       FirebaseServisesLogin().setloginErrorTypeToNull();
     }
-  }
-
-  User? get loginUser => _loginUser;
-  set loginUser(User? value) {
-    _loginUser = value;
   }
 }
 
