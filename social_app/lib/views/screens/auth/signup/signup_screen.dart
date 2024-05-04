@@ -31,7 +31,6 @@ class _SignupScreenState extends State<SignupScreen> {
     SignUpViewModel signUpViewModel = SignUpViewModel();
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
