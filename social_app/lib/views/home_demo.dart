@@ -10,10 +10,17 @@ class HomeDemo extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: FutureBuilder(
-            future: userViewModel.loadingMyUserData(),
+            future: userViewModel.loadingMyUserDataToUserModel(),
             builder: (context, snapshot) {
-              return const Text('Home Screen Demo',
-                  style: TextStyle(fontSize: 30));
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text("${snapshot.error}"));
+              } else {
+                return Text("${snapshot.data!.mail}");
+              }
             }),
       ),
     );
