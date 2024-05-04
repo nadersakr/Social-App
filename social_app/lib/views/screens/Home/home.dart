@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/utils/colors.dart';
+import 'package:social_app/view_model/home_viewmodel.dart';
+import 'package:social_app/view_model/user_viewmodel.dart';
 import 'package:social_app/views/screens/Home/add_post.dart';
 import 'package:social_app/views/screens/Home/home_main_contents.dart';
 import 'package:social_app/views/screens/auth/widgets/home_drawer.dart';
@@ -54,12 +56,13 @@ class HomePageWidjet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthController authControllerListenFalse =
-        Provider.of<AuthController>(context, listen: false);
+    HomeScreenViewModel homeScreenViewModel = HomeScreenViewModel();
+    // AuthController authControllerListenFalse =
+    //     Provider.of<AuthController>(context, listen: false);
     return SizedBox(
       height: 1.sh - 50.h,
       child: FutureBuilder(
-        future: authControllerListenFalse.getAppData(),
+        future: homeScreenViewModel.loadAppData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
