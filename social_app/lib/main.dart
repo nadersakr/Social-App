@@ -29,7 +29,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => PostController()),
       ChangeNotifierProvider(create: (_) => ChatServises()),
       ChangeNotifierProvider(create: (_) => MenuCotroller()),
-      ChangeNotifierProvider(create: (_) => LoginViewModel()),
+      ChangeNotifierProvider(create: (_) => LoginPasswordHide()),
       ChangeNotifierProvider(create: (_) => PasswordHideShow()),
     ],
     child: MyApp(isShowBording: isShowBoarding, islogin: islogin),
