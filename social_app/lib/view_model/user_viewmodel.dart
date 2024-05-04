@@ -7,14 +7,15 @@ import 'package:social_app/utils/shared-preferences/shared_preferences.dart';
 
 class UserViewModel extends ChangeNotifier {
   static UserCredential? userCredintial;
-  UserModel? userModel;
+  static UserModel? userModel;
 
   Future<UserModel?> loadingMyUserDataToUserModel() async {
     // if login in the first time
     if (userCredintial != null) {
       try {
-        return await FirebasefirestoreLoadUserData()
+        userModel = await FirebasefirestoreLoadUserData()
             .loadAUserData(userCredintial!.user!.uid);
+        return userModel;
       } catch (e) {
         return null;
       }
@@ -23,7 +24,8 @@ class UserViewModel extends ChangeNotifier {
     String? key = AppSharedPreferences.getValueString(value: "uid");
     if (key != null) {
       try {
-        return await FirebasefirestoreLoadUserData().loadAUserData(key);
+        userModel = await FirebasefirestoreLoadUserData().loadAUserData(key);
+        return userModel;
       } catch (e) {
         return null;
       }
