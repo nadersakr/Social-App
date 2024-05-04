@@ -5,20 +5,19 @@ import 'package:social_app/services/Firebase/FirebaseAuth/login.dart';
 import 'package:social_app/utils/dinmentions.dart';
 import 'package:social_app/utils/widgets/show_processing_indecator.dart';
 import 'package:social_app/views/screens/Home/home.dart';
-
 import '../utils/shared-preferences/shared_preferences.dart';
 
-class LoginViewModel extends ChangeNotifier
+class LoginViewModel
     with loginStrings, loginAssets, loginDimentions, loginIcons {
   User? _loginUser;
   var mailLoginController = TextEditingController();
-  var passwordLoginController = TextEditingController();
+  
   final GlobalKey<FormState> formKeyLogin = GlobalKey<FormState>();
-  bool isobscureText = true;
+
 
   Future<UserCredential?> login() async {
     return await FirebaseServisesLogin().loginWithEmailAndPassword(
-        mailLoginController.text, passwordLoginController.text);
+        mailLoginController.text, LoginPasswordHide._passwordLoginController.text);
   }
 
   void loginButton(BuildContext context) async {
@@ -29,7 +28,7 @@ class LoginViewModel extends ChangeNotifier
         // login the user
         var usercridatinal = await FirebaseServisesLogin()
             .loginWithEmailAndPassword(
-                mailLoginController.text, passwordLoginController.text);
+                mailLoginController.text, LoginPasswordHide._passwordLoginController.text);
 
         _loginUser = usercridatinal?.user;
 
@@ -75,14 +74,8 @@ class LoginViewModel extends ChangeNotifier
   User? get loginUser => _loginUser;
   set loginUser(User? value) {
     _loginUser = value;
-    notifyListeners();
   }
 
-  // Password visibility
-  void visibility() {
-    isobscureText = !isobscureText;
-    notifyListeners();
-  }
 }
 
 // Mixins for Strings, Assets, Dimentions
@@ -111,4 +104,17 @@ mixin loginIcons {
   IconData get userOutlineIcon => EneftyIcons.user_outline;
   IconData get passwordCheckOutlineIcon => EneftyIcons.password_check_outline;
   IconData get passwordCheckBoldIcon => EneftyIcons.password_check_bold;
+}
+
+class LoginPasswordHide extends ChangeNotifier{
+  static final TextEditingController _passwordLoginController =
+      TextEditingController();
+  static TextEditingController get passwordLoginController =>
+      _passwordLoginController;
+  bool _isHidden = true;
+  bool get isHidden => _isHidden;
+  void togglePassword() {
+    _isHidden = !_isHidden;
+    notifyListeners();
+  }
 }
