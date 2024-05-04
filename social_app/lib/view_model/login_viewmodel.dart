@@ -1,3 +1,4 @@
+import 'package:enefty_icons/enefty_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_app/services/Firebase/FirebaseAuth/login.dart';
@@ -8,12 +9,12 @@ import 'package:social_app/views/screens/Home/home.dart';
 import '../utils/shared-preferences/shared_preferences.dart';
 
 class LoginViewModel extends ChangeNotifier
-    with loginStrings, loginAssets, loginDimentions {
+    with loginStrings, loginAssets, loginDimentions, loginIcons {
   User? _loginUser;
   var mailLoginController = TextEditingController();
   var passwordLoginController = TextEditingController();
-  var formKeyLogin = GlobalKey<FormState>();
-    bool isobscureText = true;
+  final GlobalKey<FormState> formKeyLogin = GlobalKey<FormState>();
+  bool isobscureText = true;
 
   Future<UserCredential?> login() async {
     return await FirebaseServisesLogin().loginWithEmailAndPassword(
@@ -24,13 +25,13 @@ class LoginViewModel extends ChangeNotifier
     {
       if (formKeyLogin.currentState!.validate()) {
         // to show the indecator
-        ShowIndecator.showCircularProgress(context);
+        ShowIndecator().showCircularProgress(context);
         // login the user
         var usercridatinal = await FirebaseServisesLogin()
             .loginWithEmailAndPassword(
                 mailLoginController.text, passwordLoginController.text);
 
-        _loginUser= usercridatinal?.user;
+        _loginUser = usercridatinal?.user;
 
         if (loginUser != null) {
           // save the user login state
@@ -45,7 +46,7 @@ class LoginViewModel extends ChangeNotifier
               (route) => false);
         } else {
           // to stop the indecator
-          ShowIndecator.disposeTheShownWidget(context);
+          ShowIndecator().disposeTheShownWidget(context);
 
           // to show the error in the snackbar
           // if the user enter wrong email or password or lost connection
@@ -77,23 +78,12 @@ class LoginViewModel extends ChangeNotifier
     notifyListeners();
   }
 
-
   // Password visibility
-    void visibility() {
+  void visibility() {
     isobscureText = !isobscureText;
     notifyListeners();
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 // Mixins for Strings, Assets, Dimentions
 mixin loginStrings {
@@ -114,4 +104,11 @@ mixin loginDimentions {
   double heightSpace_30 = Dimention.smallHeightSpace_30;
   double heightSpace_150 = Dimention.heightSpace_150;
   double smallFont = Dimention.smallFont;
+  double widthScreen_20 = Dimention.widthScreen_20;
+}
+
+mixin loginIcons {
+  IconData get userOutlineIcon => EneftyIcons.user_outline;
+  IconData get passwordCheckOutlineIcon => EneftyIcons.password_check_outline;
+  IconData get passwordCheckBoldIcon => EneftyIcons.password_check_bold;
 }
