@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:social_app/model/user_model.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/views/screens/Home/reusable_widgets.dart';
