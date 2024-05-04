@@ -33,11 +33,15 @@ class LoginViewModel
 
         
 
-        if (UserViewModel.userCredintial != null) {
+        final userCredintial = UserViewModel.userCredintial;
+        if (userCredintial != null) {
           // save the user login state
           AppSharedPreferences.setbool(key: 'islogin', value: true);
+          // save the user uid to load his data when he open the app without login again
+          AppSharedPreferences.setString(key: "uid", value: userCredintial.user!.uid);
+          //  to hide the keyboard before navigate to the home screen
           FocusManager.instance.primaryFocus?.unfocus();
-
+          // to navigate to the home screen and its the first of the widgets tree
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
