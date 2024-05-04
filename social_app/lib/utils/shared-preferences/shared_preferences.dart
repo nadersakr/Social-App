@@ -12,13 +12,16 @@ class AppSharedPreferences {
     return await sharedPreference!.setBool(key, value);
   }
 
+  static Future<bool> setString(
+      {required String key, required String value}) async {
+    return await sharedPreference!.setString(key, value);
+  }
+
   static bool? getValue({required String value}) {
-  
     return sharedPreference?.getBool(value);
   }
 
-  // static Future<bool> setDate(
-  //     {required String key, required String value}) async {
-  //   return await sharedPreference!.setString(key, value);
-  // }
+  static String? getValueString({required String value}) {
+    return sharedPreference?.getString(value);
+  }
 }
