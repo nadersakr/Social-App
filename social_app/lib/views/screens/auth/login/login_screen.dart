@@ -24,8 +24,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    LoginViewModel loginViewModel =
-       LoginViewModel();
+    LoginViewModel loginViewModel = LoginViewModel();
     // var authController = Provider.of<AuthController>(context);
     return SafeArea(
       child: Scaffold(
