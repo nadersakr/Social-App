@@ -5,7 +5,6 @@ import 'package:social_app/services/Firebase/FirebaseAuth/login.dart';
 import 'package:social_app/utils/dinmentions.dart';
 import 'package:social_app/utils/widgets/show_processing_indecator.dart';
 import 'package:social_app/views/home_demo.dart';
-import 'package:social_app/views/screens/Home/home.dart';
 import '../utils/shared-preferences/shared_preferences.dart';
 
 class LoginViewModel
