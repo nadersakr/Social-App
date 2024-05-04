@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:social_app/services/Firebase/FirebaseAuth/login.dart';
 import 'package:social_app/utils/dinmentions.dart';
 import 'package:social_app/utils/widgets/show_processing_indecator.dart';
+import 'package:social_app/views/home_demo.dart';
 import 'package:social_app/views/screens/Home/home.dart';
 import '../utils/shared-preferences/shared_preferences.dart';
 
@@ -11,13 +12,13 @@ class LoginViewModel
     with loginStrings, loginAssets, loginDimentions, loginIcons {
   User? _loginUser;
   var mailLoginController = TextEditingController();
-  
-  final GlobalKey<FormState> formKeyLogin = GlobalKey<FormState>();
 
+  final GlobalKey<FormState> formKeyLogin = GlobalKey<FormState>();
 
   Future<UserCredential?> login() async {
     return await FirebaseServisesLogin().loginWithEmailAndPassword(
-        mailLoginController.text, LoginPasswordHide._passwordLoginController.text);
+        mailLoginController.text,
+        LoginPasswordHide._passwordLoginController.text);
   }
 
   void loginButton(BuildContext context) async {
@@ -27,8 +28,8 @@ class LoginViewModel
         ShowIndecator().showCircularProgress(context);
         // login the user
         var usercridatinal = await FirebaseServisesLogin()
-            .loginWithEmailAndPassword(
-                mailLoginController.text, LoginPasswordHide._passwordLoginController.text);
+            .loginWithEmailAndPassword(mailLoginController.text,
+                LoginPasswordHide._passwordLoginController.text);
 
         _loginUser = usercridatinal?.user;
 
@@ -40,7 +41,7 @@ class LoginViewModel
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const HomeDemo(),
               ),
               (route) => false);
         } else {
@@ -54,7 +55,7 @@ class LoginViewModel
             case LoginError.invalidCredential:
               FocusManager.instance.primaryFocus?.unfocus();
               ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("invalid-credential")));
+                  const SnackBar(content: Text("Invalid Email or Password.")));
               break;
             case LoginError.networkRequestFailed:
               FocusManager.instance.primaryFocus?.unfocus();
@@ -75,7 +76,6 @@ class LoginViewModel
   set loginUser(User? value) {
     _loginUser = value;
   }
-
 }
 
 // Mixins for Strings, Assets, Dimentions
@@ -106,7 +106,7 @@ mixin loginIcons {
   IconData get passwordCheckBoldIcon => EneftyIcons.password_check_bold;
 }
 
-class LoginPasswordHide extends ChangeNotifier{
+class LoginPasswordHide extends ChangeNotifier {
   static final TextEditingController _passwordLoginController =
       TextEditingController();
   static TextEditingController get passwordLoginController =>

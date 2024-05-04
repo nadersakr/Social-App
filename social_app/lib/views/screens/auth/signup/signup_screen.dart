@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/utils/widgets/custom_button.dart';
 import 'package:social_app/view_model/sign_up_viewmodel.dart';
@@ -18,7 +19,6 @@ class SignupScreen extends StatefulWidget {
     SignUpViewModel.userNameSignUpController.dispose();
     PasswordHideShow.passwordSignUpController.dispose();
     PasswordHideShow.confirmPasswordSignUpController.dispose();
-   
   }
 
   @override
@@ -89,13 +89,13 @@ class _SignupScreenState extends State<SignupScreen> {
                               controller:
                                   PasswordHideShow.passwordSignUpController,
                               hintText: signUpViewModel.passwordString,
-                              suffixIcon: InkWell(
-                                  onTap: value.toggleConfirmPassword,
-                                  child: Icon(value.isConfirmHidden
+                              suffixIcon: GestureDetector(
+                                  onTap: value.togglePassword,
+                                  child: Icon(value.isHidden
                                       ? signUpViewModel.lockedBoldIcon
                                       : signUpViewModel.lockedOutlineIcon)),
                               keyboardType: TextInputType.text,
-                              obscureText: value.isConfirmHidden,
+                              obscureText: value.isHidden,
                               validator: Tvalidator.passwordValidator,
                             );
                           },
@@ -108,18 +108,18 @@ class _SignupScreenState extends State<SignupScreen> {
                                   .confirmPasswordSignUpController,
                               hintText: signUpViewModel.confirmPasswordString,
                               suffixIcon: GestureDetector(
-                                  onTap: value.togglePassword,
-                                  child: Icon(value.isHidden
+                                  onTap: value.toggleConfirmPassword,
+                                  child: Icon(value.isConfirmHidden
                                       ? signUpViewModel.lockedBoldIcon
                                       : signUpViewModel.lockedOutlineIcon)),
                               keyboardType: TextInputType.text,
-                              obscureText: value.isHidden,
+                              obscureText: value.isConfirmHidden,
                               validator: Tvalidator.confirmPasswordValidator,
                             );
                           },
                         ),
                         SizedBox(
-                          height: signUpViewModel.heightSpace_30,
+                          height: 10.h,
                         ),
                         CustomButton(
                           buttonText: signUpViewModel.signUpString,
@@ -128,7 +128,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                         ),
                         SizedBox(
-                          height: signUpViewModel.heightSpace_30,
+                          height: signUpViewModel.heightScreen_20,
                         ),
                         TextRow(
                           text: signUpViewModel.alreadyHaveAccount,

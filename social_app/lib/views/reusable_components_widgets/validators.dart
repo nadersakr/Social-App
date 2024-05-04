@@ -15,7 +15,7 @@ class Tvalidator {
     if (value!.isEmpty) {
       return 'Password is required';
     } else if (value.length < 8) {
-      return 'Password must be more than 8 characters';
+      return 'Password must be more than 7 characters';
     } else {
       return null;
     }
@@ -25,7 +25,6 @@ class Tvalidator {
     if (value!.isEmpty) {
       return 'Confirm Password is required';
     } else if (value != PasswordHideShow.passwordSignUpController.text) {
-
       return "Confirm Password doesn't match";
     } else {
       return null;
@@ -36,7 +35,9 @@ class Tvalidator {
     if (value!.isEmpty) {
       return SignUpViewModel().usernameRequired;
     } else if (value.length < 4) {
-      return SignUpViewModel().usernameMoreThan4;
+      return SignUpViewModel().usernameMoreThan3;
+    } else if (!RegExp(r'^[a-zA-Z]').hasMatch(value)) {
+      return SignUpViewModel().enterValidName;
     }
     return null;
   }
@@ -48,6 +49,8 @@ class Tvalidator {
       return SignUpViewModel().nameLessThan10char;
     } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
       return SignUpViewModel().enterValidName;
+    } else if (value.length < 3) {
+      return SignUpViewModel().enterValidName;
     }
     return null;
   }
@@ -58,6 +61,8 @@ class Tvalidator {
     } else if (value.length > 9) {
       return SignUpViewModel().nameLessThan10char;
     } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+      return SignUpViewModel().enterValidName;
+    } else if (value.length < 3) {
       return SignUpViewModel().enterValidName;
     }
     return null;

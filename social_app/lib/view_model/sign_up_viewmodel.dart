@@ -135,7 +135,7 @@ mixin strings {
   String emailNotValid = 'Email is not valid';
   String passwordLength = 'Password must be at least 8 characters';
   String usernameRequired = 'Username is required';
-  String usernameMoreThan4 = "username must be more than 3 characters";
+  String usernameMoreThan3 = "username must be more than 3 characters";
   String enterValidName = 'Enter a valid name';
 }
 mixin icons {

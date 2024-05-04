@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: TextClass(
-                          text: loginViewModel.doYouHaveAccountString,
+                          text: loginViewModel.loginString,
                           color: Colors.black),
                     ),
                     SizedBox(height: loginViewModel.heightSpace_30),
@@ -67,12 +67,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     LoginPasswordHide.passwordLoginController,
                                 hintText: loginViewModel.passwordString,
                                 obscureText: model.isHidden,
-                                suffixIcon: InkWell(
+                                suffixIcon: GestureDetector(
                                   onTap: model.togglePassword,
                                   child: Icon(model.isHidden
-                                      ? LoginViewModel()
-                                          .passwordCheckOutlineIcon
-                                      : LoginViewModel().passwordCheckBoldIcon),
+                                      ? LoginViewModel().passwordCheckBoldIcon
+                                      : LoginViewModel()
+                                          .passwordCheckOutlineIcon),
                                 ),
                                 keyboardType: TextInputType.text,
                                 validator: Tvalidator.passwordValidator,
