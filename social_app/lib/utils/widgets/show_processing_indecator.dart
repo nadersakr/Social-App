@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ShowIndecator {
 
- static void showCircularProgress(BuildContext context) {
+ void showCircularProgress(BuildContext context) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -13,8 +13,16 @@ class ShowIndecator {
       },
     );
   }
-  static void disposeTheShownWidget(BuildContext context) {
+  void disposeTheShownWidget(BuildContext context) {
    Navigator.of(context).pop();
           
   }
+
+
+  void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
+  
 }
