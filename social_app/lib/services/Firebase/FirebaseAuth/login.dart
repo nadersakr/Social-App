@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseServisesLogin {
-  LoginError? _loginErrorType;
+
+  // enum to handle the error that may happen during the login process
+ static LoginError? _loginErrorType;
   Future<UserCredential?> loginWithEmailAndPassword(
       String mail, String password) async {
     try {
