@@ -15,11 +15,8 @@ class LoginScreen extends StatefulWidget {
 
   void dispose() {
     LoginViewModel().mailLoginController.dispose();
-    LoginViewModel().passwordLoginController.dispose();
-   
-    
-  
   }
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -28,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     LoginViewModel loginViewModel =
-        Provider.of<LoginViewModel>(context, listen: false);
+       LoginViewModel();
     // var authController = Provider.of<AuthController>(context);
     return SafeArea(
       child: Scaffold(
@@ -64,18 +61,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             keyboardType: TextInputType.emailAddress,
                             validator: Tvalidator.emailvalidator,
                           ),
-                          CustomTextField(
-                            controller: loginViewModel.passwordLoginController,
-                            hintText: loginViewModel.passwordString,
-                            obscureText: loginViewModel.isobscureText,
-                            suffixIcon: InkWell(
-                              onTap: loginViewModel.visibility,
-                              child: Icon(loginViewModel.isobscureText
-                                  ? LoginViewModel().passwordCheckOutlineIcon
-                                  : LoginViewModel().passwordCheckBoldIcon),
-                            ),
-                            keyboardType: TextInputType.text,
-                            validator: Tvalidator.passwordValidator,
+                          Consumer<LoginPasswordHide>(
+                            builder: (context, model, child) {
+                              return CustomTextField(
+                                controller:
+                                    LoginPasswordHide.passwordLoginController,
+                                hintText: loginViewModel.passwordString,
+                                obscureText: model.isHidden,
+                                suffixIcon: InkWell(
+                                  onTap: model.togglePassword,
+                                  child: Icon(model.isHidden
+                                      ? LoginViewModel()
+                                          .passwordCheckOutlineIcon
+                                      : LoginViewModel().passwordCheckBoldIcon),
+                                ),
+                                keyboardType: TextInputType.text,
+                                validator: Tvalidator.passwordValidator,
+                              );
+                            },
                           ),
                           InkWell(
                             onTap: () async {
