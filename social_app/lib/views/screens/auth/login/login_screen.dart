@@ -16,7 +16,7 @@ class LoginScreen extends StatefulWidget {
   void dispose() {
     LoginViewModel().mailLoginController.dispose();
     LoginViewModel().passwordLoginController.dispose();
-    LoginViewModel().formKeyLogin.currentState?.dispose();
+   
     
   
   }

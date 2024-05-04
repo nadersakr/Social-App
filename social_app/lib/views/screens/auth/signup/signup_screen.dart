@@ -18,8 +18,7 @@ class SignupScreen extends StatefulWidget {
     SignUpViewModel.userNameSignUpController.dispose();
     PasswordHideShow.passwordSignUpController.dispose();
     PasswordHideShow.confirmPasswordSignUpController.dispose();
-    // Remove the call to dispose() method
-    SignUpViewModel.formKeySignUp.currentState?.dispose();
+   
   }
 
   @override
