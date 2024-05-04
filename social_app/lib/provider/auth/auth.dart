@@ -365,14 +365,12 @@ class AuthController extends ChangeNotifier {
   // Method to toggle the visibility of the password
   void visibility() {
     isobscureText = !isobscureText;
-    print(isobscureText);
     notifyListeners();
   }
 
   // Method to toggle the visibility of the sign in password
   void visibilitySingPass() {
     isobscureSignpass = !isobscureSignpass;
-    print(isobscureSignpass);
     notifyListeners();
   }
 
