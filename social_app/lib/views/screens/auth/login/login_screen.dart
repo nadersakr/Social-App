@@ -9,11 +9,22 @@ import 'package:social_app/views/screens/Home/reusable_widgets.dart';
 import 'package:social_app/views/screens/auth/signup/signup_screen.dart';
 import 'package:social_app/views/screens/auth/widgets/custom_text_field.dart';
 import 'package:social_app/views/screens/auth/widgets/text_row.dart';
-import 'package:enefty_icons/enefty_icons.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  void dispose() {
+    LoginViewModel().mailLoginController.dispose();
+    LoginViewModel().passwordLoginController.dispose();
+    LoginViewModel().formKeyLogin.currentState?.dispose();
+    
+  
+  }
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     LoginViewModel loginViewModel =
@@ -30,7 +41,7 @@ class LoginScreen extends StatelessWidget {
             SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding: EdgeInsets.all(loginViewModel.heightScreen_20),
+                padding: EdgeInsets.all(loginViewModel.widthScreen_20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -47,13 +58,12 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextField(
-                            suffixIcon: const Icon(EneftyIcons.user_outline),
+                            suffixIcon: Icon(LoginViewModel().userOutlineIcon),
                             controller: loginViewModel.mailLoginController,
                             hintText: loginViewModel.emailString,
                             keyboardType: TextInputType.emailAddress,
                             validator: Tvalidator.emailvalidator,
                           ),
-                          SizedBox(height: loginViewModel.heightScreen_20),
                           CustomTextField(
                             controller: loginViewModel.passwordLoginController,
                             hintText: loginViewModel.passwordString,
@@ -61,13 +71,12 @@ class LoginScreen extends StatelessWidget {
                             suffixIcon: InkWell(
                               onTap: loginViewModel.visibility,
                               child: Icon(loginViewModel.isobscureText
-                                  ? EneftyIcons.password_check_outline
-                                  : EneftyIcons.password_check_bold),
+                                  ? LoginViewModel().passwordCheckOutlineIcon
+                                  : LoginViewModel().passwordCheckBoldIcon),
                             ),
                             keyboardType: TextInputType.text,
                             validator: Tvalidator.passwordValidator,
                           ),
-                          SizedBox(height: loginViewModel.heightScreen_20),
                           InkWell(
                             onTap: () async {
                               // Your forgot password logic here
