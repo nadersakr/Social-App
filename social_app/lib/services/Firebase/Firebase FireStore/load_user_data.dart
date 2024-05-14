@@ -6,7 +6,7 @@ class FirebasefirestoreLoadUserData {
   Future<UserModel> loadAUserData(String uid) async {
     DocumentSnapshot documentSnapshot =
         await _firestore.collection('users').doc(uid).get();
+    print((documentSnapshot.data() as Map<String, dynamic>).toString());
     return UserModel.fromMap(documentSnapshot.data() as Map<String, dynamic>);
   }
-
 }
