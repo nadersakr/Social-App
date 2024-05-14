@@ -15,7 +15,6 @@ import 'package:social_app/views/screens/profile_screen/profile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -52,12 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class HomePageWidjet extends StatelessWidget {
   const HomePageWidjet({super.key});
-
   @override
   Widget build(BuildContext context) {
     HomeScreenViewModel homeScreenViewModel = HomeScreenViewModel();
-    // AuthController authControllerListenFalse =
-    //     Provider.of<AuthController>(context, listen: false);
     return SizedBox(
       height: 1.sh - 50.h,
       child: FutureBuilder(
@@ -182,52 +178,3 @@ class MenuCotroller extends ChangeNotifier {
     notifyListeners();
   }
 }
-// class HomeNavigationBar extends StatelessWidget {
-//   const HomeNavigationBar({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BottomNavigationBar(
-//       showSelectedLabels: false,
-//       showUnselectedLabels: false,
-//       fixedColor: Colors.white,
-//       items: const [
-//         BottomNavigationBarItem(
-//           icon: Icon(
-//             EneftyIcons.home_outline,
-//             color: AppColors.darkBlack,
-//           ),
-//           label: 'h',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(
-//             EneftyIcons.message_2_outline,
-//             color: AppColors.darkBlack,
-//           ),
-//           label: 'm',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(
-//             EneftyIcons.add_circle_outline,
-//             color: AppColors.darkBlack,
-//           ),
-//           label: 'a',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(
-//             EneftyIcons.heart_outline,
-//             color: AppColors.darkBlack,
-//           ),
-//           label: 'n',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(
-//             EneftyIcons.user_outline,
-//             color: AppColors.darkBlack,
-//           ),
-//           label: 'p',
-//         ),
-//       ],
-//     );
-//   }
-// }

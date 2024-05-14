@@ -5,12 +5,11 @@ import 'package:social_app/services/Firebase/FirebaseAuth/login.dart';
 import 'package:social_app/utils/dinmentions.dart';
 import 'package:social_app/utils/widgets/show_processing_indecator.dart';
 import 'package:social_app/view_model/user_viewmodel.dart';
-import 'package:social_app/views/home_demo.dart';
+import 'package:social_app/views/screens/Home/home.dart';
 import '../utils/shared-preferences/shared_preferences.dart';
 
 class LoginViewModel
     with loginStrings, loginAssets, loginDimentions, loginIcons {
-  
   var mailLoginController = TextEditingController();
 
   final GlobalKey<FormState> formKeyLogin = GlobalKey<FormState>();
@@ -31,21 +30,20 @@ class LoginViewModel
             .loginWithEmailAndPassword(mailLoginController.text,
                 LoginPasswordHide._passwordLoginController.text);
 
-        
-
         final userCredintial = UserViewModel.userCredintial;
         if (userCredintial != null) {
           // save the user login state
           AppSharedPreferences.setbool(key: 'islogin', value: true);
           // save the user uid to load his data when he open the app without login again
-          AppSharedPreferences.setString(key: "uid", value: userCredintial.user!.uid);
+          AppSharedPreferences.setString(
+              key: "uid", value: userCredintial.user!.uid);
           //  to hide the keyboard before navigate to the home screen
           FocusManager.instance.primaryFocus?.unfocus();
           // to navigate to the home screen and its the first of the widgets tree
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeDemo(),
+                builder: (context) => const HomeScreen(),
               ),
               (route) => false);
         } else {

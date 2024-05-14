@@ -1,30 +1,28 @@
+import 'dart:io';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_app/utils/dinmentions.dart';
 import 'package:social_app/view_model/user_viewmodel.dart';
+import 'package:social_app/views/screens/edit_profile_screen/pic_widget.dart';
 
-class ProfileViewModel with profileStrings, profileAssets, dimentions {}
-
-mixin profileStrings {
-  String usernameString = UserViewModel.userModel!.userName ?? "Full Name";
-  String postsString = 'Posts';
+class EditProfileViewModel
+    with EditProfileStrings, EditProfileAssets, dimentions {
   String personsvg = 'assets/svg/person.svg';
-  String fullNameString =
-      "${UserViewModel.userModel!.firstName} ${UserViewModel.userModel!.lastName}";
-  String followersString = 'Followers';
-  String followsString = 'Follows';
-  String numberOfPostsString = '35';
-  String numberOfFollowersString = '1.506';
-  String numberOfFollowsString = '128';
   String? userAvatar = UserViewModel.userModel!.avatar;
+
+  void changeUserAvatar(PicWidget picWidget, File imageFile) {
+    picWidget.changeTofile(imageFile);
+  }
 }
 
-mixin profileAssets {
-  String get profileImage => 'assets/svg/profile.svg';
+mixin EditProfileStrings {}
+
+mixin EditProfileAssets {
   String get mainSVG => "assets/svg/mainShap.svg";
 }
 mixin dimentions {
   double get wholeWidth => Dimention.wholeHeight;
-  double get profileImageHeight => 0.4.sh;
+  double get editProfileImageHeight => 0.4.sh;
   double get heightFromTop => 0.05.sh;
   double get paddingHeight => 0.01.sh;
   double get paddingHeightTwo => 0.02.sh;

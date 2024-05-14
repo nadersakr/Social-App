@@ -1,8 +1,10 @@
+import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/utils/shared-preferences/shared_preferences.dart';
 import 'package:social_app/views/screens/auth/login/login_screen.dart';
+import 'package:social_app/views/screens/edit_profile_screen/edit_profile.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({
@@ -48,8 +50,18 @@ class HomeDrawer extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Chats'),
-            leading: const Icon(Icons.chat_bubble_outline_rounded),
+            leading: const Icon(EneftyIcons.message_outline),
             onTap: () {
+              // Navigate to settings
+            },
+          ),
+          ListTile(
+            title: const Text('Edit Profile'),
+            leading: const Icon(EneftyIcons.edit_outline),
+            onTap: () {
+              // Navigate to edit profile
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const EditProfile()));
               // Navigate to settings
             },
           ),
