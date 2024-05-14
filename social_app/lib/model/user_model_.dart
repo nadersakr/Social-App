@@ -5,12 +5,13 @@ class UserModel {
   final String? mail;
   final String? userName;
   final String? uid;
-
+  final String? avatar;
   UserModel({
     this.firstName,
     this.lastName,
     this.mail,
     this.userName,
+    this.avatar,
     this.uid,
   });
 
@@ -21,6 +22,7 @@ class UserModel {
       mail: map['email'],
       userName: map['username'],
       uid: map['uid'],
+      avatar: map['avatar'],
     );
   }
 }
