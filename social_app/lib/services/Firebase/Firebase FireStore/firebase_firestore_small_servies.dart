@@ -16,6 +16,7 @@ class FireFirestoreSmallServices {
     return null;
   }
 
+
   Future<bool> uploadAndsaveImageUrlTOUserData(File imageFile) async {
     String? imageUrl = await uploadImage(imageFile);
     if (imageUrl != null) {
@@ -39,4 +40,24 @@ class FireFirestoreSmallServices {
       return false;
     }
   }
+
+  // save user info
+  Future<bool>saveUserInfo(String firstName, String lastName, String userName) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(UserViewModel.userModel!.uid)
+          .set({
+        'firstName': firstName,
+        'lastName': lastName,
+        'userName': userName,
+      });
+
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+ 
 }
