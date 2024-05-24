@@ -1,6 +1,6 @@
 # Social App
 
-Welcome to Social APp, your go-to social networking app built with Flutter! Social App is designed to keep you connected with friends and share your moments seamlessly. Below are some of the key features that make Social App stand out:
+Welcome to Social App, your go-to social networking app built with Flutter! Social App is designed to keep you connected with friends and share your moments seamlessly. Below are some of the key features that make Social App stand out:
 
 ## Key Features
 
