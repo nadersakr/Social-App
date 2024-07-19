@@ -29,4 +29,5 @@ Capture and share fleeting moments with stories. Post photos and short videos th
 
 Join Social App today and unlock a world of connection, creativity, and community. Download the app now and start sharing your moments with the world!
 
-[Download Now](#) 
+![1719360605722 (1)](https://github.com/user-attachments/assets/f6f36240-a4f7-492a-b4ff-a668aae1dfd6)
+
