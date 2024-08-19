@@ -42,7 +42,7 @@ class AddStoryScreenState extends State<AddStoryScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _image == null
-                ? AnimationLoder(
+                ? AnimationLoader(
                     animated: 'assets/animation/wired-gradient-61-camera.json',
                     width: MediaQuery.of(context).size.width * 0.6,
                   )
