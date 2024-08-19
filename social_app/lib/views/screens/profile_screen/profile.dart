@@ -2,8 +2,6 @@ import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/view_model/user_viewmodel.dart';
 import 'package:social_app/views/reusable_components_widgets/plugins/masonry_grid_view.dart';
@@ -19,8 +17,7 @@ class ProfileScreen extends StatelessWidget {
     ProfileViewModel profileViewModel = ProfileViewModel();
     print(UserViewModel.userModel!.avatar);
     print(profileViewModel.userAvatar);
-    AuthController authController =
-        Provider.of<AuthController>(context, listen: false);
+    profileViewModel.getYourPosts();
     return Scaffold(
       body: Stack(
         children: [
@@ -133,29 +130,41 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
 
-              // TODO Add Dimentions to [profileviewmodel]
-              Padding(
-                padding: EdgeInsets.all(12.w),
-                child: SizedBox(
-                  height: 0.4.sh,
-                  child: MasonryGridView.count(
-                    physics: const BouncingScrollPhysics(),
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 12.w,
-                    crossAxisSpacing: 12.w,
-                    itemBuilder: (context, index) {
-                      return ClipRRect(
-                          borderRadius: BorderRadius.circular(20.sp),
-                          child: Image.network(
-                            authController.mainUser.posts![index]['imageUrl'] ??
-                                "https://img.freepik.com/free-vector/flat-arabic-pattern-background_79603-1826.jpg?size=626&ext=jpg&ga=GA1.1.1039938112.1708868328&semt=sph",
-                            fit: BoxFit.cover,
-                          ));
-                    },
-                    itemCount: (authController.mainUser.posts ?? []).length,
-                  ),
-                ),
-              ),
+              /// TODO Add Dimentions to [profileviewmodel]
+              FutureBuilder(
+                  future: profileViewModel.getYourPosts(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
+                    if (snapshot.hasData) {
+                      print(snapshot.data!.first.ContentImageurl);
+                      return Padding(
+                        padding: EdgeInsets.all(12.w),
+                        child: SizedBox(
+                          height: 0.4.sh,
+                          child: MasonryGridView.count(
+                            physics: const BouncingScrollPhysics(),
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 12.w,
+                            crossAxisSpacing: 12.w,
+                            itemBuilder: (context, index) {
+                              return ClipRRect(
+                                  borderRadius: BorderRadius.circular(20.sp),
+                                  child: Image.network(
+                                    "https://firebasestorage.googleapis.com/v0/b/social-app-89a41.appspot.com/o/posts%2Fdownload%20(4).jpg?alt=media&token=cd5ca17c-1c4f-4c9c-b698-97f8318057f2",
+                                    fit: BoxFit.cover,
+                                  ));
+                            },
+                            itemCount:
+                                snapshot.data!.length,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Text("error");
+                    }
+                  }),
             ],
           ),
         ],
