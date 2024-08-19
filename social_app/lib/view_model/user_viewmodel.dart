@@ -11,7 +11,7 @@ class UserViewModel extends ChangeNotifier {
 
   Future<UserModel?> loadingMyUserDataToUserModel() async {
     // if login in the first time
-    if (userCredintial != null) {
+    if (userCredintial != null&&userModel==null) {
       try {
         userModel = await FirebasefirestoreLoadUserData()
             .loadAUserData(userCredintial!.user!.uid);
