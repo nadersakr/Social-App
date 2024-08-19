@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:social_app/model/post_model.dart';
 
 class MainUser {
   String? userName = "username";
@@ -10,7 +11,7 @@ class MainUser {
   String? email = "user@example.com";
   String avatar;
   List<dynamic>? friends = [];
-  List<dynamic>? posts = [];
+  List<Post>? posts = [];
   List<dynamic>? pendingfriends = [];
   List<dynamic>? requestesfriends = [];
   // List<Post>? posts = [];
@@ -88,7 +89,7 @@ class MainUser {
     requestesfriends = userFriends;
   }
 
-  void setPosts(List<dynamic>? userPosts) {
+  void setPosts(List<Post>? userPosts) {
     posts = userPosts;
   }
 }
