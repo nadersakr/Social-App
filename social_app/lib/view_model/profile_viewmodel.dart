@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_app/model/post_model.dart';
+import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/utils/dinmentions.dart';
 import 'package:social_app/view_model/user_viewmodel.dart';
 
 class ProfileViewModel with profileStrings, profileAssets, dimentions {}
 
 mixin profileStrings {
+  List<Post> myPosts = [];
   String usernameString = UserViewModel.userModel!.userName ?? "Full Name";
   String postsString = 'Posts';
   String personsvg = 'assets/svg/person.svg';
@@ -16,6 +20,18 @@ mixin profileStrings {
   String numberOfFollowersString = '1.506';
   String numberOfFollowsString = '128';
   String? userAvatar = UserViewModel.userModel!.avatar;
+
+  Future<List<Post>> getYourPosts() async {
+    var snapshot = await FirebaseFirestore.instance.collection('posts');
+    var mainUserPosts =
+        await snapshot.doc(AuthController.mainUser.userUID).get();
+    var data = await mainUserPosts.data() ?? {};
+    var posts = data['posts'];
+    List<Post> myPosts = List.generate(posts.length,
+        (i) => Post.OwnPost(posts[i]["time"], 1, posts[i]["imageUrl"]));
+    print("postsssssssssssssssss${myPosts[0].time}");
+    return myPosts;
+  }
 }
 
 mixin profileAssets {
