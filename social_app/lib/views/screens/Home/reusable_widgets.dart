@@ -25,7 +25,7 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
     final PostController postController =
         Provider.of<PostController>(context, listen: false);
     return FutureBuilder(
-      future: postController.getPosts(authController.mainUser),
+      future: postController.getPosts(AuthController.mainUser),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -44,7 +44,7 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
                 child: SingleChildScrollView(
                   child: Selector<AuthController, int>(
                     selector: (context, authController) =>
-                        authController.mainUser.friends!.length,
+                        AuthController.mainUser.friends!.length,
                     builder: (context, friendsCount, child) {
                       print(
                           "selector for friends---------------------------------");
@@ -75,7 +75,7 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
                                   imageUrl: postController.posts[i]['imageUrl'],
                                   isliked: (postController.posts[i]['likers'] ?? [])
                                       .contains(
-                                          authController.mainUser.userUID),
+                                          AuthController.mainUser.userUID),
                                   avatarImage: authController
                                       .usersMap[postController.posts[i]
                                           ['owner']]
@@ -90,7 +90,7 @@ class _PostsFutureBuilderState extends State<PostsFutureBuilder> {
                                   commentsNumber: (postController.posts[i]['comments'] ?? []).length,
                                   likeFunction: () async {
                                     await postController.likePost(
-                                        liker: authController.mainUser.userUID!,
+                                        liker: AuthController.mainUser.userUID!,
                                         post: postController.posts[i]);
                                   })),
                           const SizedBox(

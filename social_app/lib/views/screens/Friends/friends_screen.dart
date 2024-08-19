@@ -161,7 +161,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                                   authcontroller.users[index].userUID!);
                             }
                             print("doooooooooooooooooooooooone");
-                            print(authcontroller.mainUser.pendingfriends);
+                            print(AuthController.mainUser.pendingfriends);
                           },
                         ),
                       ),

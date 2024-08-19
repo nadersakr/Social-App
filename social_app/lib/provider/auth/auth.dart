@@ -10,7 +10,7 @@ import 'package:social_app/model/user_model.dart';
 class AuthController extends ChangeNotifier {
   // --------------------- Variables ---------------------
   late User? user;
-  MainUser mainUser = MainUser();
+ static MainUser mainUser = MainUser();
   List<MainUser> users = [];
   Map<String, MainUser> usersMap = {};
   List<MainUser> requestesfriendsMainUser = [];

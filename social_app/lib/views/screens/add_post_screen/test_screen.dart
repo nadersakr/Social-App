@@ -156,7 +156,7 @@ class PreviewPostPageState extends State<PreviewPostPage> {
                             if (_commentController.text.isNotEmpty) {
                               await postController.addComment(
                                 comment: _commentController.text,
-                                commenter: authController.mainUser.userUID!,
+                                commenter: AuthController.mainUser.userUID!,
                                 post: widget.post,
                               );
                               Navigator.of(context).pop();

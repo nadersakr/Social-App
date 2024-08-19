@@ -21,7 +21,7 @@ class ChatServises extends ChangeNotifier {
   Stream getChatsStream(AuthController authController) {
     return FirebaseFirestore.instance
         .collection('users')
-        .doc(authController.mainUser.userUID)
+        .doc(AuthController.mainUser.userUID)
         .collection('chats')
         .snapshots();
   }
@@ -47,7 +47,7 @@ class ChatServises extends ChangeNotifier {
   Stream getMessagesStream(AuthController authController, MainUser resevier) {
     return FirebaseFirestore.instance
         .collection('users')
-        .doc(authController.mainUser.userUID)
+        .doc(AuthController.mainUser.userUID)
         .collection('chats')
         .doc(resevier.userUID)
         .collection('messages')
@@ -60,7 +60,7 @@ class ChatServises extends ChangeNotifier {
       text, AuthController authController, MainUser resevier) async {
     var doc = FirebaseFirestore.instance
         .collection('users')
-        .doc(authController.mainUser.userUID)
+        .doc(AuthController.mainUser.userUID)
         .collection('chats')
         .doc(resevier.userUID);
     await doc.set({
@@ -69,7 +69,7 @@ class ChatServises extends ChangeNotifier {
     });
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(authController.mainUser.userUID)
+        .doc(AuthController.mainUser.userUID)
         .collection('chats')
         .doc(resevier.userUID)
         .collection('messages')
@@ -83,7 +83,7 @@ class ChatServises extends ChangeNotifier {
         .collection('users')
         .doc(resevier.userUID)
         .collection('chats')
-        .doc(authController.mainUser.userUID);
+        .doc(AuthController.mainUser.userUID);
     await doc2.set({
       'lastMessage': text,
       'time': DateTime.now().toString(),
@@ -93,7 +93,7 @@ class ChatServises extends ChangeNotifier {
         .collection('users')
         .doc(resevier.userUID)
         .collection('chats')
-        .doc(authController.mainUser.userUID)
+        .doc(AuthController.mainUser.userUID)
         .collection('messages')
         .doc()
         .set({
