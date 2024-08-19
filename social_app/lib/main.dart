@@ -1,14 +1,18 @@
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/firebase_options.dart';
+import 'package:social_app/model/user_model_.dart';
 import 'package:social_app/provider/auth/auth.dart';
 import 'package:social_app/provider/chat_provider.dart';
 import 'package:social_app/provider/post_provider.dart';
 import 'package:social_app/utils/shared-preferences/shared_preferences.dart';
 import 'package:social_app/view_model/login_viewmodel.dart';
 import 'package:social_app/view_model/sign_up_viewmodel.dart';
+import 'package:social_app/view_model/user_viewmodel.dart';
 import 'package:social_app/views/screens/Home/home.dart';
 import 'package:social_app/views/screens/auth/login/login_screen.dart';
 import 'package:social_app/views/screens/edit_profile_screen/pic_widget.dart';
@@ -24,6 +28,9 @@ void main() async {
   bool isShowBoarding =
       AppSharedPreferences.getValue(value: 'isShowenOnboarding') ?? false;
   bool islogin = AppSharedPreferences.getValue(value: 'islogin') ?? false;
+  String uid = AppSharedPreferences.getValueString(value: 'uid') ?? "";
+  AuthController.mainUser.userUID = uid;
+  UserViewModel.userModel = jsonDecode(AppSharedPreferences.getValueString(value: 'userData') ?? "") as UserModel?; 
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => AuthController()),
