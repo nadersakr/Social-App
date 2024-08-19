@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:social_app/model/user_model_.dart';
 import 'package:social_app/services/Firebase/FirebaseAuth/login.dart';
 import 'package:social_app/utils/dinmentions.dart';
 import 'package:social_app/utils/widgets/show_processing_indecator.dart';
@@ -37,6 +40,11 @@ class LoginViewModel
           // save the user uid to load his data when he open the app without login again
           AppSharedPreferences.setString(
               key: "uid", value: userCredintial.user!.uid);
+          // to load the user data to the user model
+          UserViewModel.userCredintial = userCredintial;
+          UserViewModel.userModel = await UserViewModel().loadingMyUserDataToUserModel();
+          AppSharedPreferences.setString(
+              key: "userData", value: jsonEncode(UserViewModel.userModel));
           //  to hide the keyboard before navigate to the home screen
           FocusManager.instance.primaryFocus?.unfocus();
           // to navigate to the home screen and its the first of the widgets tree
